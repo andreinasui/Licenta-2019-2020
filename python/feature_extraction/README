@@ -1,0 +1,8 @@
+Acest program extrage o serie de atribute, atat statistice, de exemplu media, deviatia standard,
+maximul, minimul etc. pe o serie de timp de o secunda, cat si atribute care tin de analiza semnalelor.
+
+Programul preia fisiere cu date extrase timp de 65 de secunde de la o casca Muse 2016,
+extrage atribute si le clasifica in functie de fisierul din care au fost extrase atributele
+
+O mare sursa de inspiratie o reprezinta aceasta lucrare de cercetare:
+https://www.researchgate.net/publication/335503005_Classification_of_EEG_Signals_Based_on_Image_Representation_of_Statistical_Features
