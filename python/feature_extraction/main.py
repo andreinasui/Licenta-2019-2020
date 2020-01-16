@@ -27,7 +27,7 @@ Rows: processed data for each time window from each file
 """
 
 if __name__ == '__main__':
-    output_file = 'dataset/processed-data/nasui-processed.csv'
+    output_file = 'dataset/processed-data/processed-mental-states.csv'
 
     output = pd.DataFrame()
 
@@ -72,3 +72,5 @@ if __name__ == '__main__':
     output.reset_index()
 
     output.to_csv(output_file, index=False)
+
+    print(f'Finished writing data to file {output_file}\n')
