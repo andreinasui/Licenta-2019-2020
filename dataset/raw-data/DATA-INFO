@@ -1,0 +1,29 @@
+Raw-data
+=================
+Datele au fost extrase la o frecventa de esantionare (Fs) de 256 Hz timp de
+65 de secunde.
+Datele extrase au fost salvate in fisiere CSV denumite dupa cum urmeaza:
+
+<nume_participant>-<stare>-<nr_inregistrare>.csv
+
+Stari posibile:
+neutral
+focused
+relaxed
+
+Clasificarea starilor: 
+neutral = 0.0
+focused = 1.0
+relaxed = 2.0
+
+Datele neprelucrate contin 6 coloane:
+timestamps,TP9,AF7,AF8,TP10,Right AUX
+
+timestamps: UNIX timestamp
+TP9,AF7,AF8,TP10,Right AUX: channels
+
+Processed-data
+=================
+Right AUX a fost eliminat din calcule deoarece contine doar zgomot, el reprezentand
+eventuala conectare a unui senzor EEG suplimentar la casca
+

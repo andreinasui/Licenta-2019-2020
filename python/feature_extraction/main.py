@@ -4,6 +4,7 @@ from statistical_features import extract_stat_features
 from frequency_features import extract_freq_features
 import glob
 import os
+from pathlib import Path
 
 """
 Data is written as a csv file with this format
@@ -14,9 +15,9 @@ Columns: headers for all channels; ex: mean_0 - TP9, mean_1 - AF7
 Last column represents the class each data belongs to
 The class is deduced from the filename being process
 Classification:
-	netrual: 0.0
-	focused: 1.0
-	relaxed: 2.0
+	netrual: 0
+	focused: 1
+	relaxed: 2
 
 Rows: processed data for each time window from each file
 	ex: file 1: all time windows ( 0 - 60 => 119 rows, with 0.5 overlap)
@@ -27,11 +28,19 @@ Rows: processed data for each time window from each file
 """
 
 if __name__ == '__main__':
-    output_file = 'dataset/processed-data/processed-mental-states.csv'
+
+    path_prefix = "../../"
+
+    output_file = 'processed-mental-states.csv'
+    output_dir = Path(path_prefix + 'dataset/processed-data/')
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    input_path = path_prefix + 'dataset/raw-data/'
+    input_files = '*.csv'
 
     output = pd.DataFrame()
 
-    for file in glob.glob("dataset/raw-data/*.csv"):
+    for file in glob.glob(input_path + input_files):
         clas = [0 if "neutral" in file else 1 if "focused" in file else 2]
 
         print('Processing file: {}\tClass: {}'.format(file, clas))
@@ -71,6 +80,6 @@ if __name__ == '__main__':
     output = output.sample(frac=1)
     output.reset_index()
 
-    output.to_csv(output_file, index=False)
+    output.to_csv(output_dir / output_file, index=False)
 
-    print(f'Finished writing data to file {output_file}\n')
+    print(f'Finished writing data to : {output_dir.resolve() / output_file}\n')
