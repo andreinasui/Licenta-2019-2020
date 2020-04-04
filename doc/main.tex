@@ -15,20 +15,19 @@
 \usepackage{geometry}
 \usepackage[table,xcdraw]{xcolor}
 \usepackage[hidelinks,unicode]{hyperref}
-\usepackage{biblatex}
 
 \pagestyle{fancy}
 \fancyhead[RO]{\footnotesize{\thepage}}
 \fancyhead[LO]{\footnotesize{\rightmark}}
 \fancyfoot{}
 
-\renewcommand\chaptername{Capitolul}
-\renewcommand\figurename{Figura}
-\renewcommand\tablename{Tabelul}
-\renewcommand\listtablename{Lista tabelelor}
-\renewcommand\listfigurename{Lista figurilor}
-\renewcommand\contentsname{Cuprins}
-\renewcommand\bibname{Bibliografie}
+\renewcommand{\chaptername}{Capitolul}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabelul}
+\renewcommand{\listtablename}{Lista tabelelor}
+\renewcommand{\listfigurename}{Lista figurilor}
+\renewcommand{\contentsname}{Cuprins}
+\renewcommand{\bibname}{Bibliografie}
 
 \tolerance=1
 \emergencystretch=\maxdimen
@@ -39,7 +38,6 @@
 % \linespread{1.25}
 \setlength{\headheight}{12.63pt}
 
-\addbibresource{bibliografie.bib}
 
 \begin{document}
 
@@ -58,6 +56,7 @@
 %\listoffigures
 %\listoftables
 
-\printbibliography
+\bibliographystyle{unsrt}
+\bibliography{bibliografie.bib}
 
 \end{document}
