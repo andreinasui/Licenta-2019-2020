@@ -12,7 +12,7 @@ Această lucrare are ca scop folosirea Inteligenței Artificiale, mai precis în
 Cele mai multe tehnici de învățare automată fac parte din una dintre cele trei categori:
 \begin{itemize}
 	\item Învățare supervizată (Supervised Learning)
-	\item Învățare fără supervizare (Unsupervised Learning)
+	\item Învățare nesupervizată (Unsupervised Learning)
 	\item Învățare cu întărire (Reinforcement Learning)
 \end{itemize}
 
@@ -37,17 +37,30 @@ Procesul de învățare nesupervizată diferă față de cel amintit anterior pr
 	\subitem Rețele Kohonen
 	\item Modele Markov cu stări invizibile
 \end{itemize}
-
-\subsection{Învățarea cu întărire}
-Învățarea cu întărire este o metodă de învățare prin interacțiuni repetate, cu urmărirea atingerii unui anumit scop. Un agent \textit{(software agent)} interacţionează pas cu pas prin acţiuni cu mediul înconjurător, acţiunea sa la fiecare pas conducând la modificarea stării acestui mediu (tranziţia la o nouă stare) care îi întoarce ca răspuns (feedback) agentului câte o mărime scalară denumită recompensă (reward). Scopul agentului este maximizarea recompensei cumulate pe termen lung, după o secvenţă de paşi. În acest sens, RL este asemănătoare controlului optimal, utilizând tehnici specifice programării dinamice (procese de decizie Markov) dar fără un model matematic exact al mediului şi funcţionând pe spaţii cu dimensiuni mari \cite{Vrejdoiu:2019}.
-
 \begin{figure}[h]
 	\center
-	\includegraphics[width=10cm, keepaspectratio]{fig/reinforcement_learning_feedback_loop.png}
-	\caption{Modul de interacțiune al agentului cu mediul înconjurător}
+	\includegraphics[width=12cm, keepaspectratio]{fig/Examples-of-Supervised-Learning-Linear-Regression-and-Unsupervised-Learning.png}
+	\caption{Diferența dintre modul de funcționare al învățării supervizare și învățării nesupervizate \cite{fig:sup_and_unsup}}
+	\label{fig:sup_and_unsup_learning}
+\end{figure}
+
+\subsection{Învățarea cu întărire}
+Învățarea cu întărire este o metodă de învățare prin interacțiuni repetate a unui \textit{agent (software agent)} cu mediul, cu urmărirea atingerii unui anumit scop (\autoref*{fig:reinf_learning}). Interacțiunile se bazează pe acțiunile luate de agent la stimulii mediului, pentru care v-a primit o recompensă de la acesta în funcție de beneficiul adus îndeplinirii scopului. Recompensele primite au rolul de a îmbunătății capacitatea agentului de a lua cea mai bună decizie din starea în care acesta se afla la momentul acțiunii. Scopul pe termen lung al agentului este maximizarea numărului de recompense primite. După repetate interacțiuni cu mediul, capacitatea agentului de a lua decizii bune se v-a crește, iar drumul acestuia prin mediu va tinde spre optim.
+\begin{figure}[h]
+	\center
+	\includegraphics[width=11cm, keepaspectratio]{fig/The-reinforcement-learning-paradigm-consists-of-an-agent-interacting-with-an.png}
+	\caption{Modul de funcționare al învățării cu întărire \cite{fig:reinforcement}}
+	\label{fig:reinf_learning}
 \end{figure}
 
 
 \section{Soluții existente}
 
+\textbf{TODO\_PLACEHOLDER}
+\begin{itemize}
+	\item Utilizare casca pt clasificare EEG de detectare a starii
+	\subitem Scriu despre articolul de clasificare EEG de la cei care au scris articolul cu CNN
+	\subitem O sa scriu despre articolul cu CNN
+	\subitem O sa mai caut niste detalii
+\end{itemize}
 \section{Structurare pe capitole}
