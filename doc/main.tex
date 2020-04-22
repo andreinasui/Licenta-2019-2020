@@ -1,11 +1,14 @@
-\documentclass[a4paper,12pt]{report}
+\documentclass[a4paper, 12pt]{report}
 
-\usepackage[utf8]{inputenc}
-
+\usepackage[utf8x]{inputenc}
+\PrerenderUnicode{ăîșțâĂÎÂȘȚ„”}
 \usepackage{indentfirst}
 \usepackage{bookman}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{mathtools}
+\usepackage{subfig}
 \usepackage{listings}
 \usepackage{fancyhdr}
 \usepackage{color}
@@ -13,7 +16,7 @@
 \usepackage{float}
 \usepackage{ifthen}
 \usepackage{geometry}
-\usepackage[table,xcdraw]{xcolor}
+% \usepackage[table,xcdraw]{xcolor}
 \usepackage[hidelinks,unicode]{hyperref}
 
 \pagestyle{fancy}
@@ -21,15 +24,17 @@
 \fancyhead[LO]{\footnotesize{\rightmark}}
 \fancyfoot{}
 
+\DeclareMathSizes{12}{15}{10}{7}
+
 \renewcommand{\chaptername}{Capitolul}
 \renewcommand{\chapterautorefname}{Capitolul}
 \renewcommand{\figurename}{Figura}
+\renewcommand{\figureautorefname}{Figura}
 \renewcommand{\tablename}{Tabelul}
 \renewcommand{\listtablename}{Lista tabelelor}
 \renewcommand{\listfigurename}{Lista figurilor}
 \renewcommand{\contentsname}{Cuprins}
 \renewcommand{\bibname}{Bibliografie}
-\renewcommand{\figureautorefname}{Fig.}
 
 \tolerance=1
 \emergencystretch=\maxdimen
