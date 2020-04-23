@@ -17,22 +17,25 @@ Perceptronul primește o serie de valori la intrare, $x_1, x_2, x_3\dots$, și p
 \includegraphics[width=7cm, keepaspectratio]{fig/cap2/perceptron.png}
 \caption{Reprezentarea grafică a unui perceptron \cite{neuralnetbook:2015}}
 \end{figure}
-Astfel, ieșirea perceptronului, este determinată de suma ponderată $\sum_i x_iw_i$ comparată cu o valoare reală numită \textit{prag}. Această comparație reprezintă o funcție pentru determinarea ieșirii $y$, denumită \textit{funcție de activare}. Matematic, funcția de activare a perceptronului este reprezentată de o formă discretă a funcției \textit{treaptă unitate} (Fig.\autoref{fig:step}).
-\begin{equation}\label{eq:perceptron-simplu}
+
+Astfel, ieșirea perceptronului, este determinată de suma ponderată $\sum_i x_iw_i$ comparată cu o valoare reală numită \textit{prag}. Această comparație reprezintă o funcție pentru determinarea ieșirii $y$, denumită \textit{funcție de activare}. Matematic, funcția de activare a perceptronului este reprezentată de o formă discretă a funcției \textit{treaptă unitate}, descrisă de ecuația \eqref{eq:perceptron-simplu}.
+\begin{equation}
 y = 
 	\begin{dcases}
 	0 & : \sum_i x_iw_i \le prag\\
 	1 & : \sum_i x_iw_i > prag
 	\end{dcases}
+\label{eq:perceptron-simplu}
 \end{equation}
 
-Putem simplifica modul prin care perceptronii sunt descriși, rescriind $\sum\nolimits_i x_iw_i$ ca fiind produsul cartezian $x \cdot w$, unde $x$ și $w$ sunt vectori care conțin intrările $x_i$ respectiv ponderile $w_i$. A doua modificare pe care o putem face este să mutăm termenul $prag$ în partea stângă a inegalității, denumindu-l \textit{bias/offset}, $b=-prag$. Astfel, ecuația \ref{eq:perceptron-simplu} devine:
-\begin{equation}\label{eq:perceptron}
+Putem simplifica modul prin care perceptronii sunt descriși, rescriind $\sum\nolimits_i x_iw_i$ ca fiind produsul cartezian $x \cdot w$, unde $x$ și $w$ sunt vectori care conțin intrările $x_i$ respectiv ponderile $w_i$. A doua modificare pe care o putem face este să mutăm termenul $prag$ în partea stângă a inegalității, denumindu-l \textit{bias/offset}, $b=-prag$. Astfel, ecuația \eqref{eq:perceptron-simplu} devine:
+\begin{equation}
 y = 
 	\begin{dcases}
 	0 & : x \cdot w + b \le 0\\
 	1 & : x \cdot w + b > 0
 	\end{dcases}
+\label{eq:perceptron}
 \end{equation}
 
 Bias-ul poate fii considerat ca o intrare suplimentară de valoate $x_0 = 1 \text{ și } w_0 = b$ care permite translatarea funcției de activare la stânga sau la dreapta.
@@ -57,14 +60,14 @@ Limitarea acestui tip de rețea poate fii observată încercând să aplicăm sc
 Limitarea dată de capacitatea perceptronului de clasificare binară, poate fii rezolvată însă folosind un alt tip de funcție de activare. 
 
 \subsection{Neuronul}
-Neuronul artificial sigmoid este foarte asemănător cu perceptronul prezentat anterior. Acesta este format dintr-un vector de intrări $x$, un vector al ponderilor $w$, un bias $b$ și o ieșire $y$. Valorile vectorului de intrare $x$ nu sunt însă limitate la valorile 1 sau 0, neuronul sigmoid fiind capabil să proceseze valori reale. Precum $x$, ieșirea $y$ a neuronului poate lua valori reale. \autoref{fig:neuron} prezintă un astfel de neuron.
+Neuronul artificial este foarte asemănător cu perceptronul prezentat anterior. Acesta este format dintr-un vector de intrări $x$, un vector al ponderilor $w$, un bias $b$ și o ieșire $y$. Valorile vectorului de intrare $x$ nu sunt însă limitate la valorile 1 sau 0, neuronul sigmoid fiind capabil să proceseze valori reale. Precum $x$, ieșirea $y$ a neuronului poate lua valori reale. \autoref{fig:neuron} prezintă un astfel de neuron.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=10cm,keepaspectratio]{fig/cap2/artificial-neuron.png}
-\caption{Reprezentarea grafică a unui neuron cu funcția de activare sigmoid}\label{fig:neuron}
+\caption{Reprezentarea grafică a unui neuron sigmoid}\label{fig:neuron}
 \end{figure}
 
-Neuronul care folosește \textit{funcția sigmoid} ca și funcție de activare, dată de ecuația \eqref{eq:sigm}, se numește neuron sigmoid și este cel mai simplu tip de neuron artificial datorită proprietăților funcției logistice la derivare\footnote{Derivabilitatea funcțiilor de activare este o cerință în cadrul folosirii algoritmului de antrenare back-propagation prezentat în \S\ref{subch:antrenare}}.
+Neuronul care folosește \textit{funcția sigmoid} ca și funcție de activare, dată de ecuația \eqref{eq:sigm}, se numește neuron sigmoid și este cel mai simplu tip de neuron artificial datorită proprietăților funcției logistice la derivare\footnote{Derivabilitatea funcțiilor de activare este o cerință în cadrul folosirii algoritmului de antrenare prin back-propagation prezentat în \S\ref{subch:antrenare}}.
 
 \begin{equation}
 \sigma(z) = \frac{1}{1+e^{-z}} \quad,\text{unde }z= w\cdot x + b
@@ -85,7 +88,7 @@ f(z)=\max(0,z)
 
 Mai jos sunt prezentate graficele diferitor funcții de activare.
 
-\begin{figure}[ht]
+\begin{figure}[h]
 \centering
 \subfloat[Funcția sigmoid]{\includegraphics[width=6.8cm, keepaspectratio]{fig/cap2/sig.png}\label{fig:sigmoid}}
 \qquad
@@ -139,7 +142,12 @@ unde $k$ reprezintă toți neuronii din stratul $l-1$. Folosind aceste notații 
 \end{enumerate}
 
 \subsubsection*{Aplicarea algoritmului back-propagation}
-Inițial toți parametrii rețelei (ponderile $w$ și bias-ul $b$) vor fii inițializați aleator\footnote{Nu este neapărat ca parametrii rețelei să fie inițializați aleator, existând mai multe metode de inițializare}. Urmează apoi etapa de propagarea înainte a datelor din setul de date de antrenare și a comparării rezultatului prezis în comparație cu cel real. Această eroare se calculează conform ecuației \eqref{eq:out-err}, iar mai apoi va fii propagată înapoi în rețea, strat cu strat, începând cu stratul $l = L-1$, conform ecuației \eqref{eq:back-prop-err}. Parametrii vor fi ajustați în funcție de gradientul funcției de cost conform ecuațiilor \eqref{eq:cost-w} și \eqref{eq:cost-b}. Algoritmul se repetă pentru un numar stabilit de pași (aleși experimentali) sau până când eroarea $\delta^L$ scade sub o valoare impusă. Odată cu finalizarea algoritmului, rețeaua va fii pregătită să proceseze date pe care nu le-a întâlnit în setul folosit la antrenare și să facă predicții asupra acestora.
+Inițial toți parametrii rețelei (ponderile $w$ și bias-ul $b$) vor fii inițializați aleator\footnote{Nu este neapărat ca parametrii rețelei să fie inițializați aleator, existând mai multe metode de inițializare}. Urmează apoi etapa de propagarea înainte a datelor din setul de date de antrenare și a comparării rezultatului prezis în comparație cu cel real. Această eroare se calculează conform ecuației \eqref{eq:out-err}, iar mai apoi va fii propagată înapoi în rețea, strat cu strat, începând cu stratul $l = L-1$, conform ecuației \eqref{eq:back-prop-err}. Parametrii vor fi ajustați în funcție de gradientul funcției de cost conform ecuațiilor \eqref{eq:cost-w} și \eqref{eq:cost-b}. Gradientul funcției de cost se calculează folosind un algoritm de optimizare, cel mai folosit algoritm împreună cu back-propagation este metoda gradientului \textit{(gradient descent)}. Algoritmul se repetă pentru un numar stabilit de pași (aleși experimentali) sau până când eroarea $\delta^L$ scade sub o valoare impusă. Odată cu finalizarea algoritmului, rețeaua va fii pregătită să proceseze date pe care nu le-a întâlnit în setul folosit la antrenare și să facă predicții asupra acestora.
+\begin{figure}
+\centering
+\includegraphics[width=10cm, keepaspectratio]{fig/cap2/grad-desc.jpg}
+\caption{Ilustrarea algoritmului de optimizare gradient descent folosit în back-propagation\cite{vrejoiu:2019}}
+\end{figure}
 
 \subsection{Funcții de cost}\label{subch:f-cost}
 O funcție de cost este o funcție de forma \cite{neuralnetbook:2015}
