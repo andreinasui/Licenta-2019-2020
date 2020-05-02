@@ -1,10 +1,8 @@
 %!TEX root = ./main.tex
 \chapter{Studiul teoretic. Tehnologii folosite}\label{ch:2studiu_teoretic}
-\textbf{TODO} O scurta introducere cu privire la ce reprezinta acest capitol
+\textbf{TODO} Modifica titlul/imparte-l in mai multe bucati\newline
 
-\textbf{TODO} Scrie in introducere si despre undele cerebrale!
-
-Acest capitol are rolul de a prezenta aspectele fundamentale ale unei rețele neuronale și construirea rețelelor convoluționale din acestea. Pornind de la perceptron, element de bază, folosirea mai multor neuroni pentru a crea o rețea neuronală iar mai apoi, trecerea de la rețelele neuronale simple, la rețelele convoluționale.
+Acest capitol are rolul de a prezenta noțiuni și aspecte fundamentale legate de rețelele convoluționale și undele cerebrale, elemente de bază ale acestei lucrări. În prezentarea rețelelor convoluționale se va porni de la perceptronul simplu, care constituie fundamentul acestor algoritmi, apoi va fi prezentată o rețea alcătuită din perceptroni, iar la final va fi prezentată rețeaua convoluțională, construită cu ajutorul noțiunilor și elementelor provenite de la rețeaua neuronală. Undele cerebrale, ce sunt acestea, cum se formează și ce reprezintă va fi prezentat spre finalul acestui capitol.
 
 \section{Rețele neuronale}
 Rețelele neuronale artificiale reprezintă un sistem de calcul inspirat după modelul rețelelor neuronale biologice, atât ca și structură, cât și ca mod de procesare a informației. Neuronul artificial reprezintă unitatea elementară a unei rețele neuronale artificiale. Precum neuronul biologic, care conține dendrite și axioni, neuronul artificial imită această structură prin noduri de intrare si noduri de ieșire.
@@ -103,7 +101,7 @@ R(z)=\max(0,z)
 Este necesar de menționat faptul că aceste funcții se folosesc în special pentru neuronii aflați în straturile ascunse ale rețelei, stratul de ieșire folosind de obicei funcții logistice pentru clasificări binare și funcția \textit{softmax} pentru clasificări multi-clasă.
 
 \subsection{Antrenarea rețelelor}\label{subch:antrenare}
-Algoritmul prin care se realizează antrenarea rețelelor de tipul feedforward, poartă denumirea de \textit{algoritm de propagare înapoi (back-propagation)}. Acest algoritm a fost făcut faimos de către David Rumelhart, Geoffrey Hinton, și Ronald Williams în 1986 \cite{Rumelhart1986}. Algoritmul constă în modificarea repetată a ponderilor conexiunilor din rețea în încercarea de a minimiza o funcție care reprezintă eroarea dintre rezultatul așteptat și cel obținut. Funcțiile folosite cu scopul de a fii minimizate se numesc \textit{funcții obiectiv} sau \textit{funcții de cost} (\S\ref{subch:f-cost}).
+Algoritmul prin care se realizează antrenarea rețelelor de tipul feedforward, poartă denumirea de \textit{algoritm de propagare înapoi (back-propagation)}. Acest algoritm a fost făcut faimos de către David Rumelhart, Geoffrey Hinton, și Ronald Williams în 1986 \cite{rumelhart1986}. Algoritmul constă în modificarea repetată a ponderilor conexiunilor din rețea în încercarea de a minimiza o funcție care reprezintă eroarea dintre rezultatul așteptat și cel obținut. Funcțiile folosite cu scopul de a fii minimizate se numesc \textit{funcții obiectiv} sau \textit{funcții de cost} (\S\ref{subch:f-cost}).
 
 \subsubsection*{Ecuațiile algoritmului back-propagation}
 Algoritmul clasic de back-propagation a fost inițial conceput să rezolve probleme de regresie folosind funcții de activare sigmoide. Totuși, acesta poate fii aplicat și problemelor de clasificare cu sau fară astfel de funcții de activare. Pentru a putea face o descriere matematică asupra modului de funcționare al algoritmului, este necesară folosirea următoarelor notații \cite{neuralnetbook:2015}:
