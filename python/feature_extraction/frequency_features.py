@@ -51,7 +51,7 @@ def freq_features(window):
 	window.TP10 = signal.filtfilt(b, a, window.TP10)
 
 	# Compute FFT
-	freq_axis = (Fs/2)*np.linspace(0,1,len(window.index)/2 + 1)
+	freq_axis = (Fs/2)*np.linspace(0,1,len(window.index)//2 + 1)
 	dataTP9 = np.fft.rfft(window.TP9)
 	dataAF7 = np.fft.rfft(window.AF7)
 	dataAF8 = np.fft.rfft(window.AF8)
