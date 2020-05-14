@@ -1,9 +1,35 @@
 %!TEX spellcheck=ro_RO
 %!TEX root = ./main.tex
 \chapter{Prezentarea aplicației}\label{ch:3implementare}
+
+\textbf{Note implementare:}
+\begin{enumerate}
+\item Diferite incercari de a extrage feateruri
+\item Probleme intampinate in asemanarea datelor NEUTRAL si RELAXED
+\item Uita-te pe notebooku Licenta\_CNN
+\end{enumerate}
+
+Scopul lucrării îl constituie folosirea paradigmei învățării automate supervizate, mai precis, utilizarea rețelelor neuronale convoluționale pentru clasificarea a trei stări mentale diferite, și anume: \textit{neutru, relaxat} și \textit{concentrat}. 
+
+Datele aferente fiecărei stări provin de la un dispozitiv comercial, \textit{Muse 2016}, capabil de a înregistra activitatea cerebrală folosind tehnica de imagistică \textbf{EEG} \textit{(Electroencefalografia)}, neinvazivă. Aceste înregistrări reprezintă activitatea creierului din jurul electrozilor dispusă în timp. Deoarece dispozitivul folosit folosește o tehnică neinvazivă cu electrozi uscați datele finale ale înregistrării conțin zgomot produs de mișcările persoanei, de contracțiile mușchilor sau chiar de clipit. Din aceste motive datele trebuie prelucrate. Este de menționat faptul că nu există o anumită formulă de prelucrare pentru ca datele sa fie perfecte pentru etapa de clasificare, metodele folosite în această etapă fiind stabilite adesea empiric. După prelucrarea datelor, urmează un pas de extragere a anumitor atribute/caracteristici statistice și spectrale pe baza cărora vor fi construite imaginile alb-negru. Fiecare imagine va avea o etichetă aferentă clasei din care face parte, neutru, relaxat sau concentrat.
+
+După etapa de prelucrare și etichetare a datelor, urmează pregătirea datelor pentru transformarea acestora sub forma unor imagini alb-negru. Această etapă include selectarea celor mai relevante 400 de atribute, dintr-un total de 414. Pentru a putea fi folosite ca și componente ale unei imagini alb-negru, este necesară normalizarea datelor în intervalul $[0,1]$, 0 reprezentând negru, 1 reprezentând alb, orice altă valoare aparținând intervalului reprezentând o nuanță de gri. Imaginile sunt împărțite apoi în diferite seturi, fiecare cu scopul său specific; setul de antrenare, setul de validare și setul de testare. Antrenarea rețelei convoluționale se realizează folosind setul de antrenare și setul de validare pentru evaluarea performanțelor pe parcursul antrenării. În final, setul de testare este folosit pentru a determina performanța rețelei pe date complet noi, rezultând metricile finale, precum acuratețea sau valoarea funcției de cost \textit{(loss)}. În cazul rețelei dezvoltate în această lucrare a fost atinsă o acuratețe de $\approx91.83\%$ cu valoarea funcției de loss de $\approx0.2511$
+
+În continuarea capitolului, etapele prezentate sumar anterior vor fi detaliate și explicate, iar la finalul capitolului vor fi prezentate rezultatele diferitor implementări și menționate problemele apărute pe parcursul implementării.
+
 \section{Etape implementare}
 
 \subsection{Achiziție date}
+
+\textbf{Note implementare:}
+\begin{enumerate}
+\item Cu ce device am achizitionat datele, detalii despre el, plasarea senzorilor (standardul + poza standard)
+\item Eventual detalii despre BLE
+\item Cum am achizitionat datele, numar persoane + detalii despre stari, durata inregistrarilor, 2x inregistrari/persoana, poza muselsl date initiale
+\item  Detalii despre datele culese
+\end{enumerate}
+
+Achiziția de date constă în înregistrarea 
 
 \subsection{Preprocesare date}
 
