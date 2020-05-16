@@ -29,7 +29,20 @@ După etapa de prelucrare și etichetare a datelor, urmează pregătirea datelor
 \item  Detalii despre datele culese
 \end{enumerate}
 
-Achiziția de date constă în înregistrarea 
+Pentru achiziția datelor a fost folosită casca comercial valabilă Muse 2016. Aceasta conține cinci electrozi uscați, unul fiind folosit ca punct de referință, iar ceilalți patru pentru a înregistra semnalele EEG. Electrozii sunt poziționați în locațiile \textit{TP9, AF7, Fpz, AF8, TP10}, conform unei versiuni modificate a sistemului internațional 10-20 de poziționare al electrozilor EEG. Electrodul Fpz este folosit ca electrod de referință. În \autoref{fig:eegstandard} este prezentat aranjamentul electrozilor.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=10cm, keepaspectratio]{fig/cap3/EEGstandard.png}
+\caption{Versiunea modificată a sistemului internațional 10-20 împreună cu marcajul poziției electrozilor căștii Muse \cite{online:muse-eeg}.}
+\label{fig:eegstandard}
+\end{figure}
+
+Datele EEG au fost colectate de la 12 persoane. \textbf{TODO CONTINUARE}
+
+Pentru a diminua zgomotul înregistrat de senzori, pentru fiecare stare au fost alese activități care necesitau o mișcare minimă a persoanei examinate. Citirile datelor de la electrozii AF7 și AF8, fiind situați pe frunte, sunt distorsionate de mișcările generate de clipit. Astfel, pentru a păstra o uniformitate asupra celor trei stări, clipitul nu a fost nici încurajat nici descurajat. Chiar dacă acesta este considerat zgomot, rata de clipire este influențată de starea de concentrare a persoanei, acest lucru fiind util în final pentru algoritmul de clasificare. Totuși, persoanelor examinate le-a fost specificat să nu inchidă ochii pe durata unui test.
+
+Pentru determinarea celor trei stări mentale, au fost stabilite trei activități, conform \cite{eeg:2018}. Pentru înregistrarea stării neutre, participanții au fost îndrumați să păstreze o poziție confortabilă a corpului și o stare mentală echilibrată, nici prea relaxată dar nici prea activă. Înregistrarea stării mentale de relaxare a presupus ca subiecții să asculte o piesă muzicală cu o tonalitate și un tempo scăzut. Acestora le-a fost indicat faptul de a se relaxa complet, atât fizic cât și psihic. Pentru determinarea unei stări mentale active și concentrate participanții au fost instruiți să joace jocul „alba-neagra”, în care un obiect este ascuns sub unul din mai multe pahare care mai apoi sunt amestecate între ele. Scopul fiind de a identifica paharul care conține obiectul. Pe parcursul jocului, numărul paharelor și viteza cu care acestea se mișcă va crește.
 
 \subsection{Preprocesare date}
 
