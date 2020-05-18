@@ -2,7 +2,11 @@
 %!TEX root = ./main.tex
 \chapter{Introducere}\label{ch:1intro}
 \textbf{TODO} Ceva despre istoria AI?
-\section{Temă. Obiective. Motivație}
+
+\section{Tema și obiectivele lucrării}
+Această lucrare își propune folosirea rețelelor convoluționale pentru clasificarea a trei clase/stării mentale diferite. Metoda de clasificare se bazează pe reprezentarea informațiilor statistice și spectrale a undelor cerebrale sub forma unor imagini alb-negru. Datele EEG \textit{(Electroencefalograma)} au fost extrase cu ajutorul caștii valabile comercial, Muse 2016. Datele extrase au fost prelucrate și etichetate, rezultând 414 atribute și clasa de care aparțin, neutru, relaxat sau concentrat. După extragerea atributelor, au fost selectate și normalizate în intervalul $[0,1]$ 400 de atribute pentru a putea reprezenta o imagine alb-negru de dimensiunea 20x20. După antrenarea clasificatorului cu aceste imagini, acuratețea acestuia la prezicerea imaginilor care nu se aflau in setul de date de antrenare, a fost de $\approx90\%$.
+
+\section{Încadrare temă}
 \textbf{TODO} Schimba numele sectiunii/imparte-o in mai multe\newline
 
 Tehnicile de învățare automată urmăresc crearea unor modele matematice bazate pe seturi de date inițiale, denumite \textit{seturi de antrenare (training data)}, care pot generaliza informațiile din acestea, iar mai apoi să prezică răspunsul pentru seturi de date necunoscute. Învățarea automată este folosită intr-o largă gamă de aplicații, precum filtrarea mesajelor e-mail de tip spam de cele autentice, răspunsurile date de către motoarele de căutare, clasificarea celulelor tumorale in benigne sau maligne, recunoașterea facială, recunoașterea diverselor obiecte, recunoașterea limbajului vorbit și scris, și mai nou la conducerea automată a mașinilor. 
@@ -51,13 +55,8 @@ Procesul de învățare nesupervizată diferă față de cel amintit anterior pr
 	\label{fig:reinf_learning}
 \end{figure}
 
-\subsection*{Obiective}
-Această lucrare își propune folosirea rețelelor convoluționale pentru clasificarea a trei clase/stării mentale diferite. Metoda de clasificare se bazează pe reprezentarea informațiilor statistice și spectrale a undelor cerebrale sub forma unor imagini alb-negru. Datele EEG \textit{(Electroencefalograma)} au fost extrase cu ajutorul caștii valabile comercial, Muse 2016. Datele extrase au fost prelucrate și etichetate, rezultând 414 atribute și clasa de care aparțin, neutru, relaxat sau concentrat. După extragerea atributelor, au fost selectate și normalizate în intervalul $[0,1]$ 400 de atribute pentru a putea reprezenta o imagine alb-negru de dimensiunea 20x20. După antrenarea clasificatorului cu aceste imagini, acuratețea acestuia la prezicerea imaginilor care nu se aflau in setul de date de antrenare, a fost de $\approx90\%$.
-
 \section{Soluții existente}
 Apariția unor soluții comerciale \textit{low-cost} non-invazive a facut posibilă înregistrarea și analiza undele cerebrale în afara domeniului medical \cite{online:emotiv}. În principal, aceste dispozitive sunt folosite în activități simple de interfațare a creierului cu calculatorul \textit{(BCI - Brain-Computer Interface)}. Raportul zgomot-semnal util mare și eșantionarea imperfectă reprezentând dezavantajele acestor aparate comparativ cu cele de nivel medical. Acest lucru însă nu a împiedicat apariția a tot mai multor studii care folosesc aceste aparate ca o resursă \cite{consumer-eeg:2018}.
-
-
 
 EEG\cite{eeg:2018}
 
@@ -70,4 +69,4 @@ EEG-CNN\cite{eeg-cnn:2020}
 	\subitem O sa scriu despre articolul cu CNN
 \end{itemize}
 \section{Structurare pe capitole}
-Lucrarea este structurată după cum urmează. \textit{\autoref{ch:2studiu_teoretic}} prezintă o introducere a ceea ce înseamna și modul în care funcționează rețelele neuronale de tipul \textit{feedforward} ca mai apoi să poată fii folosite ca suport în înțelegerea funcționalității rețelelor convoluționale. V-or fii menționate avantajele și prezentate aplicațiile de succes ale acestora. Tot aici, v-or fii prezentate bazele undelor cerebrale, ce sunt acestea, cum funcționează și felul în care pot fii detectate. În \textit{\autoref{ch:3implementare}} este prezentat modul de implementare al soluției împreună cu detaliile tehnice aferente. Explicarea tehnicilor de extragere și prelucrare a datelor, detalii privind arhitectura rețelei folosite și rezultatele produse de aceasta se v-or regăsi la finalul acestui capitol. Finalul lucrării conține \textit{\autoref{ch:4concluzii}}, care aduce concluzii legate de tema acestei lucrări.
+Lucrarea este structurată după cum urmează. \textit{\autoref{ch:2studiu_teoretic}} prezintă o introducere a ceea ce înseamna și modul în care funcționează rețelele neuronale de tipul \textit{feedforward} ca mai apoi să poată fi folosite ca suport în înțelegerea funcționalității rețelelor convoluționale. Vor fi menționate avantajele și prezentate aplicațiile de succes ale acestora. Tot aici, vor fi prezentate bazele undelor cerebrale, ce sunt acestea, cum funcționează și felul în care pot fi detectate. În \textit{\autoref{ch:3implementare}} este prezentat modul de implementare al soluției împreună cu detaliile tehnice aferente. Explicarea tehnicilor de extragere și prelucrare a datelor, detalii privind arhitectura rețelei folosite și rezultatele produse de aceasta se vor regăsi la finalul acestui capitol. Finalul lucrării conține \textit{\autoref{ch:4concluzii}}, care aduce concluzii legate de tema acestei lucrări.
