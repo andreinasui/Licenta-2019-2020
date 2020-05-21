@@ -104,22 +104,22 @@ def half_window_features(window):
 
 	# Compute the change in the sample means between 1st and 2nd half-window 
 	# -> 1 feature per channel
-	hw_d_mean = (hw[1].mean() - hw[0].mean()) / 2
+	hw_d_mean = (hw[1].mean() - hw[0].mean())
 	hw_d_mean.index = [f'hw_d_mean_{count}' for count,idx in enumerate(hw_d_mean.index)]
 
 	# Compute the change in the sample std deviation between 1st and 2nd half-window
 	# -> 1 feature per channel
-	hw_d_stddev = (hw[1].std() - hw[0].std()) / 2
+	hw_d_stddev = (hw[1].std() - hw[0].std())
 	hw_d_stddev.index = [f'hw_d_stddev_{count}' for count,idx in enumerate(hw_d_stddev.index)]
 	
 	# Compute the change in the sample max between 1st and 2nd half-window
 	# -> 1 feature per channel
-	hw_d_max = (hw[1].max() - hw[0].max()) / 2
+	hw_d_max = (hw[1].max() - hw[0].max())
 	hw_d_max.index = [f'hw_d_max_{count}' for count,idx in enumerate(hw_d_max.index)]
 
 	# Compute the change in the sample min between 1st and 2nd half-window
 	# -> 1 feature per channel
-	hw_d_min = (hw[1].min() - hw[0].min()) / 2
+	hw_d_min = (hw[1].min() - hw[0].min())
 	hw_d_min.index = [f'hw_d_min_{count}' for count,idx in enumerate(hw_d_min.index)]
 
 
