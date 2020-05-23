@@ -48,9 +48,9 @@ Etapa de extragere a atributelor are rolul de a crea un set de date bazat pe sem
 Pentru calculul atributelor, semnalul a fost împărțit în „ferestre”, notate $w_i$, conținând un set de $N$ valori ale semnalului pentru durata de 1 secundă, transmise cu frecvența $256\si{\hertz}$. Ferestrele conțin o suprapunere de 0.5 secunde, astfel $w_1=[0,1]$, $w_2=[0.5,1.5]$, $w_3=[1,2]$, etc. Din fiecare fereastră rezultată au mai fost create, prin împărțirea fiecărei ferestre $w_i$, jumătăți și sferturi de fereastră. Rezultând astfel $w_{h1}$ și $w_{h2}$, reprezentând prima respectiv a doua jumătate a ferestrei, fiecare conținând $N/2$ valori, iar $w_{q1}$, $w_{q2}$, $w_{q3}$, $w_{q4}$ reprezentând sferturile ferestrei, fiecare conținând $N/4$ valori.
 
 \subsubsection*{Atribute statistice}
-Având aceste ferestre create, pentru fiecare fereastră $x_i$ au fost extrase atribute statistice considerând fie întreaga fereastră, fie jumătățile, fie sferturile. Astfel, pentru fiecare semnal EEG, au fost extrase următoarele atribute:
+Având aceste ferestre create, pentru fiecare fereastră $w_i$ au fost extrase atribute statistice considerând fie întreaga fereastră, fie jumătățile, fie sferturile. Astfel, pentru fiecare semnal EEG, au fost extrase următoarele atribute:
 \begin{itemize}
-	\item Considerând fereastra întreagă:
+	\item Considerând o întreagă fereastra, $w$:
 	\begin{enumerate}
 	\item Media valorilor ferestrei
 	\begin{equation}
@@ -78,16 +78,39 @@ Având aceste ferestre create, pentru fiecare fereastră $x_i$ au fost extrase a
 	cov(X,Y) = \frac{1}{N}\sum_n^N(x_n - \bar{x})(y_n - \bar{y})
 	\end{equation}
 	unde $x_n$ și $y_n$ reprezintă setul de valori dintr-o fereastră a unui semnal EEG, iar $\bar{x}$ și $\bar{y}$ reprezintă media acestora
-	\item Valoarea maximă a ferestrei
-	\item Valoarea minimă a ferestrei
+	\item Valoarea maximă și valoarea minimă a ferestrei
 	\end{enumerate}
-	\item Considerând jumătățile de fereastră:
+	\item Considerând jumătățile de fereastră, $w_{h1}$ și $w_{h2}$:
 	\begin{enumerate}
 		\item Diferența dintre media valorilor jumătăților
+		\item Diferența dintre deviația standard a valorilor jumătăților
+		\item Diferența dintre maximul valorilor jumătăților
+		\item Diferența dintre minimul valorilor jumătăților
+	\end{enumerate}
+	\item Considerând sferturile de fereastră, $w_{q1}$, $w_{q2}$, $w_{q3}$, $w_{q4}$:
+		\begin{enumerate}
+		\item Media valorilor sferturilor de fereastră
+		\item Diferența mediilor perechilor de ferestre
+		\item Valoarea maximă și valoarea minimă a ferestrelor
+		\item Diferența maximelor perechilor de ferestre
+		\item Diferența minimelor perechilor de ferestre
 	\end{enumerate}
 \end{itemize}
 
+La final, a rezultat un total de 174 de atribute statistice.
+
 \subsubsection*{Atribute spectrale}
+Comparativ cu atributele statistice, generarea atributelor spectrale a fost făcută doar pe ferestre întregi, $w_i$. În cadrul extragerii atributelor spectrale a fost efectuată o prelucrare a semnalului înainte de a calcula atributele. Inițial, a fost realizată o centrare a întregului semnalului în jurul valorii $0$, iar mai apoi a fost aplicat un filtru trece-jos de tip Chebyshev I (Fig. \ref{fig:cheb1-filt}), cu frecvența de tăiere de $50\si{\hertz}$. Prin această filtrare se păstrează doar banda de frecvență relevantă undelor cerebrale, și anume $1-50\si{\hertz}$.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth, keepaspectratio]{fig/cap3/cheb1-filt.png}
+\caption{Răspunsul în frecvența a filtrului trece-jos de tip Chebyshev I de ordin 6}
+\label{fig:cheb1-filt}
+\end{figure}
+
+După aplicarea filtrului asupra întregului semnal EEG, a fost calculată Transformata Fourier Discretă \textit{(DFT)}, folosind algoritmul \textit{Fast Fourier Transform (FFT)}. Apoi au fost extrase amplitudinile fiecărei componente ale semnalului filtrat, rezultând 50 de atribute per semnal. Ultimele atribute extrase au fost amplitudinile celor mai puternice 10 frecvențe din componența semnalului. În total, au rezultat 260 de atribute.
+
+Combinând cele 174 de atribute statistice cu aceste 260 de atribute spectrale, rezultă un total de 414 atribute. În setul de date format din acestea, se adaugă și clasa fiecărei înregistrări.
 
 \subsection{Arhitectura rețelei}
 

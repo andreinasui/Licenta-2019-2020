@@ -104,22 +104,22 @@ def half_window_features(window):
 
 	# Compute the change in the sample means between 1st and 2nd half-window 
 	# -> 1 feature per channel
-	hw_d_mean = (hw[1].mean() - hw[0].mean()) / 2
+	hw_d_mean = (hw[1].mean() - hw[0].mean())
 	hw_d_mean.index = [f'hw_d_mean_{count}' for count,idx in enumerate(hw_d_mean.index)]
 
 	# Compute the change in the sample std deviation between 1st and 2nd half-window
 	# -> 1 feature per channel
-	hw_d_stddev = (hw[1].std() - hw[0].std()) / 2
+	hw_d_stddev = (hw[1].std() - hw[0].std())
 	hw_d_stddev.index = [f'hw_d_stddev_{count}' for count,idx in enumerate(hw_d_stddev.index)]
 	
 	# Compute the change in the sample max between 1st and 2nd half-window
 	# -> 1 feature per channel
-	hw_d_max = (hw[1].max() - hw[0].max()) / 2
+	hw_d_max = (hw[1].max() - hw[0].max())
 	hw_d_max.index = [f'hw_d_max_{count}' for count,idx in enumerate(hw_d_max.index)]
 
 	# Compute the change in the sample min between 1st and 2nd half-window
 	# -> 1 feature per channel
-	hw_d_min = (hw[1].min() - hw[0].min()) / 2
+	hw_d_min = (hw[1].min() - hw[0].min())
 	hw_d_min.index = [f'hw_d_min_{count}' for count,idx in enumerate(hw_d_min.index)]
 
 
@@ -140,12 +140,12 @@ def quarter_window_features(window):
 	# Compute mean differences between each quarter window
 	# -> 24 features
 	qw_d_mean = []
-	qw_d_mean.append((qw_mean[1] - qw_mean[0]) / 2)
-	qw_d_mean.append((qw_mean[2] - qw_mean[0]) / 2)
-	qw_d_mean.append((qw_mean[3] - qw_mean[0]) / 2)
-	qw_d_mean.append((qw_mean[2] - qw_mean[1]) / 2)
-	qw_d_mean.append((qw_mean[3] - qw_mean[1]) / 2)
-	qw_d_mean.append((qw_mean[3] - qw_mean[2]) / 2)
+	qw_d_mean.append((qw_mean[1] - qw_mean[0]))
+	qw_d_mean.append((qw_mean[2] - qw_mean[0]))
+	qw_d_mean.append((qw_mean[3] - qw_mean[0]))
+	qw_d_mean.append((qw_mean[2] - qw_mean[1]))
+	qw_d_mean.append((qw_mean[3] - qw_mean[1]))
+	qw_d_mean.append((qw_mean[3] - qw_mean[2]))
 
 	qw_mean = pd.DataFrame(pd.concat(qw_mean, sort=False))
 	qw_mean.index = [f'qw_mean_{count}' for count,idx in enumerate(qw_mean.index)]
@@ -162,19 +162,19 @@ def quarter_window_features(window):
 	# -> 48 features
 	qw_d_max = []
 	qw_d_min = []
-	qw_d_max.append((qw_max[1] - qw_max[0]) / 2)
-	qw_d_max.append((qw_max[2] - qw_max[0]) / 2)
-	qw_d_max.append((qw_max[3] - qw_max[0]) / 2)
-	qw_d_max.append((qw_max[2] - qw_max[1]) / 2)
-	qw_d_max.append((qw_max[3] - qw_max[1]) / 2)
-	qw_d_max.append((qw_max[3] - qw_max[2]) / 2)
+	qw_d_max.append((qw_max[1] - qw_max[0]))
+	qw_d_max.append((qw_max[2] - qw_max[0]))
+	qw_d_max.append((qw_max[3] - qw_max[0]))
+	qw_d_max.append((qw_max[2] - qw_max[1]))
+	qw_d_max.append((qw_max[3] - qw_max[1]))
+	qw_d_max.append((qw_max[3] - qw_max[2]))
 
-	qw_d_min.append((qw_min[1] - qw_min[0]) / 2)
-	qw_d_min.append((qw_min[2] - qw_min[0]) / 2)
-	qw_d_min.append((qw_min[3] - qw_min[0]) / 2)
-	qw_d_min.append((qw_min[2] - qw_min[1]) / 2)
-	qw_d_min.append((qw_min[3] - qw_min[1]) / 2)
-	qw_d_min.append((qw_min[3] - qw_min[2]) / 2)
+	qw_d_min.append((qw_min[1] - qw_min[0]))
+	qw_d_min.append((qw_min[2] - qw_min[0]))
+	qw_d_min.append((qw_min[3] - qw_min[0]))
+	qw_d_min.append((qw_min[2] - qw_min[1]))
+	qw_d_min.append((qw_min[3] - qw_min[1]))
+	qw_d_min.append((qw_min[3] - qw_min[2]))
 
 	qw_max = pd.DataFrame(pd.concat(qw_max, sort=False))
 	qw_max.index = [f'qw_max_{count}' for count,idx in enumerate(qw_max.index)]

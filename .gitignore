@@ -2,3 +2,4 @@
 **/*.pyc
 **/*checkpoint*
 dataset/processed-data
+**/*.sublime-*

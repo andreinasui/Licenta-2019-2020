@@ -39,16 +39,16 @@ def freq_features(window):
 
 	Fs = 256			# sampling rate
 	Fn = Fs / 2			# Nyquist frequency
-	f_low = 49 / Fn 	# normalized freq for lowpass filter
+	f_low = 50 / Fn 	# normalized freq for lowpass filter
 
-	# Chebyshev II order 10 lowpass filter
-	b, a = signal.cheby2(10,20,f_low, btype='low')
+	# Chebyshev I order 6 lowpass filter
+	sos = signal.cheby1(6, 0.5, f_low, btype='low', output='sos')
 
 	# Apply filter on all columns
-	window.TP9 = signal.filtfilt(b, a, window.TP9)
-	window.AF7 = signal.filtfilt(b, a, window.AF7)
-	window.AF8 = signal.filtfilt(b, a, window.AF8)
-	window.TP10 = signal.filtfilt(b, a, window.TP10)
+	window.TP9 = signal.sosfilt(sos, window.TP9)
+	window.AF7 = signal.sosfilt(sos, window.AF7)
+	window.AF8 = signal.sosfilt(sos, window.AF8)
+	window.TP10 = signal.sosfilt(sos, window.TP10)
 
 	# Compute FFT
 	freq_axis = (Fs/2)*np.linspace(0,1,len(window.index)//2 + 1)
@@ -67,12 +67,12 @@ def freq_features(window):
 	mags = pd.concat([magTP9,magAF7,magAF8,magTP10],axis=0,sort=False)
 	mags.index = [f'fft_mag_{count}' for count in range(len(mags))]
 
-	# Get first 10 most energetic frequencies
+	# Get the first 10 most energetic frequencies
 	# -> 40 features
-	maxTP9 = pd.Series(sorted(magTP9,reverse=True)[:10])
-	maxAF7 = pd.Series(sorted(magAF7,reverse=True)[:10])
-	maxAF8 = pd.Series(sorted(magAF8,reverse=True)[:10])
-	maxTP10 = pd.Series(sorted(magTP10,reverse=True)[:10])
+	maxTP9 = pd.Series(magTP9.nlargest(10).sort_index())
+	maxAF7 = pd.Series(magAF7.nlargest(10).sort_index())
+	maxAF8 = pd.Series(magAF8.nlargest(10).sort_index())
+	maxTP10 = pd.Series(magTP10.nlargest(10).sort_index())
 
 	maxs = pd.concat([maxTP9,maxAF7,maxAF8,maxTP10], axis=0, sort=False)
 	maxs.index = [f'fft_max_{count}' for count in range(len(maxs))]
