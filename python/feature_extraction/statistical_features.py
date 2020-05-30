@@ -140,12 +140,12 @@ def quarter_window_features(window):
 	# Compute mean differences between each quarter window
 	# -> 24 features
 	qw_d_mean = []
-	qw_d_mean.append((qw_mean[1] - qw_mean[0]) / 2)
-	qw_d_mean.append((qw_mean[2] - qw_mean[0]) / 2)
-	qw_d_mean.append((qw_mean[3] - qw_mean[0]) / 2)
-	qw_d_mean.append((qw_mean[2] - qw_mean[1]) / 2)
-	qw_d_mean.append((qw_mean[3] - qw_mean[1]) / 2)
-	qw_d_mean.append((qw_mean[3] - qw_mean[2]) / 2)
+	qw_d_mean.append((qw_mean[1] - qw_mean[0]))
+	qw_d_mean.append((qw_mean[2] - qw_mean[0]))
+	qw_d_mean.append((qw_mean[3] - qw_mean[0]))
+	qw_d_mean.append((qw_mean[2] - qw_mean[1]))
+	qw_d_mean.append((qw_mean[3] - qw_mean[1]))
+	qw_d_mean.append((qw_mean[3] - qw_mean[2]))
 
 	qw_mean = pd.DataFrame(pd.concat(qw_mean, sort=False))
 	qw_mean.index = [f'qw_mean_{count}' for count,idx in enumerate(qw_mean.index)]
@@ -162,19 +162,19 @@ def quarter_window_features(window):
 	# -> 48 features
 	qw_d_max = []
 	qw_d_min = []
-	qw_d_max.append((qw_max[1] - qw_max[0]) / 2)
-	qw_d_max.append((qw_max[2] - qw_max[0]) / 2)
-	qw_d_max.append((qw_max[3] - qw_max[0]) / 2)
-	qw_d_max.append((qw_max[2] - qw_max[1]) / 2)
-	qw_d_max.append((qw_max[3] - qw_max[1]) / 2)
-	qw_d_max.append((qw_max[3] - qw_max[2]) / 2)
+	qw_d_max.append((qw_max[1] - qw_max[0]))
+	qw_d_max.append((qw_max[2] - qw_max[0]))
+	qw_d_max.append((qw_max[3] - qw_max[0]))
+	qw_d_max.append((qw_max[2] - qw_max[1]))
+	qw_d_max.append((qw_max[3] - qw_max[1]))
+	qw_d_max.append((qw_max[3] - qw_max[2]))
 
-	qw_d_min.append((qw_min[1] - qw_min[0]) / 2)
-	qw_d_min.append((qw_min[2] - qw_min[0]) / 2)
-	qw_d_min.append((qw_min[3] - qw_min[0]) / 2)
-	qw_d_min.append((qw_min[2] - qw_min[1]) / 2)
-	qw_d_min.append((qw_min[3] - qw_min[1]) / 2)
-	qw_d_min.append((qw_min[3] - qw_min[2]) / 2)
+	qw_d_min.append((qw_min[1] - qw_min[0]))
+	qw_d_min.append((qw_min[2] - qw_min[0]))
+	qw_d_min.append((qw_min[3] - qw_min[0]))
+	qw_d_min.append((qw_min[2] - qw_min[1]))
+	qw_d_min.append((qw_min[3] - qw_min[1]))
+	qw_d_min.append((qw_min[3] - qw_min[2]))
 
 	qw_max = pd.DataFrame(pd.concat(qw_max, sort=False))
 	qw_max.index = [f'qw_max_{count}' for count,idx in enumerate(qw_max.index)]

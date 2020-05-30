@@ -1,6 +1,6 @@
 %!TEX root = ./main.tex
 \chapter{Studiul teoretic. Tehnologii folosite}\label{ch:2studiu_teoretic}
-\textbf{TODO} Modifica titlul/imparte-l in mai multe bucati\newline
+\textbf{TODO} Adauga referintele bibliografice aici, intr-un paragraf \cite{neuralnetbook:2015}
 
 Acest capitol are rolul de a prezenta noțiuni și aspecte fundamentale legate de rețelele convoluționale și undele cerebrale, elemente de bază ale acestei lucrări. În prezentarea rețelelor convoluționale se va porni de la perceptronul simplu, care constituie fundamentul acestor algoritmi, apoi va fi prezentată o rețea alcătuită din perceptroni, iar la final va fi prezentată rețeaua convoluțională, construită cu ajutorul noțiunilor și elementelor provenite de la rețeaua neuronală. Undele cerebrale, ce sunt acestea, cum se formează și ce reprezintă va fi prezentat spre finalul acestui capitol.
 
@@ -11,9 +11,9 @@ Conceptele fundamentale ale neuronului artificial provin din modelul perceptronu
 
 Perceptronul primește o serie de valori la intrare, $x_1, x_2, x_3\dots$, și produce o singură ieșire. Pentru calculul ieșirii, sunt folosite așa numitele \textit{ponderi (weights)}, notate cu $w_1, w_2, w_3,\dots$, numere reale reprezentând importanța fiecărei intrări în determinarea ieșirii.
 \begin{figure}[ht]
-\center
-\includegraphics[width=7cm, keepaspectratio]{fig/cap2/perceptron.png}
-\caption{Reprezentarea grafică a unui perceptron \cite{neuralnetbook:2015}}
+\centering
+\includegraphics[width=10cm, keepaspectratio]{fig/cap2/perceptron.png}
+\caption{Reprezentarea grafică a unui perceptron}
 \end{figure}
 
 Astfel, ieșirea perceptronului, este determinată de suma ponderată $\sum_i x_iw_i$ comparată cu o valoare reală numită \textit{prag}. Această comparație reprezintă o funcție pentru determinarea ieșirii $y$, denumită \textit{funcție de activare}. Matematic, funcția de activare a perceptronului este reprezentată de o formă discretă a funcției \textit{treaptă unitate}, descrisă de ecuația \eqref{eq:perceptron-simplu}.
@@ -39,11 +39,12 @@ y =
 Bias-ul poate fii considerat ca o intrare suplimentară de valoate $x_0 = 1 \text{ și } w_0 = b$ care permite translatarea funcției de activare la stânga sau la dreapta.
 
 \subsection{Perceptronul multistrat}\label{subch:mlp}
-Prin conectarea mai multor perceptroni rezultă rețeaua numită „perceptronul multistrat” \textit{(Multi-layer Perceptron - MLP)}. Aceasta este formată dintr-o succesiune de perceptroni complet conectați, așezați înntr-un stratz de intrare, unul sau mai multe straturi ascunse \textit{(hidden layer)} și un strat de ieșire. Ieșirile unui strat reprezintă intrările pentru stratul următor. Rețeaua care conține mai multe straturi ascunse poartă denumirea de \textit{„rețea neuronală adâncă” ("deep neural network")}, iar în cazul în care aceasta conține un singur strat ascuns poartă denumirea de \textit{„rețea neuronală superficială” ("shallow neural network")}. \autoref{fig:mlp} prezintă o astfel de rețea. 
-\begin{figure}[h]
+Prin conectarea mai multor perceptroni rezultă rețeaua numită „perceptronul multistrat” \textit{(Multi-layer Perceptron - MLP)}. Aceasta este formată dintr-o succesiune de perceptroni complet conectați, așezați înntr-un stratz de intrare, unul sau mai multe straturi ascunse \textit{(hidden layer)} și un strat de ieșire. Ieșirile unui strat reprezintă intrările pentru stratul următor. Rețeaua care conține mai multe straturi ascunse poartă denumirea de \textit{„rețea neuronală adâncă” ("deep neural network")}, iar în cazul în care aceasta conține un singur strat ascuns poartă denumirea de \textit{„rețea neuronală superficială” ("shallow neural network")}. \autoref{fig:mlp} prezintă o astfel de rețea.
+
+\begin{figure}[ht]
 \center
-\includegraphics[width=10cm, keepaspectratio]{fig/cap2/mlp.png}
-\caption{Rețea de tipul perceptron multistrat \cite{mlp-lakes}}
+\includegraphics[width=\textwidth, keepaspectratio]{fig/cap2/mlp.png}
+\caption{Rețea de tipul perceptron multistrat}
 \label{fig:mlp}
 \end{figure}
 
@@ -71,7 +72,7 @@ Neuronul care folosește \textit{funcția sigmoid} ca și funcție de activare, 
 \sigma(z) = \frac{1}{1+e^{-z}} \quad,\text{unde }z= w\cdot x + b
 \label{eq:sigm}
 \end{equation}
-\clearpage
+
 Analizând graficele din \autoref{fig:sig+step+tanh+relu} putem observa faptul că funcția sigmoid este de fapt o versiune netezită a funcției treaptă unitate. Acest lucru ne asigură că schimbările mici efectuate atât în vectorul ponderilor $w$ cât și în $b$ vor fi reflectate în ieșire și că nu vom avea salturi bruște de la 0 la 1 la ieșirea neuronului.
 Totuși, modelul perceptronului poate fii simulat folosind funcția sigmoid. Atunci când $z\rightarrow\infty$, $\sigma(z)\approx 1$, iar când $z\rightarrow-\infty$, $\sigma(z)\approx 0$. Folosind astfel de funcții de activare ne ajută să găsim ponderile potrivite mult mai ușor și putem afla felul în care modificările acestora afectează ieșirea.
 
@@ -97,7 +98,6 @@ R(z)=\max(0,z)
 \subfloat[Funcția unitate liniară rectificată]{\includegraphics[width=6.9cm, keepaspectratio]{fig/cap2/relu.png}\label{fig:relu}}
 \caption{Funcții de activare}\label{fig:sig+step+tanh+relu}
 \end{figure}
-
 Este necesar de menționat faptul că aceste funcții se folosesc în special pentru neuronii aflați în straturile ascunse ale rețelei, stratul de ieșire folosind de obicei funcții logistice pentru clasificări binare și funcția \textit{softmax} pentru clasificări multi-clasă.
 
 \subsection{Antrenarea rețelelor}\label{subch:antrenare}
@@ -170,7 +170,7 @@ Una din primele rețele convoluționale de succes a fost \textit{LeNet5 (1989)} 
 
 În ziua de astăzi rețelele neuronale convoluționale sunt folosite în diverse aplicații, predominant fiind cele pe baza analizei imaginilor, precum detectarea și recunoașterea obiectelor din seturi de date cu mii de categorii, de exemplu \textit{VGGNet} \cite{simonyan2014deep} pe setul de date \textit{ImageNet}, determinarea profunzimii scenelor din imaginile video 2D \cite{zhou2017unsupervised}, practic imitând principiul \textit{LIDAR}\footnote{Light Detection And Ranging - reprezintă un sistem similar de funcționare cu radar-ul, care utilizează laser-ul pentru a afla distanța până la țintă}, segmentarea obiectelor din scenă \textit{(semantic segmentation)}. Rețelele convoluționale și-au găsit folosința și în aplicații care nu implică în mod direct imagini, cum ar fii procesarea limbajului natural sau clasificarea evenimentelor audio \cite{cnnaudioclass}.
 
-\subsection{Arhitectura}
+\subsection*{Arhitectura}
 Structura unei rețele convoluționale este formată din două părți.
 Partea convoluțională, compusă din stratul de convoluție cu funcția de activare aplicată ieșirii acestuia și stratul de reducere a dimensionalității. A doua parte a structurii este partea de clasificare alcătuită din straturi de neuroni complet conectați asemenea rețelei MLP prezentate în \S\ref{subch:mlp}. \autoref{fig:cnn-arch} prezintă o astfel de arhitectură.
 \begin{figure}[ht]
@@ -180,14 +180,14 @@ Partea convoluțională, compusă din stratul de convoluție cu funcția de acti
 \label{fig:cnn-arch}
 \end{figure}
 
-\subsubsection*{Straturile de convoluție}
-Rețelele convoluționale sunt denumite după operația centrală acestora, operația de convoluție. Matematic, operația de convoluție reprezintă rezultatul combinării a două funcții pentru a forma o a treia. Această operație poate fi descrisă în varianta discretă în spațiul 2D sub următoarea formă
+\subsection*{Straturile de convoluție}
+Rețelele convoluționale sunt denumite după operația centrală acestora, operația de convoluție. Matematic, operația de convoluție reprezintă rezultatul combinării a două funcții pentru a forma o a treia. Această operație poate fi descrisă în varianta discretă, în spațiul 2D sub următoarea formă:
 \begin{equation}
 (f*g)[i,j]=\sum\sum f[m,n]g[i-m,j-n]
 \label{eq:conv-dis-2D}
 \end{equation}
 
-În straturile convoluționale, spre deosebire de cele complet conectate, neuronii ascunși din stratul $l$ sunt conectați la un grup localizat de neuroni din stratul $l-1$ denumit câmp receptor \textit{(receptive field)}. Câmpul receptor reprezintă zona în care este aplicat filtrul/nucleul de convoluție asupra matricei de intrare. Crearea stratului $l$ de neuroni ascunși se realizează aplicând un filtru/nucleu de convoluție de dimensiune $H\times W$, care va fi mutat peste întreaga imagine de intrare pornind din colțul stânga sus și deplasându-se pe orizontală și pe verticală cu un anumit „pas” \textit{(stride)} notat $s$. În exemplul din \autoref{fig:mat-conv} pasul folosit este de $s=1$. Se poate observa faptul că odată cu aplicarea operației de convoluție rezultă o reducere a dimensionalității a matricei rezultate. Acest lucru poate fi remediat brodând cu zero-uri \textit{(zero padding)} marginile matricei de intrare.
+În straturile convoluționale, spre deosebire de cele complet conectate, neuronii ascunși din stratul $l$ sunt conectați la un grup localizat de neuroni din stratul $l-1$ denumit câmp receptor \textit{(receptive field)}. Câmpul receptor reprezintă zona în care este aplicat filtrul/nucleul de convoluție asupra matricei de intrare. Crearea stratului $l$ de neuroni ascunși se realizează aplicând un filtru/nucleu de convoluție de dimensiune $H\times W$, care va fi mutat peste întreaga imagine de intrare pornind din colțul stânga sus și deplasându-se pe orizontală și pe verticală cu un anumit „pas” \textit{(stride)} notat $s$. În exemplul din \autoref{fig:mat-conv}, pasul folosit este de $s=1$. Se poate observa faptul că odată cu aplicarea operației de convoluție rezultă o reducere a dimensionalității a matricei rezultate. Acest lucru poate fi remediat brodând cu zero-uri \textit{(zero padding)} marginile matricei de intrare.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=10cm, keepaspectratio]{fig/cap2/conv-op.jpg}
@@ -205,7 +205,7 @@ Un strat de convoluție este alcătuit dintr-o sumedenie de hărți de caracteri
 \label{fig:alexnet-filters}
 \end{figure}
 
-\subsubsection*{Reducerea dimensionalității}
+\subsection*{Reducerea dimensionalității}
 Deseori, după stratul de convoluție este aplicat un strat de reducere a dimensionalității \textit{(pooling)}, cunoscut și sub numele de subeșantionare. Acesta are rolul de a micșora dimensiunile spațiale ale hărților de caracteristici și de a reduce numărul de parametrii antrenabili, dar în același timp de a păstra informațiile esențiale. Tehnicile folosite uzual pentru operația de \textit{pooling} sunt \textit{Average Pooling, Max Pooling, Sum Poolling}. Aceste tehnici au la bază folosirea unei ferestre de dimensiuni relativ mici (de obicei $2\times2$), din care vor fi extrase valorile maxime în cazul Max Pooling, valorile medii pentru Average Pooling și suma tuturor valorilor pentru Sum Pooling. Empiric s-a observat faptul ca de cele mai multe ori tehnica Max Pooling are cele mai bune rezultate. \autoref{fig:maxpooling} exemplifică aplicarea acestei tehnici.
 \begin{figure}[ht]
 \centering
@@ -218,7 +218,7 @@ Operațiile de pooling descrise anterior pot fi înlocuite folosind în stratul 
 
 Subeșantionarea folosind operațiile de pooling clasice poate cauza probleme rețelelor convoluționale prin pierderea informației poziționale ale diferitelor obiecte prezente în imagine. Scopul inițial al introducerii acestui strat a fost de a reduce numărul de parametrii ai rețelei, deci reducerea timpului de antrenare a rețelei. Avansuri în dispozitive hardware tot mai puternice a redus nevoia unei astfel de tehnici, astăzi multe arhitecturi înlocuind această metodă de reducere a dimensionalității cu straturi speciale de convoluție precum \textit{Separable Convolutions} și \textit{Dilated Convolutions}.
 
-\subsubsection*{Stratul complet conectat}
+\subsection*{Stratul complet conectat}\label{subch:strat-complet-con}
 Pentru a putea face legătura între straturile convoluționale și clasificatorul final, ieșirea din straturile convoluționale trebuie transformată din dimensiunea $H\times W\times D$, într-un vector coloană $H\times1$. Această operație poartă denumirea de \textit{aplatizare (flatten)} și este inclusă intr-un strat separat denumit \textit{strat de aplatizare (flatten layer)}.
 
 Odată transformată ieșirea sub formă de vector, aceasta este folosită ca intrare, de obicei, pentru rețele neuronale multistrat. Această rețea folosește pe stratul de ieșire funcția de activare \textit{softmax}, care are rolul de a furniza un vector de probabilități cu dimensiunea egală cu numărul claselor, fiecare poziție a vectorului reprezentând o probabilitate pentru clasa aferentă.
@@ -238,7 +238,7 @@ Descărcările electrice repetate și sincronizate ale neuronilor rezultă în a
 
 Electroencalografia invazivă presupun așezarea electrozilor direct pe suprafața creierului. Folosirea acestei metode de înregistrare a undelor cerebrale rezultă în date achiziționate fără zgomot și precise referitor la zona creierului studiată. Dezavantajul este însă marcat de complexitatea metodei, necesitând intervenție chirurgicală cu riscuri mari.
 
-Achiziția undelor cerebrale într-un mod neinvaziv constă în plasarea electrozilor pe scalp, astfel fiind eliminată necesitatea unei operații și a complexității procedurii. Folosind această metodă datele achiziționate v-or fi alterate de zgomot produs de contracțiile mușchilor din zona capului, datele având nevoie de preprocesare înainte de a putea fi folosite.
+Achiziția undelor cerebrale într-un mod neinvaziv constă în plasarea electrozilor pe scalp, astfel fiind eliminată necesitatea unei operații și a complexității procedurii. Folosind această metodă datele achiziționate vor fi alterate de zgomot produs de contracțiile mușchilor din zona capului, datele având nevoie de preprocesare înainte de a putea fi folosite.
 
 Există cinci tipuri de bază de unde cerebrale, fiecăreia fiindui atribuită o literă grecească, după cum urmează \textit{delta, teta, alfa, beta, gama}. Undele cerebrale se modifică în funcție de activitatea desfășurată și de dispoziție. Însemnătatea acestora este corelată cu locația detectării în creier.
 
