@@ -17,15 +17,17 @@
 \usepackage{float}
 \usepackage{ifthen}
 \usepackage{geometry}
-% \usepackage[table,xcdraw]{xcolor}
+\usepackage{booktabs}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage[hidelinks,unicode]{hyperref}
 \usepackage[bottom]{footmisc}
 
+\graphicspath{ {fig/} }
 
 \pagestyle{fancy}
 \fancyhead[RO]{\footnotesize{\thepage}}
 \fancyhead[LO]{\footnotesize{\rightmark}}
-% \fancyfoot{}
+\fancyfoot{}
 
 \DeclareMathSizes{12}{14}{10}{7}
 
@@ -34,6 +36,7 @@
 \renewcommand{\figurename}{Figura}
 \renewcommand{\figureautorefname}{Figura}
 \renewcommand{\tablename}{Tabelul}
+\renewcommand{\tableautorefname}{Tabelul}
 \renewcommand{\listtablename}{Lista tabelelor}
 \renewcommand{\listfigurename}{Lista figurilor}
 \renewcommand{\contentsname}{Cuprins}
@@ -45,7 +48,7 @@
 \hbadness=10000
 \righthyphenmin=62
 \lefthyphenmin=62
-% \linespread{1.25}
+\linespread{1.25}
 \setlength{\headheight}{12.63pt}
 
 
@@ -63,8 +66,8 @@
 \input{implementare}
 \input{concluzii}
 
-%\listoffigures
-%\listoftables
+% \listoffigures
+% \listoftables
 
 \bibliographystyle{unsrt}
 \bibliography{bibliografie.bib}

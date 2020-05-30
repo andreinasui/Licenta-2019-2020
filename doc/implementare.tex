@@ -4,7 +4,6 @@
 
 \textbf{Note implementare:}
 \begin{enumerate}
-\item Diferite incercari de a extrage feateruri
 \item Probleme intampinate in asemanarea datelor NEUTRAL si RELAXED
 \item Uita-te pe notebooku Licenta\_CNN
 \end{enumerate}
@@ -16,6 +15,9 @@ Datele aferente fiecărei stări provin de la un dispozitiv comercial, \textit{M
 După etapa de prelucrare și etichetare a datelor, urmează pregătirea datelor pentru transformarea acestora sub forma unor imagini alb-negru. Această etapă include selectarea celor mai relevante 400 de atribute, dintr-un total de 414. Pentru a putea fi folosite ca și componente ale unei imagini alb-negru, este necesară normalizarea datelor în intervalul $[0,1]$, 0 reprezentând negru, 1 reprezentând alb, orice altă valoare aparținând intervalului reprezentând o nuanță de gri. Imaginile sunt împărțite apoi în diferite seturi, fiecare cu scopul său specific; setul de antrenare, setul de validare și setul de testare. Antrenarea rețelei convoluționale se realizează folosind setul de antrenare și setul de validare pentru evaluarea performanțelor pe parcursul antrenării. În final, setul de testare este folosit pentru a determina performanța rețelei pe date complet noi, rezultând metricile finale, precum acuratețea sau valoarea funcției de cost \textit{(loss)}. În cazul rețelei dezvoltate în această lucrare a fost atinsă o acuratețe de $\approx91.83\%$ cu valoarea funcției de loss de $\approx0.2511$
 
 În continuarea capitolului, etapele prezentate sumar anterior vor fi detaliate și explicate, urmând ca la finalul capitolului să fie prezentate rezultatele implementării.
+
+\section{Tehnologii folosite}
+\textbf{TODO:} Are rost sa scriu aici ce biblioteci, resurse și limbaj de programare am folosit? Sau le amintesc pe fiecare în contextul în care apar în implementare?
 
 \section{Etape implementare}
 
@@ -100,6 +102,8 @@ Având aceste ferestre create, pentru fiecare fereastră $w_i$ au fost extrase a
 La final, a rezultat un total de 174 de atribute statistice.
 
 \subsubsection*{Atribute spectrale}
+\textbf{TODO:} E corect acest titlu?
+
 Comparativ cu atributele statistice, generarea atributelor spectrale a fost făcută doar pe ferestre întregi, $w_i$. În cadrul extragerii atributelor spectrale a fost efectuată o prelucrare a semnalului înainte de a calcula atributele. Inițial, a fost realizată o centrare a întregului semnalului în jurul valorii $0$, iar mai apoi a fost aplicat un filtru trece-jos de tip Chebyshev I (Fig. \ref{fig:cheb1-filt}), cu frecvența de tăiere de $50\si{\hertz}$. Prin această filtrare se păstrează doar banda de frecvență relevantă undelor cerebrale, și anume $1-50\si{\hertz}$.
 \begin{figure}[ht]
 \centering
@@ -108,14 +112,134 @@ Comparativ cu atributele statistice, generarea atributelor spectrale a fost făc
 \label{fig:cheb1-filt}
 \end{figure}
 
-După aplicarea filtrului asupra întregului semnal EEG, a fost calculată Transformata Fourier Discretă \textit{(DFT)}, folosind algoritmul \textit{Fast Fourier Transform (FFT)}. Apoi au fost extrase amplitudinile fiecărei componente ale semnalului filtrat, rezultând 50 de atribute per semnal. Ultimele atribute extrase au fost amplitudinile celor mai puternice 10 frecvențe din componența semnalului. În total, au rezultat 260 de atribute.
+După aplicarea filtrului asupra întregului semnal EEG, a fost calculată Transformata Fourier Discretă \textit{(DFT)}, folosind algoritmul \textit{Fast Fourier Transform (FFT)}. Apoi, au fost extrase amplitudinile fiecărei componente ale semnalului filtrat, rezultând 50 de atribute per semnal. Ultimele atribute extrase au fost amplitudinile celor mai puternice 10 frecvențe din componența semnalului. Acestea au fost ordonate crescător în funcție de frecvența semnalului. În total, au rezultat 260 de atribute.
 
-Combinând cele 174 de atribute statistice cu aceste 260 de atribute spectrale, rezultă un total de 414 atribute. În setul de date format din acestea, se adaugă și clasa fiecărei înregistrări.
+Combinând cele 174 de atribute statistice cu aceste 260 de atribute spectrale, rezultă un total de 414 atribute. La setul de date format de acestea, se adaugă și o ethichetă reprezentând clasa fiecărei înregistrări (0 - neutru, 1 - concentrat, 2 - relaxat). Prin procesarea celor 24 de minute pentru fiecare stare, rezultă un set de date final cuprins din 8568 de linii, reprezentând ferestrele procesate și 415 coloane reprezentând atributele și clasa fiecărei ferestre. Ultimul pas a fost de a amesteca intrările setului de date creat pentru a-l omogeniza.
 
-\subsection{Arhitectura rețelei}
+\subsubsection*{Procesarea setului de date}\label{ssch:procesare-date}
+După crearea setului de date, acesta trece printr-o serie de modificări înainte de a fi folosit ca și intrare pentru rețeaua convoluțională. Pentru a putea trimite datele rețelei, este necesar ca acestea să fie sub formă matriceală. Cea mai mare matrice pe care o putem forma este o matrice de dimensiunea $20\times20$, folosind doar 400 din cele 414 atribute ale acestui set de date. Această cerință impune folosirea unui algoritm pentru selecția celor mai semnificative atribute.
 
-\subsection{Antrenarea rețelei}
+Selecția atributelor a fost făcută folosind \textit{testul chi-pătrat ($\chi^2$) al asocierii} \cite{online:chi-squared-pdf}, care măsoară asocierea a două variabile cu scopul de a determina o relație între acestea. Pentru comparație, a mai fost folosită metoda \textit{Informației Mutuale} \cite{online:info-mutuala}. Aceasta măsoară dependența dintre două variabile, determinând cantitatea de informație furnizată de o variabilă cu privire la alta.
 
-\subsection{Evaluarea și ajustarea parametrilor}
+Pe setul de date rezultat după aplicarea algoritmului de selecție este aplicată o scalare a fiecărei înregistrare, prin procedura de \textit{scalare min-max} care comprimă valorile în intervalul $[0,1]$. Imaginile rezultate se pot observa în \autoref{fig:img-dataset}. După aceste procesări, datele au fost transformate din dimensiunea $1\times400$ într-o matrice pătratică de dimensiunea $20\times20\times1$. Ultima dimensiune reprezentând numărul de canale al imaginii. Imaginea fiind alb-negru conține un singur canal. Ultima etapă înainte de a trimite datele rețelei este de a împărți setul de date în trei seturi distincte, pentru antrenare, validare și testare. Din totalul de date valabile, $\approx72\%$ sunt folosite ca și date de antrenare, $\approx18\%$ ca și date de validare, iar restul de $\approx10\%$ pentru testarea finală. 
+\begin{figure}[ht]
+\centering
+\subfloat[Imagini reprezentând starea neutră]{\includegraphics[width=12cm, keepaspectratio]{fig/cap3/neutral-imgs.png}\label{fig:neutral-imgs}}
+\qquad
+\subfloat[Imagini reprezentând starea concentrată]{\includegraphics[width=12cm, keepaspectratio]{fig/cap3/focused-imgs.png}\label{fig:focused-imgs}}
+\qquad
+\subfloat[Imagini reprezentând starea relaxată]{\includegraphics[width=12cm, keepaspectratio]{fig/cap3/relaxed-imgs.png}\label{fig:relaxed-imgs}}
+\caption{Reprezentarea intrărilor din setul de date sub forma unor imagini alb-negru}\label{fig:img-dataset}
+\end{figure}
+
+\subsection{Arhitectura rețelei convoluționale}
+Arhitectura rețelei este compusă dintr-un total de 15 straturi secvențiale, 6 straturi de convoluție, 3 straturi de normalizare, 3 straturi de \textit{dropout}, 1 strat de aplatizare și 2 straturi complet conectate, având următoarele funcții:
+\begin{itemize}
+\item \textbf{Conv2D:} Reprezintă stratul de convoluție, cu rolul de a învăța harta de caracteristici. Dimensiunea tuturor filtrelor folosite în această rețea este de $2\times2$. Pentru reducerea dimensionalității a fost folosit, în stratul 3 și stratul 5 de convoluție, pasului (stride) cu valoarea 2. Tuturor straturilor le-a fost aplicată funcția de activare ReLU (Eq. \ref{eq:relu})
+\item \textbf{BatchNormalization \textnormal{\cite{ioffe2015batch}}:} Acest strat are rolul de a aplica o metodă de normalizare a datelor de intrare, reducând media acestora la $\approx0$, iar varianța la $\approx1$. Printre efectele acestei operații se numără accelerarea învățării rețelei neuronale, prevenirea efectului de \textit{overfitting}, care reprezintă o învățare prea bună a datelor de antrenare de către rețea, eșuând atunci când vine vorba de o clasificare a unor date noi.
+\item \textbf{Dropout \textnormal{\cite{hinton2012improving-dropout}}:} Stratul dropout elimină conexiunile dintre straturi, într-o anumită proporție, pentru a „forța” rețeaua de a se adapta și de a generaliza datele de intrare. Prin acest procedeu se reduce fenomenul de \textit{overfitting}
+\item \textbf{Flatten:} Acest strat are rolul de a „aplatiza” matricea provenită de la ultimul strat convoluțional, transformând-o într-un vector coloană de dimensiunea $(M*N*C)\times1$, unde $M$ este numărul de linii, $N$, numărul de coloane, iar $C$ numărul de filtre
+\item \textbf{Dense:} Reprezintă straturile complet conectate, specifice unei rețele neuronale, cu rolul în clasificarea datelor procesate de către partea convoluțională a rețelei. Ultimul strat conține funcția de activare \textit{softmax} (\S\ref{subch:strat-complet-con}), specifică clasificării multi-clasă
+\end{itemize}
+
+\autoref{tabel:cnn-arch} prezintă structurat arhitectura rețelei convoluționale implementate. Rețeaua convoluțională a fost implementată folosind biblioteca \textit{Keras}, conținută în framework-ul \textit{TensorFlow} \cite{online:tf-keras}.
+\begin{table}[ht]
+\centering
+\caption{Arhitectura rețelei convoluționale implementate\protect\footnotemark}
+\label{tabel:cnn-arch}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}*4l@{}}
+\textbf{\begin{tabular}[c]{@{}c@{}}Strat\end{tabular}} &
+\textbf{\begin{tabular}[c]{@{}c@{}}Intrare\end{tabular}} &
+\textbf{\begin{tabular}[c]{@{}c@{}}Ieșire\end{tabular}} &
+\textbf{\begin{tabular}[c]{@{}c@{}}Parametri\end{tabular}} \\ \toprule
+Conv2D (ReLU) & (0, 20, 20, 1) & (0, 20, 20, 32) & 160 \\
+Conv2D (ReLU) & (0, 20, 20, 32) & (0, 19, 19, 32) & 4128 \\
+BatchNormalization & (0, 19, 19, 32) & (0, 19, 19, 32) & 128 \\
+Dropout (0.3) & (0, 19, 19, 32) & (0, 19, 19, 32) & 0 \\
+Conv2D (ReLU) & (0, 19, 19, 32) & (0, 10, 10, 64) & 8256 \\
+Conv2D (ReLU) & (0, 10, 10, 64) & (0, 9, 9, 64) & 16448 \\
+BatchNormalization & (0, 9, 9, 64) & (0, 9, 9, 64) & 256 \\
+Dropout (0.25) & (0, 9, 9, 64) & (0, 9, 9, 64) & 0 \\
+Conv2D (ReLU) & (0, 9, 9, 64) & (0, 4, 4, 128) & 32896 \\
+Conv2D (ReLU) & (0, 4, 4, 128) & (0, 3, 3, 256) & 131328 \\
+BatchNormalization & (0, 3, 3, 256) & (0, 3, 3, 256) & 1024 \\ \midrule
+Flatten & (0, 3, 3, 256) & (0, 2304) & 0 \\
+Dense (ReLU) & (0, 2304) & (0, 256) & 590080 \\
+Dropout (0.5) & (0, 256) & (0, 256) & 0 \\
+Dense (softmax) & (0, 256) & (0, 3) & 771 \\ \bottomrule
+\end{tabular}
+\end{table}
+\footnotetext{Primul element din componența dimensiunilor datelor primite de către straturi reprezintă dimensiunea grupului de date trimis (\textit{batch size}, explicat în \S\ref{ssch:antrenarea})}
+
+\subsection{Antrenarea rețelei}\label{ssch:antrenarea}
+Antrenarea rețelei a fost realizată folosind mediul online \textit{Google Colaboratory}, care pune la dispoziție atât resurse hardware cât și software specializate pentru dezvoltarea algoritmilor de învățare automată.
+
+Antrenarea a fost realizată folosind:
+\begin{itemize}
+\item Funcția de cost: \textit{Categorical Cross-Entropy}, folosită în problemele de clasificare multi-clasă, se folosește în conjuncție cu funcția de activare \textit{softmax} de la ieșirea rețelei pentru a calcula un vector de probabilități de dimensiunea numărului de clase \cite{online:CCE-loss}. Clasa fiecărei înregistrări este codată folosind tehnica \textit{one-hot encode} care presupune scrierea clasei sub forma unui vector care conține valoarea 1 la poziția specificată de clasa reprezentată, restul fiind 0, de exemplu $[0,1,0]$ pentru clasa 1. Astfel, doar scorul obținut pentru clasa respectivă va fi folosit în calcului valorii de \textit{loss/cost}
+\item Funcția de optimizare: Pentru optimizarea funcției de cost a fost folosită funcția \textit{Adam} \cite{kingma2014adam}, folosind o rată de învățare inițială $\eta=7*10^{-4}$ și reducerea acesteia cu factorul $7*10^{-2}$ dacă valoarea funcției de cost nu se îmbunatățește pentru o perioadă de 5 epoci, până la valoarea minimă $10^{-5}$
+\end{itemize}
+
+Modelul realizat a fost antrenat pentru o perioadă de 100 de epoci, folosind un \textit{grup (batch size)} de 32 de imagini. Epoca este perioada de timp în care toate înregistrările conținute în setul de antrenare sunt trecute prin rețea. \textit{Batch size} reprezintă o serie/grup de înregistrări pe care rețeaua le ia în considerare înainte de a-și modifica parametrii. Prin folosirea unor serii în detrimentul unei singure înregistrări, capacitatea de generalizare a informației de către rețeaua antrenată crește, rezultând o mai bună adaptare către noi date. Acest procedeu permite folosirea calculului paralel, prin distribuirea înregistrărilor pe mai multe fire de execuție rezultând un timp de antrenare al rețelei mai scăzut. 
 
 \section{Rezultate}
+În această secțiune sunt prezentate rezultatele obținute de modelul rețelei convoluționale implementate. În \autoref{tabel:acc+loss+comparison} sunt prezentate comparativ rezultatele obținute în urma antrenării modelului rețelei convoluționale implementate pe setul de date creat, folosind o dată ca și algoritm de selecție al atributelor metoda de testate \textit{chi-pătrat}, iar mai apoi metoda \textit{informației mutuale}. Testele comparative au fost realizate de 3 ori pentru fiecare metodă, folosind setul de test pentru preziceri.
+
+\begin{table}[ht]
+\centering
+\caption{Prezentarea performanțelor modelului folosind metodele \textit{chi-pătrat} și \textit{informație mutuală} (\S\ref{ssch:procesare-date}) pentru selecția atributelor}
+\label{tabel:acc+loss+comparison}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}llcc@{}}
+\toprule
+Metodă & \# & Valoare loss & Valoare accuratețe \\ \midrule
+& 1 & 0.268 & 0.931 \\
+Chi pătrat & 2 & 0.278 & 0.919 \\
+& 3 & 0.269 & 0.924 \\ \cmidrule(lr{1em}){3-4}
+Media & & 0.272 & 0.925 \\ \midrule
+& 1 & 0.283 & 0.928 \\
+Informație & 2 & 0.282 & 0.920 \\
+mutuală & 3 & 0.282 & 0.927 \\ \cmidrule(lr{1em}){3-4}
+Media & & 0.282 & 0.925 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Rezultatele inițiale obținute fiind foarte asemanatoare, am decis folosirea metodei chi-pătrat pentru selecția atributelor. Toate rezultatele prezentate în continuare reies din setul de date format prin această metodă. Evoluția pe perioada antrenării a acurateței și valorii funcției de loss pot fi observate în \autoref{fig:acc+loss+graph}.
+
+Pentru determinarea performanțelor, pe lângă acuratețea modelului și valoarea funcției de cost, au mai fost calculate următoarele metrici, prezentate în \autoref{tabel:classification-report}:
+\begin{itemize}
+\item Precision: Reprezintă precizia clasificatorului, fiind determinată de proporția cazurilor \textit{true positive} (clasificate ca aparținând clasei adevărate) din totalitatea prezicerilor clasificate ca aparținând de clasa adevărată (suma clasificărilor \textit{true positive} și \textit{false positive})
+\item Recall: Reprezintă „rata de regăsire„ a clasificatorului, fiind determinată de proporția cazurilor \textit{true positive} din totalitatea prezicerilor care aparțin cu adevărat de clasa respectivă (suma clasificărilor \textit{true positive} și \textit{false negative})
+\item $F_1$ Score: Reprezintă o media armonică ponderată între precision și recall. Dacă ponderea are valoarea 1, cele două metrice sunt luate în considerare în aceeași proporție, fiind considerate la fel de importante
+\end{itemize}
+
+\begin{table}[ht]
+\centering
+\caption{Reprezentarea valorilor metricilor \textit{precision, recall} și \textit{$F_1$ score} pentru fiecare clasă}
+\label{tabel:classification-report}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}lcccc@{}}
+\cmidrule[\heavyrulewidth]{2-4}
+ & Precision & Recall & $F_1$ Score \\ \cmidrule{2-4}
+neutru & 0.91 & 0.95 & 0.93 \\
+concentrat & 0.97 & 0.94 & 0.93 \\
+relaxat & 0.92 & 0.90 & 0.91 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\autoref{fig:conf_matrix} afișează performanțele clasificatorului prin așezarea prezicerilor acesteia într-o matrice denumită Matricea Confuziilor \textit{(Confusion Matrix)}. Matricea conține pe diagonala principală toate clasificările corecte.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=9cm, height=5.5cm]{fig/cap3/conf_matrix.png}
+\caption{Reprezentarea performanței rețelei prin matricea confuziilor}\label{fig:conf_matrix}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\subfloat{\includegraphics[width=9cm, height=5.5cm]{fig/cap3/acc_graph.png}\label{fig:acc_graph}}
+
+\subfloat{\includegraphics[width=9cm, height=5.5cm]{fig/cap3/loss_graph.png}\label{fig:loss_graph}}
+\caption{Reprezentările grafice ale evoluției acurateței modelului \protect\subref{fig:acc_graph} și evoluției valoarii funcției de cost \protect\subref{fig:loss_graph}}\label{fig:acc+loss+graph}
+\end{figure}

@@ -4,7 +4,7 @@
 \textbf{TODO} Ceva despre istoria AI?
 
 \section{Tema și obiectivele lucrării}
-Această lucrare își propune folosirea rețelelor convoluționale pentru clasificarea a trei clase/stării mentale diferite. Metoda de clasificare se bazează pe reprezentarea informațiilor statistice și spectrale a undelor cerebrale sub forma unor imagini alb-negru. Datele EEG \textit{(Electroencefalograma)} au fost extrase cu ajutorul caștii valabile comercial, Muse 2016. Datele extrase au fost prelucrate și etichetate, rezultând 414 atribute și clasa de care aparțin, neutru, relaxat sau concentrat. După extragerea atributelor, au fost selectate și normalizate în intervalul $[0,1]$ 400 de atribute pentru a putea reprezenta o imagine alb-negru de dimensiunea 20x20. După antrenarea clasificatorului cu aceste imagini, acuratețea acestuia la prezicerea imaginilor care nu se aflau in setul de date de antrenare, a fost de $\approx90\%$.
+Această lucrare își propune folosirea rețelelor convoluționale pentru clasificarea a trei clase/stării mentale diferite. Metoda de clasificare se bazează pe reprezentarea informațiilor statistice și spectrale a undelor cerebrale sub forma unor imagini alb-negru. Datele EEG \textit{(Electroencefalograma)} au fost extrase cu ajutorul caștii valabile comercial, Muse 2016. Datele extrase au fost prelucrate și etichetate, rezultând 414 atribute și clasa de care aparțin, neutru, relaxat sau concentrat. După extragerea atributelor, au fost selectate și normalizate în intervalul $[0,1]$ 400 de atribute pentru a putea reprezenta o imagine alb-negru de dimensiunea $20\times20$. După antrenarea clasificatorului cu aceste imagini, acuratețea acestuia la prezicerea imaginilor care nu se aflau in setul de date de antrenare, a fost de $\approx90\%$.
 
 \section{Încadrare temă}
 \textbf{TODO} Schimba numele sectiunii/imparte-o in mai multe\newline
@@ -39,7 +39,7 @@ Procesul de învățare nesupervizată diferă față de cel amintit anterior pr
 	\subitem Rețele Kohonen
 	\item Modele Markov cu stări invizibile
 \end{itemize}
-\begin{figure}[h]
+\begin{figure}[ht]
 	\center
 	\includegraphics[width=12cm, keepaspectratio]{fig/cap1/Examples-of-Supervised-Learning-Linear-Regression-and-Unsupervised-Learning.png}
 	\caption{Diferența dintre modul de funcționare al învățării supervizare și învățării nesupervizate \cite{fig:sup_and_unsup}}
@@ -48,7 +48,7 @@ Procesul de învățare nesupervizată diferă față de cel amintit anterior pr
 
 \subsection*{Învățarea cu întărire}
 Învățarea cu întărire este o metodă de învățare prin interacțiuni repetate a unui \textit{agent (software agent)} cu mediul, cu urmărirea atingerii unui anumit scop (\autoref*{fig:reinf_learning}). Interacțiunile se bazează pe acțiunile luate de agent la stimulii mediului, pentru care v-a primit o recompensă de la acesta în funcție de beneficiul adus îndeplinirii scopului. Recompensele primite au rolul de a îmbunătății capacitatea agentului de a lua cea mai bună decizie din starea în care acesta se afla la momentul acțiunii. Scopul pe termen lung al agentului este maximizarea numărului de recompense primite. După repetate interacțiuni cu mediul, capacitatea agentului de a lua decizii bune se v-a crește, iar drumul acestuia prin mediu va tinde spre optim.
-\begin{figure}[h]
+\begin{figure}[ht]
 	\center
 	\includegraphics[width=11cm, keepaspectratio]{fig/cap1/The-reinforcement-learning-paradigm-consists-of-an-agent-interacting-with-an.png}
 	\caption{Modul de funcționare al învățării cu întărire \cite{fig:reinforcement}}
