@@ -1,13 +1,6 @@
 %!TEX spellcheck=ro_RO
 %!TEX root = ./main.tex
 \chapter{Prezentarea aplicației}\label{ch:3implementare}
-
-\textbf{Note implementare:}
-\begin{enumerate}
-\item Probleme intampinate in asemanarea datelor NEUTRAL si RELAXED
-\item Uita-te pe notebooku Licenta\_CNN
-\end{enumerate}
-
 Scopul lucrării îl constituie folosirea paradigmei învățării automate supervizate, mai precis, utilizarea rețelelor neuronale convoluționale pentru clasificarea a trei stări mentale diferite, și anume: \textit{neutru, relaxat} și \textit{concentrat}. 
 
 Datele aferente fiecărei stări provin de la un dispozitiv comercial, \textit{Muse 2016}, capabil de a înregistra activitatea cerebrală folosind tehnica de imagistică \textit{EEG (Electroencefalografia)}, neinvazivă. Aceste înregistrări reprezintă activitatea creierului din jurul electrozilor dispusă în timp. Deoarece dispozitivul folosit folosește o tehnică neinvazivă cu electrozi uscați datele finale ale înregistrării conțin zgomot produs de mișcările persoanei, de contracțiile mușchilor sau chiar de clipit. Din aceste motive datele trebuie prelucrate. Este de menționat faptul că nu există o anumită formulă de prelucrare pentru ca datele sa fie perfecte pentru etapa de clasificare, metodele folosite în această etapă fiind stabilite adesea empiric. După prelucrarea datelor, urmează un pas de extragere a anumitor atribute/caracteristici statistice și spectrale pe baza cărora vor fi construite imaginile alb-negru. Fiecare imagine va avea o etichetă aferentă clasei din care face parte, neutru, relaxat sau concentrat.
@@ -16,12 +9,9 @@ După etapa de prelucrare și etichetare a datelor, urmează pregătirea datelor
 
 În continuarea capitolului, etapele prezentate sumar anterior vor fi detaliate și explicate, urmând ca la finalul capitolului să fie prezentate rezultatele implementării.
 
-\section{Tehnologii folosite}
-\textbf{TODO:} Are rost sa scriu aici ce biblioteci, resurse și limbaj de programare am folosit? Sau le amintesc pe fiecare în contextul în care apar în implementare?
-
 \section{Etape implementare}
 
-\subsection{Achiziție date}
+\subsection{Achiziție date}\label{ss:achizitie-date}
 Pentru achiziția datelor a fost folosită casca comercial valabilă Muse 2016. Aceasta conține cinci electrozi uscați, unul fiind folosit ca punct de referință, iar ceilalți patru pentru a înregistra semnalele EEG. Electrozii sunt poziționați în locațiile \textit{TP9, AF7, Fpz, AF8, TP10}, conform unei versiuni modificate a sistemului internațional 10-20 de poziționare al electrozilor EEG. Electrodul Fpz este folosit ca electrod de referință. În \autoref{fig:eegstandard} este prezentat aranjamentul electrozilor.
 
 \begin{figure}[ht]
@@ -102,9 +92,7 @@ Având aceste ferestre create, pentru fiecare fereastră $w_i$ au fost extrase a
 La final, a rezultat un total de 174 de atribute statistice.
 
 \subsubsection*{Atribute spectrale}
-\textbf{TODO:} E corect acest titlu?
-
-Comparativ cu atributele statistice, generarea atributelor spectrale a fost făcută doar pe ferestre întregi, $w_i$. În cadrul extragerii atributelor spectrale a fost efectuată o prelucrare a semnalului înainte de a calcula atributele. Inițial, a fost realizată o centrare a întregului semnalului în jurul valorii $0$, iar mai apoi a fost aplicat un filtru trece-jos de tip Chebyshev I (Fig. \ref{fig:cheb1-filt}), cu frecvența de tăiere de $50\si{\hertz}$. Prin această filtrare se păstrează doar banda de frecvență relevantă undelor cerebrale, și anume $1-50\si{\hertz}$.
+Comparativ cu atributele statistice, generarea atributelor spectrale a fost făcută doar pe ferestre întregi, $w_i$. În cadrul extragerii atributelor spectrale a fost efectuată o prelucrare a semnalului înainte de a calcula atributele. Inițial, a fost realizată o centrare a întregului semnalului în jurul valorii $0$, iar mai apoi a fost aplicat un filtru trece-jos de tip Chebyshev I (Fig. \ref{fig:cheb1-filt}), cu frecvența de tăiere de $50\si{\hertz}$. Prin această filtrare se păstrează doar banda de frecvență relevantă undelor cerebrale, anume $1-50\si{\hertz}$.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth, keepaspectratio]{fig/cap3/cheb1-filt.png}
@@ -142,17 +130,17 @@ Arhitectura rețelei este compusă dintr-un total de 15 straturi secvențiale, 6
 \item \textbf{Dense:} Reprezintă straturile complet conectate, specifice unei rețele neuronale, cu rolul în clasificarea datelor procesate de către partea convoluțională a rețelei. Ultimul strat conține funcția de activare \textit{softmax} (\S\ref{subch:strat-complet-con}), specifică clasificării multi-clasă
 \end{itemize}
 
-\autoref{tabel:cnn-arch} prezintă structurat arhitectura rețelei convoluționale implementate. Rețeaua convoluțională a fost implementată folosind biblioteca \textit{Keras}, conținută în framework-ul \textit{TensorFlow} \cite{online:tf-keras}.
-\begin{table}[ht]
-\centering
-\caption{Arhitectura rețelei convoluționale implementate\protect\footnotemark}
-\label{tabel:cnn-arch}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{@{}*4l@{}}
-\textbf{\begin{tabular}[c]{@{}c@{}}Strat\end{tabular}} &
-\textbf{\begin{tabular}[c]{@{}c@{}}Intrare\end{tabular}} &
-\textbf{\begin{tabular}[c]{@{}c@{}}Ieșire\end{tabular}} &
-\textbf{\begin{tabular}[c]{@{}c@{}}Parametri\end{tabular}} \\ \toprule
+\autoref{tabel:cnn-arch} prezintă structurat arhitectura rețelei convoluționale implementate. Este util de menționat faptul că primul element din componența dimensiunilor datelor de intrare și ieșire reprezintă dimensiunea grupului de date trimis (\textit{batch size}, explicat în \S\ref{ssch:antrenarea}). Aceasta se notează cu 0 sau \textit{None}, fiind o variabilă necunoscută în momentul implementării arhitecturii. Rețeaua convoluțională a fost implementată folosind biblioteca \textit{Keras}, conținută în framework-ul \textit{TensorFlow} \cite{online:tf-keras}.
+
+\begin{longtable}{@{}*4l@{}}
+\renewcommand{\arraystretch}{1.2}\\
+\caption{Arhitectura rețelei convoluționale implementate}\label{tabel:cnn-arch}\\
+\rowcolor{gray!50}
+Strat & Intrare & Ieșire & Parametri \\
+\endfirsthead
+\rowcolor{gray!50}
+Strat & Intrare & Ieșire & Parametri \\
+\endhead
 Conv2D (ReLU) & (0, 20, 20, 1) & (0, 20, 20, 32) & 160 \\
 Conv2D (ReLU) & (0, 20, 20, 32) & (0, 19, 19, 32) & 4128 \\
 BatchNormalization & (0, 19, 19, 32) & (0, 19, 19, 32) & 128 \\
@@ -168,9 +156,7 @@ Flatten & (0, 3, 3, 256) & (0, 2304) & 0 \\
 Dense (ReLU) & (0, 2304) & (0, 256) & 590080 \\
 Dropout (0.5) & (0, 256) & (0, 256) & 0 \\
 Dense (softmax) & (0, 256) & (0, 3) & 771 \\ \bottomrule
-\end{tabular}
-\end{table}
-\footnotetext{Primul element din componența dimensiunilor datelor primite de către straturi reprezintă dimensiunea grupului de date trimis (\textit{batch size}, explicat în \S\ref{ssch:antrenarea})}
+\end{longtable}
 
 \subsection{Antrenarea rețelei}\label{ssch:antrenarea}
 Antrenarea rețelei a fost realizată folosind mediul online \textit{Google Colaboratory}, care pune la dispoziție atât resurse hardware cât și software specializate pentru dezvoltarea algoritmilor de învățare automată.
@@ -186,26 +172,39 @@ Modelul realizat a fost antrenat pentru o perioadă de 100 de epoci, folosind un
 \section{Rezultate}
 În această secțiune sunt prezentate rezultatele obținute de modelul rețelei convoluționale implementate. În \autoref{tabel:acc+loss+comparison} sunt prezentate comparativ rezultatele obținute în urma antrenării modelului rețelei convoluționale implementate pe setul de date creat, folosind o dată ca și algoritm de selecție al atributelor metoda de testate \textit{chi-pătrat}, iar mai apoi metoda \textit{informației mutuale}. Testele comparative au fost realizate de 3 ori pentru fiecare metodă, folosind setul de test pentru preziceri.
 
-\begin{table}[ht]
+\begin{table}[h]
 \centering
 \caption{Prezentarea performanțelor modelului folosind metodele \textit{chi-pătrat} și \textit{informație mutuală} (\S\ref{ssch:procesare-date}) pentru selecția atributelor}
 \label{tabel:acc+loss+comparison}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{@{}llcc@{}}
-\toprule
-Metodă & \# & Valoare loss & Valoare accuratețe \\ \midrule
+\rowcolor{gray!50} Metodă & \# & Valoare loss & Valoare acuratețe \\ 
 & 1 & 0.268 & 0.931 \\
 Chi pătrat & 2 & 0.278 & 0.919 \\
-& 3 & 0.269 & 0.924 \\ \cmidrule(lr{1em}){3-4}
-Media & & 0.272 & 0.925 \\ \midrule
-& 1 & 0.283 & 0.928 \\
+& 3 & 0.269 & 0.924 \\
+\rowcolor{gray!15} Media & & 0.272 & 0.925 \\
+& 1 & 0.283 & 0.928 \\{}
 Informație & 2 & 0.282 & 0.920 \\
-mutuală & 3 & 0.282 & 0.927 \\ \cmidrule(lr{1em}){3-4}
-Media & & 0.282 & 0.925 \\ \bottomrule
+mutuală & 3 & 0.282 & 0.927 \\
+\rowcolor{gray!15} Media & & 0.282 & 0.925 \\
 \end{tabular}
 \end{table}
 
-Rezultatele inițiale obținute fiind foarte asemanatoare, am decis folosirea metodei chi-pătrat pentru selecția atributelor. Toate rezultatele prezentate în continuare reies din setul de date format prin această metodă. Evoluția pe perioada antrenării a acurateței și valorii funcției de loss pot fi observate în \autoref{fig:acc+loss+graph}.
+Rezultatele inițiale obținute fiind foarte asemanatoare, am decis folosirea metodei chi-pătrat pentru selecția atributelor. Toate rezultatele prezentate în continuare reies din setul de date format prin această metodă.
+
+Evoluția pe perioada antrenării a acurateței și a valorii funcției de cost poate fi observată în \autoref{fig:acc+loss+graph}. Colorat cu albastru este reprezentată acuratețea/valoarea funcție de cost a modelului provenite din analizarea performanțelor acestuia pe setul de antrenare. Cu portocaliu este reprezentată performanța acestuia în clasificarea datelor din setul de validare. Deoarece modelul își ajustează parametrii, în cea mai mare măsură, în funcție de setul de antrenare, metricile rezultate pentru acest set vor fi întotdeauna mai bune decât metricile calculate pe restul seturilor de date. Pe parcursul antrenării, la finalul fiecărei epoci, setul de validare este folosit pentru evaluarea modelului și ajustarea parametrilor acestuia. 
+
+Urmărind cele două grafice putem observa faptul că evoluția metricilor modelului calculate pe setul de validare este foarte apropiată de cele calculate pe setul de antrenare. Acest lucru sugerează o performanța bună a clasificatorului, acesta fiind capabil să generalizeze datele primite la învățare și să aplice aceste „cunoștiințe” pentru a clasifica cât mai corect posibil date pentru care nu este antrenat în mod direct. Din aceste grafice mai poate fi observată utilitatea modificării ratei de învățare. La epoca 36, rata de învățare se diminuează cu $0.07$ ajungând de la $7*10^{-4}$ la valoarea $4.9*10^{-5}$, crescând acuratețea modelului și diminuând valoarea funcției de cost. Este posibil ca acest lucru să se fi întâmplat și fară a face această operațiune, însă pe o perioadă de timp mult mai lungă, crescând timpul total de învățare.
+
+După finalizarea antrenării modelului, capacitățile acestuia au fost testate asupra setului de date de test, date pe care acesta nu le „văzuse” niciodată. Evaluarea a fost efectuată de trei ori, rezultând o acuratețe medie de $\approx92\%$ și o valoarea medie a funcție de cost de $\approx0.2$.
+
+\begin{figure}[ht]
+\centering
+\subfloat[]{\includegraphics[width=6.9cm, keepaspectratio]{fig/cap3/acc_graph.png}\label{fig:acc_graph}}
+\qquad
+\subfloat[]{\includegraphics[width=6.9cm, keepaspectratio]{fig/cap3/loss_graph.png}\label{fig:loss_graph}}
+\caption{Reprezentările grafice ale evoluției acurateței modelului \protect\subref{fig:acc_graph} și evoluției valoarii funcției de cost \protect\subref{fig:loss_graph}}\label{fig:acc+loss+graph}
+\end{figure}
 
 Pentru determinarea performanțelor, pe lângă acuratețea modelului și valoarea funcției de cost, au mai fost calculate următoarele metrici, prezentate în \autoref{tabel:classification-report}:
 \begin{itemize}
@@ -232,14 +231,8 @@ relaxat & 0.92 & 0.90 & 0.91 \\ \bottomrule
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=9cm, height=5.5cm]{fig/cap3/conf_matrix.png}
+\includegraphics[width=9cm, keepaspectratio]{fig/cap3/conf_matrix.png}
 \caption{Reprezentarea performanței rețelei prin matricea confuziilor}\label{fig:conf_matrix}
 \end{figure}
 
-\begin{figure}[ht]
-\centering
-\subfloat{\includegraphics[width=9cm, height=5.5cm]{fig/cap3/acc_graph.png}\label{fig:acc_graph}}
-
-\subfloat{\includegraphics[width=9cm, height=5.5cm]{fig/cap3/loss_graph.png}\label{fig:loss_graph}}
-\caption{Reprezentările grafice ale evoluției acurateței modelului \protect\subref{fig:acc_graph} și evoluției valoarii funcției de cost \protect\subref{fig:loss_graph}}\label{fig:acc+loss+graph}
-\end{figure}
+Din datele afișate atât în \autoref{tabel:classification-report}, cât și în \autoref{fig:conf_matrix}, unde este reprezentată matricea confuziilor, poate fi observată dificultatea clasificatorului de a distinge clasele \textit{neutru} și \textit{relaxat}. Această dificultate în distingere apare datorită metodelor asemănatoare de culegere a datelor EEG pentru ambele clase, descrise în \S\ref{ss:achizitie-date}. 
