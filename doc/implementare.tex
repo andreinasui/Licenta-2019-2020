@@ -1,11 +1,9 @@
 %!TEX spellcheck=ro_RO
 %!TEX root = ./main.tex
 \chapter{Prezentarea aplicației}\label{ch:3implementare}
-Scopul lucrării îl constituie folosirea paradigmei învățării automate supervizate, mai precis, utilizarea rețelelor neuronale convoluționale pentru clasificarea a trei stări mentale diferite, și anume: \textit{neutru, relaxat} și \textit{concentrat}. 
+Scopul lucrării îl constituie folosirea paradigmei învățării automate supervizate, mai precis, utilizarea rețelelor neuronale convoluționale pentru clasificarea a trei stări mentale diferite, \textit{neutru, relaxat} și \textit{concentrat}. Datele aferente fiecărei stări provin de la un dispozitiv comercial, \textit{Muse 2016}, capabil de a înregistra activitatea cerebrală folosind tehnica de imagistică \textit{EEG (Electroencefalografia)}, neinvazivă. Aceste înregistrări reprezintă activitatea creierului din jurul electrozilor dispusă în timp. Deoarece dispozitivul folosit folosește o tehnică neinvazivă cu electrozi uscați datele finale ale înregistrării conțin zgomot produs de mișcările persoanei, de contracțiile mușchilor sau chiar de clipit. Din aceste motive datele trebuie prelucrate. Este de menționat faptul că nu există o anumită formulă de prelucrare pentru ca datele sa fie perfecte pentru etapa de clasificare, metodele folosite în această etapă fiind stabilite adesea empiric. După prelucrarea datelor, urmează un pas de extragere a anumitor atribute/caracteristici statistice și spectrale pe baza cărora vor fi construite imaginile alb-negru. Fiecare imagine va avea o etichetă aferentă clasei din care face parte, neutru, relaxat sau concentrat.
 
-Datele aferente fiecărei stări provin de la un dispozitiv comercial, \textit{Muse 2016}, capabil de a înregistra activitatea cerebrală folosind tehnica de imagistică \textit{EEG (Electroencefalografia)}, neinvazivă. Aceste înregistrări reprezintă activitatea creierului din jurul electrozilor dispusă în timp. Deoarece dispozitivul folosit folosește o tehnică neinvazivă cu electrozi uscați datele finale ale înregistrării conțin zgomot produs de mișcările persoanei, de contracțiile mușchilor sau chiar de clipit. Din aceste motive datele trebuie prelucrate. Este de menționat faptul că nu există o anumită formulă de prelucrare pentru ca datele sa fie perfecte pentru etapa de clasificare, metodele folosite în această etapă fiind stabilite adesea empiric. După prelucrarea datelor, urmează un pas de extragere a anumitor atribute/caracteristici statistice și spectrale pe baza cărora vor fi construite imaginile alb-negru. Fiecare imagine va avea o etichetă aferentă clasei din care face parte, neutru, relaxat sau concentrat.
-
-După etapa de prelucrare și etichetare a datelor, urmează pregătirea datelor pentru transformarea acestora sub forma unor imagini alb-negru. Această etapă include selectarea celor mai relevante 400 de atribute, dintr-un total de 414. Pentru a putea fi folosite ca și componente ale unei imagini alb-negru, este necesară normalizarea datelor în intervalul $[0,1]$, 0 reprezentând negru, 1 reprezentând alb, orice altă valoare aparținând intervalului reprezentând o nuanță de gri. Imaginile sunt împărțite apoi în diferite seturi, fiecare cu scopul său specific; setul de antrenare, setul de validare și setul de testare. Antrenarea rețelei convoluționale se realizează folosind setul de antrenare și setul de validare pentru evaluarea performanțelor pe parcursul antrenării. În final, setul de testare este folosit pentru a determina performanța rețelei pe date complet noi, rezultând metricile finale, precum acuratețea sau valoarea funcției de cost \textit{(loss)}. În cazul rețelei dezvoltate în această lucrare a fost atinsă o acuratețe de $\approx91.83\%$ cu valoarea funcției de loss de $\approx0.2511$
+După etapa de prelucrare și etichetare a datelor, urmează pregătirea datelor pentru transformarea acestora sub forma unor imagini alb-negru. Această etapă include selectarea celor mai relevante 400 de atribute, dintr-un total de 414. Pentru a putea fi folosite ca și componente ale unei imagini alb-negru, este necesară normalizarea datelor în intervalul $[0,1]$, 0 reprezentând negru, 1 reprezentând alb, orice altă valoare aparținând intervalului reprezentând o nuanță de gri. Imaginile sunt împărțite apoi în diferite seturi, fiecare cu scopul său specific; setul de antrenare, setul de validare și setul de testare. Antrenarea rețelei convoluționale se realizează folosind setul de antrenare și setul de validare pentru evaluarea performanțelor pe parcursul antrenării. În final, setul de testare este folosit pentru a determina performanța rețelei pe date complet noi, rezultând metricile finale, precum acuratețea sau valoarea funcției de cost \textit{(loss)}. În cazul rețelei dezvoltate în această lucrare a fost atinsă o acuratețe de $\approx92\%$ cu valoarea funcției de loss de $\approx0.27$. 
 
 În continuarea capitolului, etapele prezentate sumar anterior vor fi detaliate și explicate, urmând ca la finalul capitolului să fie prezentate rezultatele implementării.
 
@@ -23,9 +21,9 @@ Pentru achiziția datelor a fost folosită casca comercial valabilă Muse 2016. 
 
 Pentru a diminua zgomotul înregistrat de senzori, pentru fiecare stare au fost alese activități care necesitau o mișcare minimă a persoanei examinate. Citirile datelor de la electrozii AF7 și AF8, fiind situați pe frunte, sunt distorsionate de mișcările generate de clipit. Astfel, pentru a păstra o uniformitate asupra celor trei stări, clipitul nu a fost nici încurajat nici descurajat. Chiar dacă acesta este considerat zgomot, rata de clipire este influențată de starea de concentrare a persoanei, acest lucru fiind util în final pentru algoritmul de clasificare. Totuși, persoanelor examinate le-a fost specificat să nu inchidă ochii pe durata unui test.
 
-Pentru determinarea celor trei stări mentale, au fost stabilite trei activități, conform \cite{eeg:2018}. Pentru înregistrarea stării neutre, participanții au fost îndrumați să păstreze o poziție confortabilă a corpului și o stare mentală echilibrată, nici prea relaxată dar nici prea activă. Înregistrarea stării mentale de relaxare a presupus ca subiecții să asculte o piesă muzicală cu o tonalitate și un tempo scăzut. Acestora le-a fost indicat faptul de a se relaxa complet, atât fizic cât și psihic. Pentru determinarea stării mentale active și concentrate participanții au fost instruiți să joace o variantă a jocului „alba-neagra”, în care un obiect este ascuns sub unul din mai multe pahare, care mai apoi sunt amestecate între ele. Scopul jocului fiind de a identifica paharul care conține obiectul. Pe parcursul jocului, numărul paharelor și viteza cu care acestea se mișcă va crește.
+Pentru determinarea celor trei stări mentale, au fost stabilite trei activități, conform \cite{eeg:2018}. Pentru înregistrarea stării neutre, participanții au fost îndrumați să păstreze o poziție confortabilă a corpului și o stare mentală echilibrată, nici prea relaxată dar nici prea activă. Înregistrarea stării mentale de relaxare a presupus ca subiecții să asculte o piesă muzicală cu o tonalitate și un tempo scăzut. Acestora le-a fost indicat faptul de a se relaxa complet, atât fizic cât și psihic. Pentru determinarea stării mentale active și concentrate participanții au fost instruiți să joace o variantă a jocului „alba-neagra”, în care un obiect este ascuns sub unul din mai multe pahare, care mai apoi sunt amestecate între ele. Scopul jocului fiind de a identifica paharul care conține obiectul. Pe parcursul jocului, numărul paharelor și viteza cu care acestea se mișcă crește.
 
-Activitățile au fost desfășurate începând cu starea neutră, urmată de starea de relaxare, iar la final starea de concentrare. Pentru fiecare activitate în parte au fost efectuate două înregistrări ale datelor EEG pe o durată de 65 de secunde. Primele 3 și ultimele 2 secunde fiind șterse ulterior, scopul acestora fiind de a crea o zonă de tranziție. A mai fost observată și o transmisie cu frecvență variabilă ($\approx256\si{\hertz}$) a datelor de către casca Muse, astfel zonele de tranziție ajutând la uniformizarea datelor. Datele EEG au fost colectate de la 12 persoane, 5 de sex feminin, 7 de sex masculin. În total au fost înregistrate 26 de minute per stare, din care 24 de minute utilizabile. În \autoref{fig:muse_eeg_sample} pot fi observate semnalele provenite de la fiecare electrod în parte. Casca oferă posibilitatea de a adăuga un senzor în plus, semnalul acestuia fiind transmis prin canalul RightAUX. Semnalul provenit de la canalul în cauză a fost eliminat deoarece nu avea conectat un senzor, transmițând astfel doar zgomot.
+Activitățile au fost desfășurate începând cu starea neutră, urmată de starea de relaxare, iar la final starea de concentrare. Pentru fiecare activitate în parte au fost efectuate două înregistrări ale datelor EEG pe o durată de 65 de secunde. Primele 3 și ultimele 2 secunde fiind șterse ulterior, scopul acestora fiind de a crea o zonă de tranziție. Datele EEG au fost colectate de la 12 persoane, 5 de sex feminin, 7 de sex masculin. În total au fost înregistrate 26 de minute per stare, din care 24 de minute utilizabile. În \autoref{fig:muse_eeg_sample} pot fi observate semnalele provenite de la fiecare electrod în parte. Casca oferă posibilitatea de a adăuga un senzor în plus, semnalul acestuia fiind transmis prin canalul RightAUX. Semnalul provenit de la canalul în cauză a fost eliminat deoarece nu avea conectat un senzor, transmițând astfel doar zgomot.
 
 \begin{figure}[ht]
 \centering
@@ -35,9 +33,11 @@ Activitățile au fost desfășurate începând cu starea neutră, urmată de st
 \end{figure}
 
 \subsection{Extragerea atributelor}
-Etapa de extragere a atributelor are rolul de a crea un set de date bazat pe semnalele EEG înregistrate, cu scopul de a fi cât mai informative pentru scopul algoritmului. Astfel, se elimină informația redundantă și nesemnificativă obiectivului, aducând avantaje precum scăderea timpului de învățăre a rețelei și o mai bună generalizare a datelor. În această lucrare, setul de date format din atribute ale semnalului EEG, este alcătuit din două seturi de date formate din atribute statistice respectiv atribute spectrale. Tipurile de atribute extrase, atât cele statistice cât și cele spectrale, au fost influențate de către lucrările \cite{eeg-cnn:2020} și \cite{eeg:2018}.
+Etapa de extragere a atributelor are rolul de a crea un set de date bazat pe semnalele EEG înregistrate, cu scopul de a fi cât mai informative pentru obiectul lucrării. Astfel, se elimină informația redundantă și nesemnificativă obiectivului, aducând avantaje precum scăderea timpului de învățăre a rețelei și o mai bună generalizare a datelor de către aceasta.
 
-Pentru calculul atributelor, semnalul a fost împărțit în „ferestre”, notate $w_i$, conținând un set de $N$ valori ale semnalului pentru durata de 1 secundă, transmise cu frecvența $256\si{\hertz}$. Ferestrele conțin o suprapunere de 0.5 secunde, astfel $w_1=[0,1]$, $w_2=[0.5,1.5]$, $w_3=[1,2]$, etc. Din fiecare fereastră rezultată au mai fost create, prin împărțirea fiecărei ferestre $w_i$, jumătăți și sferturi de fereastră. Rezultând astfel $w_{h1}$ și $w_{h2}$, reprezentând prima respectiv a doua jumătate a ferestrei, fiecare conținând $N/2$ valori, iar $w_{q1}$, $w_{q2}$, $w_{q3}$, $w_{q4}$ reprezentând sferturile ferestrei, fiecare conținând $N/4$ valori.
+În această lucrare, pe baza semnalelor EEG au fost determinate două seturi de date folosind atributele statistice ale semnalelor, respectiv atribute spectrale ale acestora. Prin atribute statistice se înțelege un set de caracteristici de natură statistică, precum media, deviația standard, varianța etc. Prin atribute spectrale se înțelege un set de caracteristici legate de spectrul semnalului EEG. Această maniera de abordare a informației conținute de semnalele EEG, precum și modul de obținere a acestor seturi de date se bazează pe cele prezentate în lucrările \cite{eeg-cnn:2020} și \cite{eeg:2018}.
+
+Pentru calculul atributelor, semnalul a fost împărțit în „ferestre”, notate $w_i$, conținând un set de $N$ valori ale semnalului pentru durata de 1 secundă, transmise cu frecvența $256\si{\hertz}$. Ferestrele conțin o suprapunere de 0.5 secunde, astfel $w_1=[0,1]$, $w_2=[0.5,1.5]$, $w_3=[1,2]$, etc. Din fiecare fereastră rezultată au mai fost create, prin împărțirea fiecărei ferestre $w_i$, jumătăți și sferturi de fereastră. Rezultă, astfel, $w_{h1}$ și $w_{h2}$, reprezentând prima respectiv a doua jumătate a ferestrei, fiecare conținând $N/2$ valori, iar $w_{q1}$, $w_{q2}$, $w_{q3}$, $w_{q4}$ reprezentând sferturile ferestrei, fiecare conținând $N/4$ valori.
 
 \subsubsection*{Atribute statistice}
 Având aceste ferestre create, pentru fiecare fereastră $w_i$ au fost extrase atribute statistice considerând fie întreaga fereastră, fie jumătățile, fie sferturile. Astfel, pentru fiecare semnal EEG, au fost extrase următoarele atribute:
@@ -47,6 +47,7 @@ Având aceste ferestre create, pentru fiecare fereastră $w_i$ au fost extrase a
 	\item Media valorilor ferestrei
 	\begin{equation}
 	\mu = \frac{1}{N}\sum_n^N x_n
+	\label{eq:mean}
 	\end{equation}
 	unde $x_n$ reprezintă setul de valori dintr-o fereastră
 	\item Deviația standard a valorilor
@@ -67,9 +68,9 @@ Având aceste ferestre create, pentru fiecare fereastră $w_i$ au fost extrase a
 	\end{equation}
 	\item Covarianța perechilor de semnale EEG (TP9, AF7, AF8, TP10)
 	\begin{equation}
-	cov(X,Y) = \frac{1}{N}\sum_n^N(x_n - \bar{x})(y_n - \bar{y})
+	cov(X,Y) = \frac{1}{N}\sum_n^N(x_n - \mu_x)(y_n - \mu_y)
 	\end{equation}
-	unde $x_n$ și $y_n$ reprezintă setul de valori dintr-o fereastră a unui semnal EEG, iar $\bar{x}$ și $\bar{y}$ reprezintă media acestora
+	unde $x_n$ și $y_n$ reprezintă setul de valori dintr-o fereastră a unui semnal EEG, iar $\mu_x$ și $\mu_y$ reprezintă media acestora calculată conform \eqref{eq:mean}
 	\item Valoarea maximă și valoarea minimă a ferestrei
 	\end{enumerate}
 	\item Considerând jumătățile de fereastră, $w_{h1}$ și $w_{h2}$:
@@ -102,7 +103,7 @@ Comparativ cu atributele statistice, generarea atributelor spectrale a fost făc
 
 După aplicarea filtrului asupra întregului semnal EEG, a fost calculată Transformata Fourier Discretă \textit{(DFT)}, folosind algoritmul \textit{Fast Fourier Transform (FFT)}. Apoi, au fost extrase amplitudinile fiecărei componente ale semnalului filtrat, rezultând 50 de atribute per semnal. Ultimele atribute extrase au fost amplitudinile celor mai puternice 10 frecvențe din componența semnalului. Acestea au fost ordonate crescător în funcție de frecvența semnalului. În total, au rezultat 260 de atribute.
 
-Combinând cele 174 de atribute statistice cu aceste 260 de atribute spectrale, rezultă un total de 414 atribute. La setul de date format de acestea, se adaugă și o ethichetă reprezentând clasa fiecărei înregistrări (0 - neutru, 1 - concentrat, 2 - relaxat). Prin procesarea celor 24 de minute pentru fiecare stare, rezultă un set de date final cuprins din 8568 de linii, reprezentând ferestrele procesate și 415 coloane reprezentând atributele și clasa fiecărei ferestre. Ultimul pas a fost de a amesteca intrările setului de date creat pentru a-l omogeniza.
+Combinând cele 174 de atribute statistice cu aceste 260 de atribute spectrale, rezultă un total de 414 atribute. La setul de date format de acestea, se adaugă și o etichetă reprezentând clasa fiecărei înregistrări (0 - neutru, 1 - concentrat, 2 - relaxat). Prin procesarea celor 24 de minute pentru fiecare stare, rezultă un set de date final cuprins din 8568 de linii, reprezentând ferestrele procesate și 415 coloane reprezentând atributele și clasa fiecărei ferestre. Ultimul pas a fost de a amesteca intrările setului de date creat pentru a-l omogeniza.
 
 \subsubsection*{Procesarea setului de date}\label{ssch:procesare-date}
 După crearea setului de date, acesta trece printr-o serie de modificări înainte de a fi folosit ca și intrare pentru rețeaua convoluțională. Pentru a putea trimite datele rețelei, este necesar ca acestea să fie sub formă matriceală. Cea mai mare matrice pe care o putem forma este o matrice de dimensiunea $20\times20$, folosind doar 400 din cele 414 atribute ale acestui set de date. Această cerință impune folosirea unui algoritm pentru selecția celor mai semnificative atribute.
@@ -123,8 +124,8 @@ Pe setul de date rezultat după aplicarea algoritmului de selecție este aplicat
 \subsection{Arhitectura rețelei convoluționale}
 Arhitectura rețelei este compusă dintr-un total de 15 straturi secvențiale, 6 straturi de convoluție, 3 straturi de normalizare, 3 straturi de \textit{dropout}, 1 strat de aplatizare și 2 straturi complet conectate, având următoarele funcții:
 \begin{itemize}
-\item \textbf{Conv2D:} Reprezintă stratul de convoluție, cu rolul de a învăța harta de caracteristici. Dimensiunea tuturor filtrelor folosite în această rețea este de $2\times2$. Pentru reducerea dimensionalității a fost folosit, în stratul 3 și stratul 5 de convoluție, pasului (stride) cu valoarea 2. Tuturor straturilor le-a fost aplicată funcția de activare ReLU (Eq. \ref{eq:relu})
-\item \textbf{BatchNormalization \textnormal{\cite{ioffe2015batch}}:} Acest strat are rolul de a aplica o metodă de normalizare a datelor de intrare, reducând media acestora la $\approx0$, iar varianța la $\approx1$. Printre efectele acestei operații se numără accelerarea învățării rețelei neuronale, prevenirea efectului de \textit{overfitting}, care reprezintă o învățare prea bună a datelor de antrenare de către rețea, eșuând atunci când vine vorba de o clasificare a unor date noi.
+\item \textbf{Conv2D:} Reprezintă stratul de convoluție, cu rolul de a învăța harta de caracteristici. Dimensiunea tuturor filtrelor folosite în această rețea este de $2\times2$. Pentru reducerea dimensionalității a fost folosit, în stratul 3 și stratul 5 de convoluție, pasului (stride) cu valoarea 2. Tuturor straturilor le-a fost aplicată funcția de activare ReLU \eqref{eq:relu}
+\item \textbf{BatchNormalization \textnormal{\cite{ioffe2015batch}}:} Acest strat are rolul de a aplica o metodă de normalizare a datelor de intrare, reducând media acestora la $\approx0$, iar varianța la $\approx1$. Printre efectele acestei operații se numără accelerarea învățării rețelei neuronale și prevenirea efectului de \textit{overfitting}, care reprezintă o învățare prea bună a datelor de antrenare de către rețea, eșuând atunci când vine vorba de o clasificare a unor date noi
 \item \textbf{Dropout \textnormal{\cite{hinton2012improving-dropout}}:} Stratul dropout elimină conexiunile dintre straturi, într-o anumită proporție, pentru a „forța” rețeaua de a se adapta și de a generaliza datele de intrare. Prin acest procedeu se reduce fenomenul de \textit{overfitting}
 \item \textbf{Flatten:} Acest strat are rolul de a „aplatiza” matricea provenită de la ultimul strat convoluțional, transformând-o într-un vector coloană de dimensiunea $(M*N*C)\times1$, unde $M$ este numărul de linii, $N$, numărul de coloane, iar $C$ numărul de filtre
 \item \textbf{Dense:} Reprezintă straturile complet conectate, specifice unei rețele neuronale, cu rolul în clasificarea datelor procesate de către partea convoluțională a rețelei. Ultimul strat conține funcția de activare \textit{softmax} (\S\ref{subch:strat-complet-con}), specifică clasificării multi-clasă
@@ -132,30 +133,30 @@ Arhitectura rețelei este compusă dintr-un total de 15 straturi secvențiale, 6
 
 \autoref{tabel:cnn-arch} prezintă structurat arhitectura rețelei convoluționale implementate. Este util de menționat faptul că primul element din componența dimensiunilor datelor de intrare și ieșire reprezintă dimensiunea grupului de date trimis (\textit{batch size}, explicat în \S\ref{ssch:antrenarea}). Aceasta se notează cu 0 sau \textit{None}, fiind o variabilă necunoscută în momentul implementării arhitecturii. Rețeaua convoluțională a fost implementată folosind biblioteca \textit{Keras}, conținută în framework-ul \textit{TensorFlow} \cite{online:tf-keras}.
 
-\begin{longtable}{@{}*4l@{}}
+\begin{longtable}{@{}c*4l@{}}
 \renewcommand{\arraystretch}{1.2}\\
 \caption{Arhitectura rețelei convoluționale implementate}\label{tabel:cnn-arch}\\
 \rowcolor{gray!50}
-Strat & Intrare & Ieșire & Parametri \\
+\# & Strat & Intrare & Ieșire & Parametri \\
 \endfirsthead
 \rowcolor{gray!50}
-Strat & Intrare & Ieșire & Parametri \\
+\# & Strat & Intrare & Ieșire & Parametri \\
 \endhead
-Conv2D (ReLU) & (0, 20, 20, 1) & (0, 20, 20, 32) & 160 \\
-Conv2D (ReLU) & (0, 20, 20, 32) & (0, 19, 19, 32) & 4128 \\
-BatchNormalization & (0, 19, 19, 32) & (0, 19, 19, 32) & 128 \\
-Dropout (0.3) & (0, 19, 19, 32) & (0, 19, 19, 32) & 0 \\
-Conv2D (ReLU) & (0, 19, 19, 32) & (0, 10, 10, 64) & 8256 \\
-Conv2D (ReLU) & (0, 10, 10, 64) & (0, 9, 9, 64) & 16448 \\
-BatchNormalization & (0, 9, 9, 64) & (0, 9, 9, 64) & 256 \\
-Dropout (0.25) & (0, 9, 9, 64) & (0, 9, 9, 64) & 0 \\
-Conv2D (ReLU) & (0, 9, 9, 64) & (0, 4, 4, 128) & 32896 \\
-Conv2D (ReLU) & (0, 4, 4, 128) & (0, 3, 3, 256) & 131328 \\
-BatchNormalization & (0, 3, 3, 256) & (0, 3, 3, 256) & 1024 \\ \midrule
-Flatten & (0, 3, 3, 256) & (0, 2304) & 0 \\
-Dense (ReLU) & (0, 2304) & (0, 256) & 590080 \\
-Dropout (0.5) & (0, 256) & (0, 256) & 0 \\
-Dense (softmax) & (0, 256) & (0, 3) & 771 \\ \bottomrule
+1 & Conv2D (ReLU) & (0, 20, 20, 1) & (0, 20, 20, 32) & 160 \\
+2 & Conv2D (ReLU) & (0, 20, 20, 32) & (0, 19, 19, 32) & 4128 \\
+3 & BatchNormalization & (0, 19, 19, 32) & (0, 19, 19, 32) & 128 \\
+4 & Dropout (0.3) & (0, 19, 19, 32) & (0, 19, 19, 32) & 0 \\
+5 & Conv2D (ReLU) & (0, 19, 19, 32) & (0, 10, 10, 64) & 8256 \\
+6 & Conv2D (ReLU) & (0, 10, 10, 64) & (0, 9, 9, 64) & 16448 \\
+7 & BatchNormalization & (0, 9, 9, 64) & (0, 9, 9, 64) & 256 \\
+8 & Dropout (0.25) & (0, 9, 9, 64) & (0, 9, 9, 64) & 0 \\
+9 & Conv2D (ReLU) & (0, 9, 9, 64) & (0, 4, 4, 128) & 32896 \\
+10 & Conv2D (ReLU) & (0, 4, 4, 128) & (0, 3, 3, 256) & 131328 \\
+11 & BatchNormalization & (0, 3, 3, 256) & (0, 3, 3, 256) & 1024 \\ \midrule
+12 & Flatten & (0, 3, 3, 256) & (0, 2304) & 0 \\
+13 & Dense (ReLU) & (0, 2304) & (0, 256) & 590080 \\
+14 & Dropout (0.5) & (0, 256) & (0, 256) & 0 \\
+15 & Dense (softmax) & (0, 256) & (0, 3) & 771 \\ \bottomrule
 \end{longtable}
 
 \subsection{Antrenarea rețelei}\label{ssch:antrenarea}
@@ -170,7 +171,7 @@ Antrenarea a fost realizată folosind:
 Modelul realizat a fost antrenat pentru o perioadă de 100 de epoci, folosind un \textit{grup (batch size)} de 32 de imagini. Epoca este perioada de timp în care toate înregistrările conținute în setul de antrenare sunt trecute prin rețea. \textit{Batch size} reprezintă o serie/grup de înregistrări pe care rețeaua le ia în considerare înainte de a-și modifica parametrii. Prin folosirea unor serii în detrimentul unei singure înregistrări, capacitatea de generalizare a informației de către rețeaua antrenată crește, rezultând o mai bună adaptare către noi date. Acest procedeu permite folosirea calculului paralel, prin distribuirea înregistrărilor pe mai multe fire de execuție rezultând un timp de antrenare al rețelei mai scăzut. 
 
 \section{Rezultate}
-În această secțiune sunt prezentate rezultatele obținute de modelul rețelei convoluționale implementate. În \autoref{tabel:acc+loss+comparison} sunt prezentate comparativ rezultatele obținute în urma antrenării modelului rețelei convoluționale implementate pe setul de date creat, folosind o dată ca și algoritm de selecție al atributelor metoda de testate \textit{chi-pătrat}, iar mai apoi metoda \textit{informației mutuale}. Testele comparative au fost realizate de 3 ori pentru fiecare metodă, folosind setul de test pentru preziceri.
+În această secțiune sunt prezentate rezultatele obținute de modelul rețelei convoluționale implementate. În \autoref{tabel:acc+loss+comparison} sunt prezentate comparativ rezultatele obținute în urma antrenării modelului rețelei convoluționale implementate pe setul de date creat, folosind ca algoritm de selecție al atributelor pe rând două metode: metoda de testare \textit{chi-pătrat}, iar mai apoi metoda \textit{informației mutuale}. Testele comparative au fost realizate de 3 ori pentru fiecare metodă, folosind setul de test pentru preziceri.
 
 \begin{table}[h]
 \centering
@@ -206,11 +207,19 @@ După finalizarea antrenării modelului, capacitățile acestuia au fost testate
 \caption{Reprezentările grafice ale evoluției acurateței modelului \protect\subref{fig:acc_graph} și evoluției valoarii funcției de cost \protect\subref{fig:loss_graph}}\label{fig:acc+loss+graph}
 \end{figure}
 
-Pentru determinarea performanțelor, pe lângă acuratețea modelului și valoarea funcției de cost, au mai fost calculate următoarele metrici, prezentate în \autoref{tabel:classification-report}:
+Pentru a putea fi înțelese mai ușor semnificațiile metricilor calculate în \autoref{tabel:classification-report}, sunt util de precizat categoriile din care o anumită clasificare poate aparține: 
 \begin{itemize}
-\item Precision: Reprezintă precizia clasificatorului, fiind determinată de proporția cazurilor \textit{true positive} (clasificate ca aparținând clasei adevărate) din totalitatea prezicerilor clasificate ca aparținând de clasa adevărată (suma clasificărilor \textit{true positive} și \textit{false positive})
-\item Recall: Reprezintă „rata de regăsire„ a clasificatorului, fiind determinată de proporția cazurilor \textit{true positive} din totalitatea prezicerilor care aparțin cu adevărat de clasa respectivă (suma clasificărilor \textit{true positive} și \textit{false negative})
-\item $F_1$ Score: Reprezintă o media armonică ponderată între precision și recall. Dacă ponderea are valoarea 1, cele două metrice sunt luate în considerare în aceeași proporție, fiind considerate la fel de importante
+\item True positive: clasificare pozitivă la exemplu pozitiv, clasificarea este corectă
+\item False positive: clasificare pozitivă la exemplu negativ, clasificarea este incorectă
+\item True negative: clasificare negativă la exemplu negativ, clasificarea este corectă
+\item False negative: clasificare negativă la exemplu negativ, clasificarea este incorectă
+\end{itemize}
+
+Pentru determinarea performanțelor, pe lângă acuratețea modelului și valoarea funcției de cost, au mai fost calculate următoarele metrici, valorile rezultate sunt prezentate în \autoref{tabel:classification-report}:
+\begin{itemize}
+\item Precision: reprezintă precizia clasificatorului, fiind determinată de proporția cazurilor \textit{true positive} din totalitatea prezicerilor clasificate ca aparținând de clasa adevărată (suma clasificărilor \textit{true positive} și \textit{false positive})
+\item Recall: reprezintă „rata de regăsire„ a clasificatorului, fiind determinată de proporția cazurilor \textit{true positive} din totalitatea prezicerilor care aparțin cu adevărat de clasa respectivă (suma clasificărilor \textit{true positive} și \textit{false negative})
+\item $F_\beta$ Score: reprezintă o media armonică ponderată între precision și recall. Dacă ponderea $\beta$ are valoarea 1, cele două metrice sunt luate în considerare în aceeași proporție, fiind considerate la fel de importante
 \end{itemize}
 
 \begin{table}[ht]
@@ -219,8 +228,8 @@ Pentru determinarea performanțelor, pe lângă acuratețea modelului și valoar
 \label{tabel:classification-report}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{@{}lcccc@{}}
-\cmidrule[\heavyrulewidth]{2-4}
- & Precision & Recall & $F_1$ Score \\ \cmidrule{2-4}
+%\cmidrule[\heavyrulewidth]{2-4}
+\rowcolor{gray!50}\cellcolor{white} & Precision & Recall & $F_1$ Score \\ %\cmidrule{2-4}
 neutru & 0.91 & 0.95 & 0.93 \\
 concentrat & 0.97 & 0.94 & 0.93 \\
 relaxat & 0.92 & 0.90 & 0.91 \\ \bottomrule
