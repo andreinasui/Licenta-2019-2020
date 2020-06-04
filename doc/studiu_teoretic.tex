@@ -1,13 +1,14 @@
 %!TEX root = ./main.tex
-\chapter{Studiul teoretic. Tehnologii folosite}\label{ch:2studiu_teoretic}
-\textbf{TODO} Adauga referintele bibliografice aici, intr-un paragraf \cite{neuralnetbook:2015}
+\chapter{Studiul teoretic}\label{ch:2studiu_teoretic}
+Acest capitol are rolul de a prezenta noțiuni și aspecte fundamentale legate atât de rețelele convoluționale cât și despre undele cerebrale. În prezentarea rețelelor convoluționale se va porni de la perceptronul simplu, care constituie fundamentul acestor algoritmi, apoi va fi prezentată o rețea alcătuită din perceptroni, iar la final va fi prezentată rețeaua convoluțională, construită cu ajutorul noțiunilor și elementelor provenite de la rețeaua neuronală. Spre finalul acestui capitol sunt prezentate conceptele fundamentale legate de undele cerebrale, ce sunt acestea, cum se formează și felul în care pot fi detectate și înregistrate.
 
-Acest capitol are rolul de a prezenta noțiuni și aspecte fundamentale legate de rețelele convoluționale și undele cerebrale, elemente de bază ale acestei lucrări. În prezentarea rețelelor convoluționale se va porni de la perceptronul simplu, care constituie fundamentul acestor algoritmi, apoi va fi prezentată o rețea alcătuită din perceptroni, iar la final va fi prezentată rețeaua convoluțională, construită cu ajutorul noțiunilor și elementelor provenite de la rețeaua neuronală. Undele cerebrale, ce sunt acestea, cum se formează și ce reprezintă va fi prezentat spre finalul acestui capitol.
+În pregătirea și redactarea subcapitolelor \S\ref{sec:reteleneuronale} și \S\ref{sec:reteleconv} au fost folosite, în special, resursele teoretice din \cite{neuralnetbook:2015} și \cite{vrejoiu:2019}.
 
-\section{Rețele neuronale}
-Rețelele neuronale artificiale reprezintă un sistem de calcul inspirat după modelul rețelelor neuronale biologice, atât ca și structură, cât și ca mod de procesare a informației. Neuronul artificial reprezintă unitatea elementară a unei rețele neuronale artificiale. Precum neuronul biologic, care conține dendrite și axioni, neuronul artificial imită această structură prin noduri de intrare si noduri de ieșire.
+\section{Rețele neuronale}\label{sec:reteleneuronale}
+Rețelele neuronale artificiale reprezintă un sistem de calcul inspirat după modelul rețelelor neuronale biologice, atât ca și structură, cât și ca mod de procesare a informației. Neuronul artificial reprezintă unitatea elementară a unei rețele neuronale artificiale. Precum neuronul biologic, care conține dendrite și axoni, neuronul artificial imită această structură prin noduri de intrare si noduri de ieșire.
+
 \subsection{Perceptronul}
-Conceptele fundamentale ale neuronului artificial provin din modelul perceptronului introdus de către \textit{Frank Rosenblatt (1958)} \cite{rosenblatt1962principles} pe baza cercetărilor anterioare ale lui \textit{Warren McCulloch} și \textit{Walter Pitts} \cite{McCulloch:427611}.
+Perceptronul reprezintă un concept fundamental al rețelelor neuronale, fiind introdus de către \textit{Frank Rosenblatt (1958)} \cite{rosenblatt1962principles} pe baza cercetărilor anterioare ale lui \textit{Warren McCulloch} și \textit{Walter Pitts} \cite{McCulloch:427611}. Pe baza perceptronului a fost dezvoltat ulterior modelul neuronului artificial.
 
 Perceptronul primește o serie de valori la intrare, $x_1, x_2, x_3\dots$, și produce o singură ieșire. Pentru calculul ieșirii, sunt folosite așa numitele \textit{ponderi (weights)}, notate cu $w_1, w_2, w_3,\dots$, numere reale reprezentând importanța fiecărei intrări în determinarea ieșirii.
 \begin{figure}[ht]
@@ -26,7 +27,7 @@ y =
 \label{eq:perceptron-simplu}
 \end{equation}
 
-Putem simplifica modul prin care perceptronii sunt descriși, rescriind $\sum\nolimits_i x_iw_i$ ca fiind produsul cartezian $x \cdot w$, unde $x$ și $w$ sunt vectori care conțin intrările $x_i$ respectiv ponderile $w_i$. A doua modificare pe care o putem face este să mutăm termenul $prag$ în partea stângă a inegalității, denumindu-l \textit{bias/offset}, $b=-prag$. Astfel, ecuația \eqref{eq:perceptron-simplu} devine:
+Modul prin care perceptronii sunt descriși poate fi simplificat, rescriind $\sum\nolimits_i x_iw_i$ ca fiind produsul cartezian $x \cdot w$, unde $x$ și $w$ sunt vectori care conțin intrările $x_i$ respectiv ponderile $w_i$. O a doua modificare posibilă este de a muta termenul $prag$ în partea stângă a inegalității, denumindu-l \textit{bias/offset}, $b=-prag$. Astfel, ecuația \eqref{eq:perceptron-simplu} devine:
 \begin{equation}
 y = 
 	\begin{dcases}
@@ -38,7 +39,7 @@ y =
 
 Bias-ul poate fii considerat ca o intrare suplimentară de valoate $x_0 = 1 \text{ și } w_0 = b$ care permite translatarea funcției de activare la stânga sau la dreapta.
 
-\subsection{Perceptronul multistrat}\label{subch:mlp}
+\subsection{Perceptronul multistrat}\label{subsec:mlp}
 Prin conectarea mai multor perceptroni rezultă rețeaua numită „perceptronul multistrat” \textit{(Multi-layer Perceptron - MLP)}. Aceasta este formată dintr-o succesiune de perceptroni complet conectați, așezați înntr-un stratz de intrare, unul sau mai multe straturi ascunse \textit{(hidden layer)} și un strat de ieșire. Ieșirile unui strat reprezintă intrările pentru stratul următor. Rețeaua care conține mai multe straturi ascunse poartă denumirea de \textit{„rețea neuronală adâncă” ("deep neural network")}, iar în cazul în care aceasta conține un singur strat ascuns poartă denumirea de \textit{„rețea neuronală superficială” ("shallow neural network")}. \autoref{fig:mlp} prezintă o astfel de rețea.
 
 \begin{figure}[ht]
@@ -58,7 +59,7 @@ Limitarea acestui tip de rețea poate fii observată încercând să aplicăm sc
 
 Limitarea dată de capacitatea perceptronului de clasificare binară, poate fii rezolvată însă folosind un alt tip de funcție de activare. 
 
-\subsection{Neuronul}\label{subch:neuronul}
+\subsection{Neuronul}\label{subsec:neuronul}
 Neuronul artificial este foarte asemănător cu perceptronul prezentat anterior. Acesta este format dintr-un vector de intrări $x$, un vector al ponderilor $w$, un bias $b$ și o ieșire $y$. Valorile vectorului de intrare $x$ nu sunt însă limitate la valorile 1 sau 0, neuronul sigmoid fiind capabil să proceseze valori reale. Precum $x$, ieșirea $y$ a neuronului poate lua valori reale. \autoref{fig:neuron} prezintă un astfel de neuron.
 \begin{figure}[ht]
 \centering
@@ -66,7 +67,7 @@ Neuronul artificial este foarte asemănător cu perceptronul prezentat anterior.
 \caption{Reprezentarea grafică a unui neuron sigmoid}\label{fig:neuron}
 \end{figure}
 
-Neuronul care folosește \textit{funcția sigmoid} ca și funcție de activare, dată de ecuația \eqref{eq:sigm}, se numește neuron sigmoid și este cel mai simplu tip de neuron artificial datorită proprietăților funcției logistice la derivare\footnote{Derivabilitatea funcțiilor de activare este o cerință în cadrul folosirii algoritmului de antrenare prin back-propagation prezentat în \S\ref{subch:antrenare}}.
+Neuronul care folosește \textit{funcția sigmoid} ca și funcție de activare, dată de ecuația \eqref{eq:sigm}, se numește neuron sigmoid și este cel mai simplu tip de neuron artificial datorită proprietăților funcției logistice la derivare\footnote{Derivabilitatea funcțiilor de activare este o cerință în cadrul folosirii algoritmului de antrenare prin back-propagation prezentat în \S\ref{subsec:antrenare}}.
 
 \begin{equation}
 \sigma(z) = \frac{1}{1+e^{-z}} \quad,\text{unde }z= w\cdot x + b
@@ -74,7 +75,7 @@ Neuronul care folosește \textit{funcția sigmoid} ca și funcție de activare, 
 \end{equation}
 
 Analizând graficele din \autoref{fig:sig+step+tanh+relu} putem observa faptul că funcția sigmoid este de fapt o versiune netezită a funcției treaptă unitate. Acest lucru ne asigură că schimbările mici efectuate atât în vectorul ponderilor $w$ cât și în $b$ vor fi reflectate în ieșire și că nu vom avea salturi bruște de la 0 la 1 la ieșirea neuronului.
-Totuși, modelul perceptronului poate fii simulat folosind funcția sigmoid. Atunci când $z\rightarrow\infty$, $\sigma(z)\approx 1$, iar când $z\rightarrow-\infty$, $\sigma(z)\approx 0$. Folosind astfel de funcții de activare ne ajută să găsim ponderile potrivite mult mai ușor și putem afla felul în care modificările acestora afectează ieșirea.
+Totuși, modelul perceptronului poate fii simulat folosind funcția sigmoid. Atunci când $z\rightarrow\infty$, $\sigma(z)\approx 1$, iar când $z\rightarrow-\infty$, $\sigma(z)\approx 0$. Folosind astfel de funcții de activare ne ajută să găsim ponderile potrivite mult mai ușor și putem afla felul în care modificările acestora afectează ieșirea \cite{neuralnetbook:2015}.
 
 În general, se folosesc funcții derivabile pe întreg domeniul de definiție, care nu au treceri bruște de la un capăt la altul, pentru a facilita antrenarea rețelei. În practică se mai folosesc funcții precum \textit{tangenta hiperbolică}:
 \begin{equation}
@@ -100,8 +101,8 @@ R(z)=\max(0,z)
 \end{figure}
 Este necesar de menționat faptul că aceste funcții se folosesc în special pentru neuronii aflați în straturile ascunse ale rețelei, stratul de ieșire folosind de obicei funcții logistice pentru clasificări binare și funcția \textit{softmax} pentru clasificări multi-clasă. Rolul acesteia este de a furniza un vector de probabilități cu dimensiunea egală cu numărul claselor, fiecare poziție a vectorului reprezentând o probabilitate pentru clasa aferentă.
 
-\subsection{Antrenarea rețelelor}\label{subch:antrenare}
-Algoritmul prin care se realizează antrenarea rețelelor de tipul feedforward, poartă denumirea de \textit{algoritm de propagare înapoi (back-propagation)}. Acest algoritm a fost făcut faimos de către David Rumelhart, Geoffrey Hinton, și Ronald Williams în 1986 \cite{rumelhart1986}. Algoritmul constă în modificarea repetată a ponderilor conexiunilor din rețea în încercarea de a minimiza o funcție care reprezintă eroarea dintre rezultatul așteptat și cel obținut. Funcțiile folosite cu scopul de a fii minimizate se numesc \textit{funcții obiectiv} sau \textit{funcții de cost} (\S\ref{subch:f-cost}).
+\subsection{Antrenarea rețelelor}\label{subsec:antrenare}
+Algoritmul prin care se realizează antrenarea rețelelor de tipul feedforward, poartă denumirea de \textit{algoritm de propagare înapoi (back-propagation)}. Acest algoritm a fost făcut faimos de către David Rumelhart, Geoffrey Hinton, și Ronald Williams în 1986 \cite{rumelhart1986}. Algoritmul constă în modificarea repetată a ponderilor conexiunilor din rețea în încercarea de a minimiza o funcție care reprezintă eroarea dintre rezultatul așteptat și cel obținut. Funcțiile folosite cu scopul de a fii minimizate se numesc \textit{funcții obiectiv} sau \textit{funcții de cost} (\S\ref{subsec:f-cost}) \cite{neuralnetbook:2015}.
 
 \subsubsection*{Ecuațiile algoritmului back-propagation}
 Algoritmul clasic de back-propagation a fost inițial conceput să rezolve probleme de regresie folosind funcții de activare sigmoide. Totuși, acesta poate fii aplicat și problemelor de clasificare cu sau fară astfel de funcții de activare. Pentru a putea face o descriere matematică asupra modului de funcționare al algoritmului, este necesară folosirea următoarelor notații \cite{neuralnetbook:2015}:
@@ -141,14 +142,14 @@ unde $k$ reprezintă toți neuronii din stratul $l-1$. Folosind aceste notații 
 \end{enumerate}
 
 \subsubsection*{Aplicarea algoritmului back-propagation}
-Inițial toți parametrii rețelei (ponderile $w$ și bias-ul $b$) vor fi inițializați aleator\footnote{Nu este neapărat ca parametrii rețelei să fie inițializați aleator, existând mai multe metode de inițializare \cite{online:weight-init-cnn}}. Urmează apoi etapa de propagarea înainte a datelor din setul de date de antrenare și a comparării rezultatului prezis în comparație cu cel real. Această eroare se calculează conform ecuației \eqref{eq:out-err}, iar mai apoi va fii propagată înapoi în rețea, strat cu strat, începând cu stratul $l = L-1$, conform ecuației \eqref{eq:back-prop-err}. Parametrii vor fi ajustați în funcție de gradientul funcției de cost conform ecuațiilor \eqref{eq:cost-w} și \eqref{eq:cost-b}. Gradientul funcției de cost se calculează folosind un algoritm de optimizare, cel mai folosit algoritm împreună cu back-propagation este metoda gradientului \textit{(gradient descent)}. Algoritmul se repetă pentru un numar stabilit de pași (aleși experimentali) sau până când eroarea $\delta^L$ scade sub o valoare impusă. Odată cu finalizarea algoritmului, rețeaua va fii pregătită să proceseze date pe care nu le-a întâlnit în setul folosit la antrenare și să facă predicții asupra acestora.
+Inițial toți parametrii rețelei (ponderile $w$ și bias-ul $b$) vor fi inițializați aleator\footnote{Nu este neapărat ca parametrii rețelei să fie inițializați aleator, existând mai multe metode de inițializare \cite{online:weight-init-cnn}}. Urmează apoi etapa de propagarea înainte a datelor din setul de date de antrenare și a comparării rezultatului prezis în comparație cu cel real. Această eroare se calculează conform ecuației \eqref{eq:out-err}, iar mai apoi va fii propagată înapoi în rețea, strat cu strat, începând cu stratul $l = L-1$, conform ecuației \eqref{eq:back-prop-err}. Parametrii vor fi ajustați în funcție de gradientul funcției de cost conform ecuațiilor \eqref{eq:cost-w} și \eqref{eq:cost-b}. Gradientul funcției de cost se calculează folosind un algoritm de optimizare, cel mai folosit algoritm împreună cu back-propagation este \textit{metoda gradientului (gradient descent)}. Algoritmul se repetă pentru un numar stabilit de pași (aleși experimentali) sau până când eroarea $\delta^L$ scade sub o valoare impusă. Odată cu finalizarea algoritmului, rețeaua va fii pregătită să proceseze date pe care nu le-a întâlnit în setul folosit la antrenare și să facă predicții asupra acestora \cite{neuralnetbook:2015},\cite{vrejoiu:2019}.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=12cm, keepaspectratio]{fig/cap2/grad-desc.jpg}
 \caption{Ilustrarea algoritmului de optimizare gradient descent folosit în back-propagation \cite{vrejoiu:2019}}
 \end{figure}
 
-\subsection{Funcții de cost}\label{subch:f-cost}
+\subsection{Funcții de cost}\label{subsec:f-cost}
 O funcție de cost este o funcție de forma \cite{neuralnetbook:2015}
 \begin{equation}
 C(w,b,S^T,E^T)
@@ -164,16 +165,16 @@ Atât funcțiile de cost, cât și tehnicile de optimizare ale acestora trebuie 
 \item \textbf{pentru problemele de clasificare}: funcția de cost logaritmică \textit{(cross-entropy)}, categorical cross-entropy, divergența Kullback–Leibler
 \end{itemize}
 
-\section{Rețele convoluționale}
+\section{Rețele convoluționale}\label{sec:reteleconv}
 Rețelele convoluționale sunt un tip specific de rețele neuronale adândci, inspirate din modul de reconoaștere al tiparelor în cortexul vizual uman. Arhitectura acestor rețele s-a dovedit a fi foarte eficientă atât în clasificarea imaginilor cât și în timpul necesar antrenării acesteia.
 
 Una din primele rețele convoluționale de succes a fost \textit{LeNet5 (1989)} \cite{LeNet5}, după repetate iterații începând cu anul 1988. Această rețea a fost folosită în principal pentru detectarea cifrelor și codurilor poștale.
 
-În ziua de astăzi rețelele neuronale convoluționale sunt folosite în diverse aplicații, predominant fiind cele pe baza analizei imaginilor, precum detectarea și recunoașterea obiectelor din seturi de date cu mii de categorii, de exemplu \textit{VGGNet} \cite{simonyan2014deep} pe setul de date \textit{ImageNet}, determinarea profunzimii scenelor din imaginile video 2D \cite{zhou2017unsupervised}, practic imitând principiul \textit{LIDAR}\footnote{Light Detection And Ranging - reprezintă un sistem similar de funcționare cu radar-ul, care utilizează laser-ul pentru a afla distanța până la țintă}, segmentarea obiectelor din scenă \textit{(semantic segmentation)}. Rețelele convoluționale și-au găsit folosința și în aplicații care nu implică în mod direct imagini, cum ar fii procesarea limbajului natural sau clasificarea evenimentelor audio \cite{cnnaudioclass}.
+În ziua de astăzi rețelele neuronale convoluționale sunt folosite în diverse aplicații, predominant fiind cele pe baza analizei imaginilor, precum detectarea și recunoașterea obiectelor din seturi de date cu mii de categorii, de exemplu \textit{VGGNet} \cite{simonyan2014deep} pe setul de date \textit{ImageNet}, determinarea profunzimii scenelor din imaginile video 2D \cite{zhou2017unsupervised}, practic imitând principiul \textit{LIDAR}\footnote{Light Detection And Ranging - reprezintă un sistem similar de funcționare cu radar-ul, care utilizează laser-ul pentru a afla distanța până la țintă}, diferențierea obiectelor din scenă \textit{(semantic segmentation)}. Rețelele convoluționale și-au găsit folosința și în aplicații care nu implică în mod direct imagini, cum ar fii procesarea limbajului natural sau clasificarea evenimentelor audio \cite{cnnaudioclass}.
 
 \subsection*{Arhitectura}
 Structura unei rețele convoluționale este formată din două părți.
-Partea convoluțională, compusă din stratul de convoluție cu funcția de activare aplicată ieșirii acestuia și stratul de reducere a dimensionalității. A doua parte a structurii este partea de clasificare alcătuită din straturi de neuroni complet conectați asemenea rețelei MLP prezentate în \S\ref{subch:mlp}. \autoref{fig:cnn-arch} prezintă o astfel de arhitectură.
+Partea convoluțională, compusă din stratul de convoluție cu funcția de activare aplicată ieșirii acestuia și stratul de reducere a dimensionalității. A doua parte a structurii este partea de clasificare alcătuită din straturi de neuroni complet conectați asemenea rețelei MLP prezentate în \S\ref{subsec:mlp}. \autoref{fig:cnn-arch} prezintă o astfel de arhitectură.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{fig/cap2/cnn-arch.jpeg}
@@ -196,7 +197,7 @@ Rețelele convoluționale sunt denumite după operația centrală acestora, oper
 \label{fig:mat-conv}
 \end{figure}
 
-Asupra rezultatului de convoluție dintre filtru și matricea de intrare se aplică o funcție de activare, care este adesea de tip ReLU, amintită în \S\ref{subch:neuronul}. Matricea rezultată în urma operației de convoluție și aplicarea funcției de activare poartă denumirea de hartă de caracteristici \textit{(feature map)} sau hartă de activare \textit{(activation map)}.
+Asupra rezultatului de convoluție dintre filtru și matricea de intrare se aplică o funcție de activare, care este adesea de tip ReLU, amintită în \S\ref{subsec:neuronul}. Matricea rezultată în urma operației de convoluție și aplicarea funcției de activare poartă denumirea de hartă de caracteristici \textit{(feature map)} sau hartă de activare \textit{(activation map)}.
 
 Un strat de convoluție este alcătuit dintr-o multitudine de hărți de caracteristici create folosind diferite tipuri de filtre. Fiecare strat adăugat rețelei, va crea hărți care vor captura caracteristici tot mai complexe din imaginea inițială.
 \begin{figure}[ht]
@@ -219,15 +220,15 @@ Operațiile de pooling descrise anterior pot fi înlocuite folosind în stratul 
 
 Subeșantionarea folosind operațiile de pooling clasice poate cauza probleme rețelelor convoluționale prin pierderea informației poziționale ale diferitelor obiecte prezente în imagine. Scopul inițial al introducerii acestui strat a fost de a reduce numărul de parametrii ai rețelei, deci reducerea timpului de antrenare a rețelei. Avansuri în dispozitive hardware tot mai puternice a redus nevoia unei astfel de tehnici, astăzi multe arhitecturi înlocuind această metodă de reducere a dimensionalității cu straturi speciale de convoluție precum \textit{Separable Convolutions} și \textit{Dilated Convolutions} \cite{online:cnn-types}.
 
-\subsection*{Stratul complet conectat}\label{subch:strat-complet-con}
+\subsection*{Stratul complet conectat}\label{subsec:strat-complet-con}
 Pentru a putea face legătura între straturile convoluționale și clasificatorul final, ieșirea din straturile convoluționale trebuie transformată din dimensiunea $H\times W\times D$, într-un vector coloană $H\times1$. Această operație poartă denumirea de \textit{aplatizare (flatten)} și este inclusă intr-un strat separat denumit \textit{strat de aplatizare (flatten layer)}.
 
 Odată transformată ieșirea sub formă de vector, aceasta este folosită ca intrare, de obicei, pentru rețele neuronale multistrat. Această rețea folosește pe stratul de ieșire funcția de activare \textit{softmax}.
 
 Se mai pot folosi în schimbul rețelelor neuronale și alte tehnici de clasificare, precum \textit{mașini cu vectori suport (SVM)}.
 
-\section{Undele cerebrale}
-Creierul uman conține miliarde de celule specifice sistemului nervos, înalt specializate, numite \textit{neuroni}, cu capacitatea de a genera, transmite și recepționa semnale electro-chimice. Un neuron este alcătuit din \textit{corp celular}, \textit{dendrite} și \textit{axon} (Fig. \ref{fig:neuron-anatomy}). Legătura dintre mai mulți neuroni se numește \textit{sinapsă} și este realizată între axonul neuronului presinaptic și dendritele sau corpul celular neuronului postsinaptic. În creierul uman, un neuron formează, în medie, aproximativ 7000 de conexiuni sinaptice. Fiecare neuron deține o diferență de potențial în jurul membranei sale numită \textit{potențial local}. În momentul în care tensiunea electrică crește brusc, neuronul generează un puls electro-chimic denumit \textit{potențial de acțiune}, care străbate rapid axonul neuronului activând conexiunile sinaptice ale acestuia.
+\section{Undele cerebrale}\label{sec:undecerebrale}
+Creierul uman conține miliarde de celule specifice sistemului nervos, înalt specializate, numite \textit{neuroni}, cu capacitatea de a genera, transmite și recepționa semnale electro-chimice. Un neuron este alcătuit din \textit{corp celular}, \textit{dendrite} și \textit{axon} (Fig. \ref{fig:neuron-anatomy}). Legătura dintre mai mulți neuroni se numește \textit{sinapsă} și este realizată între axonul neuronului presinaptic și dendritele sau corpul celular neuronului postsinaptic \cite{online:sistem-nervos}. În creierul uman, un neuron formează mii de conexiuni sinaptice. Fiecare neuron deține o diferență de potențial în jurul membranei sale numită \textit{potențial local}. În momentul în care tensiunea electrică crește brusc, neuronul generează un puls electro-chimic denumit \textit{potențial de acțiune}, care străbate rapid axonul neuronului activând conexiunile sinaptice ale acestuia \cite{online:neuronul-biologic}.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth, keepaspectratio]{fig/cap2/neuron-anatomy.jpg}
@@ -241,19 +242,15 @@ Electroencefalografia invazivă presupune așezarea electrozilor direct pe supra
 
 Achiziția undelor cerebrale într-un mod neinvaziv constă în plasarea electrozilor pe scalp, astfel se elimină necesitatea unei operați chirurgicale. Prin folosirea acestei metode datele achiziționate vor fi alterate de zgomot produs de contracțiile mușchilor din zona capului, datele având nevoie de preprocesare înainte de a putea fi folosite.
 
-Există cinci tipuri de bază de unde cerebrale, fiecăreia fiindui atribuită o literă grecească, după cum urmează \textit{delta, teta, alfa, beta, gama}. Undele cerebrale se modifică în funcție de activitatea desfășurată și de dispoziție. Însemnătatea acestora este corelată cu locația detectării în creier.
+Există cinci tipuri de bază de unde cerebrale, fiecăreia fiindui atribuită o literă grecească, după cum urmează \textit{delta, teta, alfa, beta, gama}. Undele cerebrale se modifică în funcție de activitatea desfășurată și de dispoziție. Însemnătatea acestora fiind corelată cu locația detectării în creier. Acestea pot fi descrise, conform \cite{online:brainworks} și \cite{online:scientific-american} astfel:
+\begin{itemize}
+\item\textbf{Delta}: undele delta au cea mai scăzută bandă de frecvența dintre toate undele cerebrale, încadrându-se în intervalul 0.5-4 \si{\hertz}. Se întâlnesc cel mai des în timpul unui somn adânc sau în timpul meditației profunde. Această stare mentală stimulează regenerarea și vindecarea corpului.
 
-\subsubsection*{Delta}\label{ssch:delta}
-Undele delta au cea mai scăzută bandă de frecvența dintre toate undele cerebrale, încadrându-se în intervalul 0.5-4 \si{\hertz}. Se întâlnesc cel mai des în timpul unui somn adânc sau în timpul meditației profunde. Această stare mentală stimulează regenerarea și vindecarea corpului.
+\item\textbf{Teta}: banda de frecvență caracteristică undelor teta e între 5 și 8 \si{\hertz}. Adesea, acestea sunt foarte ușor detectabile în momentele în care visăm. Starea mentală teta mai poate fi observată și în momentul unor activități foarte comune, în care procesul de realizare devine automat. Această stare dă naștere unui șir de gândire și idei liber în care creativitatea este sporită.
 
-\subsubsection*{Teta}\label{sush:teta}
-Banda de frecvență caracteristică undelor teta e între 5 și 8 \si{\hertz}. Adesea, acestea sunt foarte ușor detectabile în momentele în care visăm. Starea mentală teta mai poate fi observată și în momentul unor activități foarte comune, în care procesul de realizare devine automat. Această stare dă naștere unui șir de gândire și idei liber în care creativitatea este sporită.
+\item\textbf{Alfa}: undele alfa, cu banda de frecvență între 9 și 14 \si{\hertz}, reprezintă starea de relaxare conștientă. Plimbările prin parc, momentele de relaxare după îndeplinirea unei sarcini, reflecția  sau meditația ușoară reprezintă momente în care undele alfa sunt proeminente.
 
-\subsubsection*{Alfa}\label{sush:alfa}
-Undele alfa, cu banda de frecvență între 9 și 14 \si{\hertz},  reprezintă starea de relaxare conștientă. Plimbările prin parc, momentele de relaxare după îndeplinirea unei sarcini, reflecția  sau meditația ușoară reprezintă momente în care undele alfa sunt proeminente.
+\item\textbf{Beta}: undele beta, având banda de frecvență între 15 și 40 \si{\hertz}, sunt asociate cu activitatea mentală normală. Acestea sunt prezente în momente precum concentrarea asupra unei probleme, învățarea de noi concepte, stare de alertă sau luarea deciziilor. Concret, această stare este caracteristică gândirii active.
 
-\subsubsection*{Beta}\label{sush:beta}
-Undele beta, având banda de frecvență între 15 și 40 \si{\hertz}, sunt asociate cu activitatea mentală normală. Acestea sunt prezente în momente precum concentrarea asupra unei probleme, învățarea de noi concepte, stare de alertă sau luarea deciziilor. Concret, această stare este caracteristică gândirii active.
-
-\subsubsection*{Gama}\label{sush:gama}
-Undele gama au banda de frecvență cea mai înaltă, >40 \si{\hertz}, fiind asociate cu procesarea simultană a informațiilor din zone diferite ale creierului. Acestea au fost inițial încadrate ca fiind „zgomot cerebral” până când cercetătorii au observat o activitate accentuată a acestora în stări cognitive și concentrație intensă. Modul de generare al acestor unde cerebrale este încă necunoscut, frecvența acestora fiind peste capacitatea de descărcare a neuronilor. 
+\item\textbf{Gama}: undele gama au banda de frecvență cea mai înaltă, >40 \si{\hertz}, fiind asociate cu procesarea simultană a informațiilor din zone diferite ale creierului. Acestea au fost inițial încadrate ca fiind „zgomot cerebral” până când cercetătorii au observat o activitate accentuată a acestora în stări cognitive și concentrație intensă. Modul de generare al acestor unde cerebrale este încă necunoscut, frecvența acestora fiind peste capacitatea de descărcare a neuronilor.
+\end{itemize}

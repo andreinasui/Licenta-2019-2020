@@ -9,8 +9,10 @@ După etapa de prelucrare și etichetare a datelor, urmează pregătirea datelor
 
 \section{Etape implementare}
 
-\subsection{Achiziție date}\label{ss:achizitie-date}
-Pentru achiziția datelor a fost folosită casca comercial valabilă Muse 2016. Aceasta conține cinci electrozi uscați, unul fiind folosit ca punct de referință, iar ceilalți patru pentru a înregistra semnalele EEG. Electrozii sunt poziționați în locațiile \textit{TP9, AF7, Fpz, AF8, TP10}, conform unei versiuni modificate a sistemului internațional 10-20 de poziționare al electrozilor EEG. Electrodul Fpz este folosit ca electrod de referință. În \autoref{fig:eegstandard} este prezentat aranjamentul electrozilor.
+\subsection{Achiziție date}\label{subsec:achizitie-date}
+Pentru achiziția datelor a fost folosită casca comercial valabilă Muse 2016. Interfațarea acesteia cu calculatorul a fost realizată folosind biblioteca \textit{MuseLSL} \cite{online:muselsl}, pentru limbajul de programare \textit{Python}. Această bibliotecă oferă posibilitatea conectării căștii Muse 2016, prin Bluetooth, cu calculatorul pentru transmisia de date, salvarea acestora în fișiere sau afișarea sub forma unui grafic.
+
+Casca Muse 2016 conține cinci electrozi uscați, unul fiind folosit ca punct de referință, iar ceilalți patru pentru a înregistra semnalele EEG. Electrozii sunt poziționați în locațiile \textit{TP9, AF7, Fpz, AF8, TP10}, conform unei versiuni modificate a sistemului internațional 10-20 de poziționare al electrozilor EEG. Electrodul Fpz este folosit ca electrod de referință. În \autoref{fig:eegstandard} este prezentat aranjamentul electrozilor.
 
 \begin{figure}[ht]
 \centering
@@ -28,12 +30,14 @@ Activitățile au fost desfășurate începând cu starea neutră, urmată de st
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth, keepaspectratio]{fig/cap3/museEEGplot.png}
-\caption{Exemplu semnale EEG Muse 2016, extrase folosind librăria MuseLSL \cite{online:muselsl}}
+\caption{Exemplu semnale EEG Muse 2016, extrase folosind librăria MuseLSL}
 \label{fig:muse_eeg_sample}
 \end{figure}
 
-\subsection{Extragerea atributelor}
+\subsection{Extragerea atributelor} 
 Etapa de extragere a atributelor are rolul de a crea un set de date bazat pe semnalele EEG înregistrate, cu scopul de a fi cât mai informative pentru obiectul lucrării. Astfel, se elimină informația redundantă și nesemnificativă obiectivului, aducând avantaje precum scăderea timpului de învățăre a rețelei și o mai bună generalizare a datelor de către aceasta.
+
+Prin set de date se înțelege o matrice de $N$ linii și $M$ coloane. Cele $M$ coloane reprezintă atributele semnalelor, 414 la număr în această lucrare, iar cele $N$ linii reprezintă valorile calculate pentru fiecare atribut în parte, 8568 în total.
 
 În această lucrare, pe baza semnalelor EEG au fost determinate două seturi de date folosind atributele statistice ale semnalelor, respectiv atribute spectrale ale acestora. Prin atribute statistice se înțelege un set de caracteristici de natură statistică, precum media, deviația standard, varianța etc. Prin atribute spectrale se înțelege un set de caracteristici legate de spectrul semnalului EEG. Această maniera de abordare a informației conținute de semnalele EEG, precum și modul de obținere a acestor seturi de date se bazează pe cele prezentate în lucrările \cite{eeg-cnn:2020} și \cite{eeg:2018}.
 
@@ -49,7 +53,7 @@ Având aceste ferestre create, pentru fiecare fereastră $w_i$ au fost extrase a
 	\mu = \frac{1}{N}\sum_n^N x_n
 	\label{eq:mean}
 	\end{equation}
-	unde $x_n$ reprezintă setul de valori dintr-o fereastră
+	unde $x$ reprezintă setul de valori dintr-o fereastră
 	\item Deviația standard a valorilor
 	\begin{equation}
 	\sigma = \sqrt{\frac{1}{N}\sum_n^N(x_n - \mu)^2}
@@ -70,7 +74,7 @@ Având aceste ferestre create, pentru fiecare fereastră $w_i$ au fost extrase a
 	\begin{equation}
 	cov(X,Y) = \frac{1}{N}\sum_n^N(x_n - \mu_x)(y_n - \mu_y)
 	\end{equation}
-	unde $x_n$ și $y_n$ reprezintă setul de valori dintr-o fereastră a unui semnal EEG, iar $\mu_x$ și $\mu_y$ reprezintă media acestora calculată conform \eqref{eq:mean}
+	unde $x$ și $y$ reprezintă setul de valori dintr-o fereastră a unui semnal EEG, iar $\mu_x$ și $\mu_y$ reprezintă media acestora calculată conform \eqref{eq:mean}
 	\item Valoarea maximă și valoarea minimă a ferestrei
 	\end{enumerate}
 	\item Considerând jumătățile de fereastră, $w_{h1}$ și $w_{h2}$:
@@ -90,10 +94,10 @@ Având aceste ferestre create, pentru fiecare fereastră $w_i$ au fost extrase a
 	\end{enumerate}
 \end{itemize}
 
-La final, a rezultat un total de 174 de atribute statistice.
+La final, combinând atributele pentru fiecare semnal în parte, rezultă un total de 174 de atribute statistice.
 
 \subsubsection*{Atribute spectrale}
-Comparativ cu atributele statistice, generarea atributelor spectrale a fost făcută doar pe ferestre întregi, $w_i$. În cadrul extragerii atributelor spectrale a fost efectuată o prelucrare a semnalului înainte de a calcula atributele. Inițial, a fost realizată o centrare a întregului semnalului în jurul valorii $0$, iar mai apoi a fost aplicat un filtru trece-jos de tip Chebyshev I (Fig. \ref{fig:cheb1-filt}), cu frecvența de tăiere de $50\si{\hertz}$. Prin această filtrare se păstrează doar banda de frecvență relevantă undelor cerebrale, anume $1-50\si{\hertz}$.
+Comparativ cu atributele statistice, generarea atributelor spectrale a fost făcută doar pe ferestre întregi, $w_i$. În cadrul extragerii atributelor spectrale a fost efectuată o prelucrare a semnalului înainte de a calcula atributele. A fost necesară o procesare inițială a acestora datorită zgomotului introdus semnalului util prin înregistrare. Inițial, a fost realizată o centrare a întregului semnalului în jurul valorii $0$, iar mai apoi a fost aplicat un filtru trece-jos de tip Chebyshev I (Fig. \ref{fig:cheb1-filt}), cu frecvența de tăiere de $50\si{\hertz}$. A fost folosit acest filtru datorită proprietăților sale de a oferi o bandă de tranziție mai îngustă dar cu introducerea unui riplu acceptabil în banda de trecere. Riplul maxim admis folosit în implementarea filtrului a fost de $0.5\%$. Prin această filtrare se păstrează doar banda de frecvență relevantă undelor cerebrale, anume $1-50\si{\hertz}$.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth, keepaspectratio]{fig/cap3/cheb1-filt.png}
@@ -101,9 +105,9 @@ Comparativ cu atributele statistice, generarea atributelor spectrale a fost făc
 \label{fig:cheb1-filt}
 \end{figure}
 
-După aplicarea filtrului asupra întregului semnal EEG, a fost calculată Transformata Fourier Discretă \textit{(DFT)}, folosind algoritmul \textit{Fast Fourier Transform (FFT)}. Apoi, au fost extrase amplitudinile fiecărei componente ale semnalului filtrat, rezultând 50 de atribute per semnal. Ultimele atribute extrase au fost amplitudinile celor mai puternice 10 frecvențe din componența semnalului. Acestea au fost ordonate crescător în funcție de frecvența semnalului. În total, au rezultat 260 de atribute.
+După aplicarea filtrului asupra întregului semnal EEG, a fost calculată Transformata Fourier Discretă \textit{(DFT)}, folosind algoritmul \textit{Fast Fourier Transform (FFT)}. Apoi, au fost extrase amplitudinile fiecărei componente spectrale ale semnalului filtrat, rezultând 50 de atribute per semnal. Ultimele atribute extrase au fost amplitudinile celor mai puternice 10 frecvențe din componența semnalului. Acestea au fost ordonate crescător în funcție de frecvența semnalului. În total, au rezultat 240 de atribute.
 
-Combinând cele 174 de atribute statistice cu aceste 260 de atribute spectrale, rezultă un total de 414 atribute. La setul de date format de acestea, se adaugă și o etichetă reprezentând clasa fiecărei înregistrări (0 - neutru, 1 - concentrat, 2 - relaxat). Prin procesarea celor 24 de minute pentru fiecare stare, rezultă un set de date final cuprins din 8568 de linii, reprezentând ferestrele procesate și 415 coloane reprezentând atributele și clasa fiecărei ferestre. Ultimul pas a fost de a amesteca intrările setului de date creat pentru a-l omogeniza.
+Combinând cele 174 de atribute statistice cu aceste 240 de atribute spectrale, rezultă un total de 414 atribute. La setul de date format de acestea, se adaugă și o etichetă reprezentând clasa fiecărei înregistrări (0 - neutru, 1 - concentrat, 2 - relaxat). Prin procesarea celor 24 de minute pentru fiecare stare, rezultă un set de date final cuprins din 8568 de linii, reprezentând ferestrele procesate și 415 coloane reprezentând atributele și clasa fiecărei ferestre. Ultimul pas a fost de a amesteca intrările setului de date creat pentru a-l omogeniza.
 
 \subsubsection*{Procesarea setului de date}\label{ssch:procesare-date}
 După crearea setului de date, acesta trece printr-o serie de modificări înainte de a fi folosit ca și intrare pentru rețeaua convoluțională. Pentru a putea trimite datele rețelei, este necesar ca acestea să fie sub formă matriceală. Cea mai mare matrice pe care o putem forma este o matrice de dimensiunea $20\times20$, folosind doar 400 din cele 414 atribute ale acestui set de date. Această cerință impune folosirea unui algoritm pentru selecția celor mai semnificative atribute.
@@ -128,7 +132,7 @@ Arhitectura rețelei este compusă dintr-un total de 15 straturi secvențiale, 6
 \item \textbf{BatchNormalization \textnormal{\cite{ioffe2015batch}}:} Acest strat are rolul de a aplica o metodă de normalizare a datelor de intrare, reducând media acestora la $\approx0$, iar varianța la $\approx1$. Printre efectele acestei operații se numără accelerarea învățării rețelei neuronale și prevenirea efectului de \textit{overfitting}, care reprezintă o învățare prea bună a datelor de antrenare de către rețea, eșuând atunci când vine vorba de o clasificare a unor date noi
 \item \textbf{Dropout \textnormal{\cite{hinton2012improving-dropout}}:} Stratul dropout elimină conexiunile dintre straturi, într-o anumită proporție, pentru a „forța” rețeaua de a se adapta și de a generaliza datele de intrare. Prin acest procedeu se reduce fenomenul de \textit{overfitting}
 \item \textbf{Flatten:} Acest strat are rolul de a „aplatiza” matricea provenită de la ultimul strat convoluțional, transformând-o într-un vector coloană de dimensiunea $(M*N*C)\times1$, unde $M$ este numărul de linii, $N$, numărul de coloane, iar $C$ numărul de filtre
-\item \textbf{Dense:} Reprezintă straturile complet conectate, specifice unei rețele neuronale, cu rolul în clasificarea datelor procesate de către partea convoluțională a rețelei. Ultimul strat conține funcția de activare \textit{softmax} (\S\ref{subch:strat-complet-con}), specifică clasificării multi-clasă
+\item \textbf{Dense:} Reprezintă straturile complet conectate, specifice unei rețele neuronale, cu rolul în clasificarea datelor procesate de către partea convoluțională a rețelei. Ultimul strat conține funcția de activare \textit{softmax} (\S\ref{subsec:strat-complet-con}), specifică clasificării multi-clasă
 \end{itemize}
 
 \autoref{tabel:cnn-arch} prezintă structurat arhitectura rețelei convoluționale implementate. Este util de menționat faptul că primul element din componența dimensiunilor datelor de intrare și ieșire reprezintă dimensiunea grupului de date trimis (\textit{batch size}, explicat în \S\ref{ssch:antrenarea}). Aceasta se notează cu 0 sau \textit{None}, fiind o variabilă necunoscută în momentul implementării arhitecturii. Rețeaua convoluțională a fost implementată folosind biblioteca \textit{Keras}, conținută în framework-ul \textit{TensorFlow} \cite{online:tf-keras}.
@@ -160,7 +164,7 @@ Arhitectura rețelei este compusă dintr-un total de 15 straturi secvențiale, 6
 \end{longtable}
 
 \subsection{Antrenarea rețelei}\label{ssch:antrenarea}
-Antrenarea rețelei a fost realizată folosind mediul online \textit{Google Colaboratory}, care pune la dispoziție atât resurse hardware cât și software specializate pentru dezvoltarea algoritmilor de învățare automată.
+Antrenarea rețelei a fost realizată folosind mediul online \textit{Google Colaboratory}, care pune la dispoziție atât resurse hardware cât și software specializate pentru dezvoltarea algoritmilor de învățare automată. Resursele hardware folosite pentru antrenare au fost: placa grafică NVidia Tesla K80, procesorul Intel Xeon @ 2.00 GHz și 13GB RAM. Folosind aceste resurse, timpul total de antrenare al rețelei a fost de aproximativ 3 secunde per epocă.
 
 Antrenarea a fost realizată folosind:
 \begin{itemize}
@@ -171,7 +175,7 @@ Antrenarea a fost realizată folosind:
 Modelul realizat a fost antrenat pentru o perioadă de 100 de epoci, folosind un \textit{grup (batch size)} de 32 de imagini. Epoca este perioada de timp în care toate înregistrările conținute în setul de antrenare sunt trecute prin rețea. \textit{Batch size} reprezintă o serie/grup de înregistrări pe care rețeaua le ia în considerare înainte de a-și modifica parametrii. Prin folosirea unor serii în detrimentul unei singure înregistrări, capacitatea de generalizare a informației de către rețeaua antrenată crește, rezultând o mai bună adaptare către noi date. Acest procedeu permite folosirea calculului paralel, prin distribuirea înregistrărilor pe mai multe fire de execuție rezultând un timp de antrenare al rețelei mai scăzut. 
 
 \section{Rezultate}
-În această secțiune sunt prezentate rezultatele obținute de modelul rețelei convoluționale implementate. În \autoref{tabel:acc+loss+comparison} sunt prezentate comparativ rezultatele obținute în urma antrenării modelului rețelei convoluționale implementate pe setul de date creat, folosind ca algoritm de selecție al atributelor pe rând două metode: metoda de testare \textit{chi-pătrat}, iar mai apoi metoda \textit{informației mutuale}. Testele comparative au fost realizate de 3 ori pentru fiecare metodă, folosind setul de test pentru preziceri.
+În această secțiune sunt prezentate rezultatele obținute de modelul rețelei convoluționale implementate. În \autoref{tabel:acc+loss+comparison} sunt prezentate comparativ rezultatele obținute în urma antrenării modelului rețelei convoluționale implementate pe setul de date creat, folosind ca algoritm de selecție al atributelor pe rând două metode: metoda de testare \textit{chi-pătrat}, iar mai apoi metoda \textit{informației mutuale}. Testele comparative au fost realizate de 3 ori pentru fiecare metodă, folosind setul de test.
 
 \begin{table}[h]
 \centering
@@ -198,22 +202,13 @@ Evoluția pe perioada antrenării a acurateței și a valorii funcției de cost 
 Urmărind cele două grafice putem observa faptul că evoluția metricilor modelului calculate pe setul de validare este foarte apropiată de cele calculate pe setul de antrenare. Acest lucru sugerează o performanța bună a clasificatorului, acesta fiind capabil să generalizeze datele primite la învățare și să aplice aceste „cunoștiințe” pentru a clasifica cât mai corect posibil date pentru care nu este antrenat în mod direct. Din aceste grafice mai poate fi observată utilitatea modificării ratei de învățare. La epoca 36, rata de învățare se diminuează cu $0.07$ ajungând de la $7*10^{-4}$ la valoarea $4.9*10^{-5}$, crescând acuratețea modelului și diminuând valoarea funcției de cost. Este posibil ca acest lucru să se fi întâmplat și fară a face această operațiune, însă pe o perioadă de timp mult mai lungă, crescând timpul total de învățare.
 
 După finalizarea antrenării modelului, capacitățile acestuia au fost testate asupra setului de date de test, date pe care acesta nu le „văzuse” niciodată. Evaluarea a fost efectuată de trei ori, rezultând o acuratețe medie de $\approx92\%$ și o valoarea medie a funcție de cost de $\approx0.2$.
-
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \subfloat[]{\includegraphics[width=6.9cm, keepaspectratio]{fig/cap3/acc_graph.png}\label{fig:acc_graph}}
 \qquad
 \subfloat[]{\includegraphics[width=6.9cm, keepaspectratio]{fig/cap3/loss_graph.png}\label{fig:loss_graph}}
 \caption{Reprezentările grafice ale evoluției acurateței modelului \protect\subref{fig:acc_graph} și evoluției valoarii funcției de cost \protect\subref{fig:loss_graph}}\label{fig:acc+loss+graph}
 \end{figure}
-
-Pentru a putea fi înțelese mai ușor semnificațiile metricilor calculate în \autoref{tabel:classification-report}, sunt util de precizat categoriile din care o anumită clasificare poate aparține: 
-\begin{itemize}
-\item True positive: clasificare pozitivă la exemplu pozitiv, clasificarea este corectă
-\item False positive: clasificare pozitivă la exemplu negativ, clasificarea este incorectă
-\item True negative: clasificare negativă la exemplu negativ, clasificarea este corectă
-\item False negative: clasificare negativă la exemplu negativ, clasificarea este incorectă
-\end{itemize}
 
 Pentru determinarea performanțelor, pe lângă acuratețea modelului și valoarea funcției de cost, au mai fost calculate următoarele metrici, valorile rezultate sunt prezentate în \autoref{tabel:classification-report}:
 \begin{itemize}
@@ -244,4 +239,4 @@ relaxat & 0.92 & 0.90 & 0.91 \\ \bottomrule
 \caption{Reprezentarea performanței rețelei prin matricea confuziilor}\label{fig:conf_matrix}
 \end{figure}
 
-Din datele afișate atât în \autoref{tabel:classification-report}, cât și în \autoref{fig:conf_matrix}, unde este reprezentată matricea confuziilor, poate fi observată dificultatea clasificatorului de a distinge clasele \textit{neutru} și \textit{relaxat}. Această dificultate în distingere apare datorită metodelor asemănatoare de culegere a datelor EEG pentru ambele clase, descrise în \S\ref{ss:achizitie-date}. 
+Din datele afișate atât în \autoref{tabel:classification-report}, cât și în \autoref{fig:conf_matrix}, unde este reprezentată matricea confuziilor, poate fi observată dificultatea clasificatorului de a distinge clasele \textit{neutru} și \textit{relaxat}. Această dificultate în distingere apare datorită metodelor asemănatoare de culegere a datelor EEG pentru ambele clase, descrise în \S\ref{subsec:achizitie-date}. 

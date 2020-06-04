@@ -24,7 +24,7 @@ pgm.add_node("x3_3", r"", 4, 2.5)
 pgm.add_node("x2_3", r"", 4, 3.25)
 pgm.add_node("x1_3", r"", 4, 4)
 pgm.add_node("hidden_l",r"Hidden Layers", 3, 4.75, plot_params={"ec": "none"})
-pgm.add_node("out", r"", 5.5, 2.5)
+pgm.add_node("out", r"y", 5.5, 2.5)
 pgm.add_node("output_l",r"Output Layer", 5.5, 4.75, plot_params={"ec": "none"})
 
 pgm.add_edge("x1","x5_2")
