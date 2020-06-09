@@ -28,7 +28,7 @@ Cele mai multe tehnici de învățare automată fac parte din una dintre cele tr
 	\item Metode de regresie
 	\item Algoritmi genetici
 	\item Rețele neuronale artificiale
-	\item Mașini cu vector suport
+	\item Mașini cu vector suport (SVM)
 	\item Rețele Bayesiene
 \end{itemize}
 
@@ -51,7 +51,7 @@ Procesul de învățare nesupervizată diferă față de cel amintit anterior pr
 
 \subsection*{Învățarea cu întărire}
 Învățarea cu întărire este o metodă de învățare prin interacțiuni repetate a unui \textit{agent (software agent)} cu mediul, cu urmărirea atingerii unui anumit scop (\autoref*{fig:reinf_learning}). Interacțiunile se bazează pe acțiunile luate de agent la stimulii mediului, pentru care v-a primit o recompensă de la acesta în funcție de beneficiul adus îndeplinirii scopului. Recompensele primite au rolul de a îmbunătății capacitatea agentului de a lua cea mai bună decizie din starea în care acesta se afla la momentul acțiunii. Scopul pe termen lung al agentului este maximizarea numărului de recompense primite. După repetate interacțiuni cu mediul, capacitatea agentului de a lua decizii bune se v-a crește, iar drumul acestuia prin mediu va tinde spre optim.
-\begin{figure}[ht]
+\begin{figure}[H]
 	\center
 	\includegraphics[width=11cm, keepaspectratio]{fig/cap1/The-reinforcement-learning-paradigm-consists-of-an-agent-interacting-with-an.png}
 	\caption{Modul de funcționare al învățării cu întărire \cite{fig:reinforcement}}
@@ -59,13 +59,11 @@ Procesul de învățare nesupervizată diferă față de cel amintit anterior pr
 \end{figure}
 
 \section{Soluții existente}
-Apariția unor soluții comerciale \textit{low-cost} non-invazive a facut posibilă înregistrarea și analiza undele cerebrale în afara domeniului medical \cite{online:emotiv}. În principal, aceste dispozitive sunt folosite în activități simple de interfațare a creierului cu calculatorul \textit{(BCI - Brain-Computer Interface)}. Raportul zgomot-semnal util mare și eșantionarea imperfectă reprezentând dezavantajele acestor aparate comparativ cu cele de nivel medical. Acest lucru însă nu a împiedicat apariția a tot mai multor studii care folosesc aceste aparate \cite{consumer-eeg:2018}.
+Apariția unor soluții comerciale \textit{low-cost} non-invazive a facut posibilă înregistrarea și analiza undele cerebrale în afara domeniului medical \cite{online:emotiv}. În principal, aceste dispozitive sunt folosite în activități simple de interfațare a creierului cu calculatorul \textit{(BCI - Brain-Computer Interface)}. Raportul zgomot-semnal util mare și eșantionarea imperfectă reprezentând dezavantajele acestor aparate comparativ cu cele de nivel medical. Acest lucru însă nu a împiedicat apariția a tot mai multor studii care folosesc aceste aparate \cite{consumer-eeg:2018}. Studiile care au influențat abordarea acestei teme prezintă soluții în clasificarea stărilor mentale folosind diverse tehnici ale învățarii automate supervizate.
 
-EEG\cite{eeg:2018}
+Lucrarea \cite{eeg:2018} studiază diferite metode de extragere a informației din semnalele EEG, reprezentând trei stări mentale diferite, sub forma unor atribute, pe baza cărora este creat un set de date. Acestui set de date rezultat îi este redusă apoi dimensionalitatea, alegând doar cele mai relevate antribute, folosind diverși algoritmi, precum algoritmi evolutivi \textit{(Evolutionary Algorithm)}, corelația atributelor, \textit{OneR} și altele. Sunt studiați diferiți algoritmi pentru clasificarea datelor pe seturile de date rezultate după aplicarea metodelor de selecție a atributelor. Printre algortmii folosiți se numără Bayes Naiv, SVM, \textit{Random Forest} și altele. Cele mai bune rezultate au fost obținute folosind setul de date rezultat prin aplicarea algoritmului OneR împreună cu clasificatorul Random Forest, acuratețea modelului ajungând la valoarea de $87.16\%$.
 
-EEG-CNN\cite{eeg-cnn:2020}
-
-\textbf{TODO}
+Folosind informațiile și metoda de lucru propusă în \cite{eeg:2018}, lucrarea \cite{eeg-cnn:2020} dezvoltă arhitectura unei rețele neuronale convoluționale cu scopul de a clasifica cele trei stări mentale, neutru, concentrat și relaxat. Această lucrare preia setul de date inițial creat de lucrarea \cite{eeg:2018} și extrage din acesta un număr de 256 de atribute pentru a crea o imagine alb-negru de dimensiunea $16\times16$. După antrenarea modelului rețelei convoluționale folosind aceste imagini, acuratețea acestuia de prezicere este de $89.38\%$, un avans comparativ cu lucrarea inițială.  
 
 \section{Structurare pe capitole}
 Lucrarea este structurată după cum urmează. \textit{\autoref{ch:2studiu_teoretic}} prezintă bazele teoretice ale rețelelor neuronale de tip \textit{feedforward}, iar mai apoi sunt prezentate rețelele neuronale convoluționale, care folosesc la baza lor concepte provenite de la rețelele neuronale simple. Tot în \autoref{ch:2studiu_teoretic} sunt prezentate și concepte fundamentale referitoare la undele cerebrale, ce sunt acestea, cum funcționează și felul în care pot fi detectate și înregistrate. În \textit{\autoref{ch:3implementare}} este prezentată implementarea soluției propuse, împreună cu detaliile tehnice aferente. Explicarea tehnicilor de extragere și prelucrare a datelor, detalii privind arhitectura rețelei folosite și rezultatele produse de aceasta se regăsesc la finalul acestui capitol. Finalul lucrarii este alcătuit din \textit{\autoref{ch:4concluzii}}, care aduce concluzii legate de tema acestei lucrări.

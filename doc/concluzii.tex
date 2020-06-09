@@ -1,3 +1,10 @@
 %!TEX spellcheck=ro_RO
 %!TEX root = ./main.tex
 \chapter{Concluzii}\label{ch:4concluzii}
+\textbf{TODO: Rescrie mizeria asta}
+
+Lucrarea demonstrează conceptul transpunerii informațiilor conținute în semnalele EEG sub forma unor imagini alb-negru, reprezentând trei stări mentale, neutru, concentrat, relaxat. În sensul clasificării acestora a fost folosită paradigma învățării automate supervizate, mai precis rețelele neuronale convoluționale.
+
+Pentru extragerea semnalelor EEG a fost folosită casca comercial valabilă Muse 2016 având disponibili patru electrozi EEG. Datele extrase folosind  astfel de soluții comerciale au adesea un raport zgomot-semnal util mai mare decât variantele medicale specializate. Aceasta incoveniență poate duce la pierderea informațiilor specifice anumitor stări mentale, acestea fiind apoi clasificate greșit. Folosind alte soluții hardware comparative cu un număr crescut de electrozi și cu raport zgomot-semnal util mai mic, poate reprezenta o zonă de interes pentru continuarea proiectului.
+
+În continuarea dezvoltării temei, este utilă o separare optimă a claselor neutru și relaxat. În \autoref{tabel:classification-report} a fost prezentată confuzia modelului creată de modalitățile asemănătoare de înregistrare a acestor stări. O altă modalitate pentru îmbunătățirea modelului o reprezintă extragerea mai multor atribute pentru a rezulta o matrice/imagine de dimensiuni mai mari. Gruparea atributelor în funcție de corelația acestora și așezarea acestora într-o anumită ordine poate prezenta un pas de interes în crearea imaginilor din setul de date.
