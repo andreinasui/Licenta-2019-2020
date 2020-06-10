@@ -1,10 +1,13 @@
 %!TEX spellcheck=ro_RO
 %!TEX root = ./main.tex
 \chapter{Concluzii}\label{ch:4concluzii}
-\textbf{TODO: Rescrie mizeria asta}
+Lucrarea demonstrează conceptul transpunerii informațiilor conținute în semnalele EEG sub forma unor imagini alb-negru și clasificarea acestora în trei clase/stări mentale diferite folosind rețelele neuronale convoluționale. Rezultatele promițătoare obținute aplicând aceste principii dovedesc utilitatea folosirii rețelelor convoluționale pentru clasificare, dar și ideea transpunerii datelor sub forma unor imagini.
 
-Lucrarea demonstrează conceptul transpunerii informațiilor conținute în semnalele EEG sub forma unor imagini alb-negru, reprezentând trei stări mentale, neutru, concentrat, relaxat. În sensul clasificării acestora a fost folosită paradigma învățării automate supervizate, mai precis rețelele neuronale convoluționale.
+Pentru extragerea semnalelor EEG a fost folosită casca comercial valabilă Muse 2016 având disponibili patru electrozi EEG. Datele extrase folosind această cască au un raport zgomot-semnal util mai mare decât variantele medicale specializate. Această inconveniență poate duce la pierderea informațiilor specifice anumitor stări mentale, acestea fiind apoi clasificate greșit. Folosind alte soluții hardware comparative, cu un număr crescut de electrozi și cu raport zgomot-semnal util mai mic, poate duce la o înregistrare mai corectă a stărilor mentale rezultând o clasificare finală mai corectă.
 
-Pentru extragerea semnalelor EEG a fost folosită casca comercial valabilă Muse 2016 având disponibili patru electrozi EEG. Datele extrase folosind  astfel de soluții comerciale au adesea un raport zgomot-semnal util mai mare decât variantele medicale specializate. Aceasta incoveniență poate duce la pierderea informațiilor specifice anumitor stări mentale, acestea fiind apoi clasificate greșit. Folosind alte soluții hardware comparative cu un număr crescut de electrozi și cu raport zgomot-semnal util mai mic, poate reprezenta o zonă de interes pentru continuarea proiectului.
-
-În continuarea dezvoltării temei, este utilă o separare optimă a claselor neutru și relaxat. În \autoref{tabel:classification-report} a fost prezentată confuzia modelului creată de modalitățile asemănătoare de înregistrare a acestor stări. O altă modalitate pentru îmbunătățirea modelului o reprezintă extragerea mai multor atribute pentru a rezulta o matrice/imagine de dimensiuni mai mari. Gruparea atributelor în funcție de corelația acestora și așezarea acestora într-o anumită ordine poate prezenta un pas de interes în crearea imaginilor din setul de date.
+În sensul îmbunătățirii atât a clasificatorului, cât și a metodelor de procesare și creare a setului de date, se propun următoarele idei pentru continuarea studiului:
+\begin{itemize}
+\item Separarea optimă a claselor neutru și relaxat în momentul înregistrării semnalelor EEG aferente. În \autoref{tabel:classification-report} a fost prezentată confuzia modelului creată de modalitățile foarte asemănătoare de înregistrare a acestori stări
+\item Extragerea unui număr mai mare de atribute din semnalele EEG, rezultând într-o dimensiune mai mare a matricei/imaginii create
+\item Gruparea atributelor în funcție de corelația acestora și așezarea într-o anumită ordine. Este posibil ca prin acest pas să fie evidențiate mai ușor tipare reprezentative stărilor mentale
+\end{itemize}
