@@ -23,6 +23,9 @@
 \usepackage[bottom]{footmisc}
 
 \usepackage{longtable}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-}
 
 \graphicspath{ {fig/} }
 
@@ -68,11 +71,7 @@
 \input{implementare}
 \input{concluzii}
 
-% \listoffigures
-% \listoftables
-
 \bibliographystyle{unsrt}
 \bibliography{bibliografie.bib}
-\nocite{*}
 
 \end{document}
