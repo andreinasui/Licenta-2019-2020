@@ -3,10 +3,10 @@
 \chapter{Introducere}\label{ch:1intro}
 
 \section{Tema și obiectivele lucrării}
-Această lucrare folosește rețelele neuronale convoluționale pentru clasificarea a trei clase/stării mentale diferite. Etapele parcurse în realizarea lucrării au fost următoarele:
+Lucrarea folosește rețelele neuronale convoluționale pentru clasificarea a trei clase/stării mentale diferite. Etapele parcurse în realizarea lucrării au fost următoarele:
 \begin{enumerate}
 \item Determinarea metodei de clasificare: clasificarea se bazează pe reprezentarea informațiilor statistice și spectrale a undelor cerebrale sub forma unor imagini alb-negru
-\item Extragerea datelor EEG: datele EEG \textit{(Electroencefalograma)} au fost extrase cu ajutorul caștii valabile comercial, \textit{Muse 2016}. Pentru fiecare din cele trei clase/stări mentale a fost stabilită câte o activitate pentru a putea extrage date relevante
+\item Extragerea datelor EEG: datele EEG \textit{(Electroencefalograma)} au fost extrase cu ajutorul caștii \textit{Muse 2016}. Pentru fiecare din cele trei clase/stări mentale a fost stabilită câte o activitate pentru a putea extrage date relevante
 \item Prelucrarea datelor și extragerea atributelor: datele extrase au fost prelucrate și etichetate, rezultând 414 atribute și clasa de care aparțin, neutru, concentrat sau relaxat. După extragerea atributelor, au fost selectate și normalizate în intervalul $[0,1]$ 400 de atribute pentru a putea reprezenta o imagine alb-negru de dimensiunea $20\times20$
 \item Realizarea modelului: a fost implementată o rețea convoluțională pentru clasificarea datelor rezultate. După antrenarea clasificatorului cu aceste imagini, acuratețea acestuia la prezicerea imaginilor, care nu se aflau in setul de date de antrenare, a fost de $\approx92\%$
 \end{enumerate}

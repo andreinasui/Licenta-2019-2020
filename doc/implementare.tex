@@ -10,7 +10,7 @@ După etapa de prelucrare și etichetare a datelor, urmează pregătirea datelor
 \section{Etape implementare}
 
 \subsection{Achiziție date}\label{subsec:achizitie-date}
-Pentru achiziția datelor a fost folosită casca comercial valabilă Muse 2016. Interfațarea acesteia cu calculatorul a fost realizată folosind biblioteca \textit{MuseLSL} \cite{online:muselsl}, pentru limbajul de programare \textit{Python}. Această bibliotecă oferă posibilitatea conectării căștii Muse 2016, prin Bluetooth, cu calculatorul pentru transmisia de date, salvarea acestora în fișiere sau afișarea sub forma unui grafic.
+Pentru achiziția datelor a fost folosită casca Muse 2016. Interfațarea acesteia cu calculatorul a fost realizată folosind biblioteca \textit{MuseLSL} \cite{online:muselsl}, pentru limbajul de programare \textit{Python}. Această bibliotecă oferă posibilitatea conectării căștii Muse 2016, prin Bluetooth, cu calculatorul pentru transmisia de date, salvarea acestora în fișiere sau afișarea sub forma unui grafic.
 
 Casca Muse 2016 conține cinci electrozi uscați, unul fiind folosit ca punct de referință, iar ceilalți patru pentru a înregistra semnalele EEG. Electrozii sunt poziționați în locațiile \textit{TP9, AF7, Fpz, AF8, TP10}, conform unei versiuni modificate a sistemului internațional 10-20 de poziționare al electrozilor EEG. Electrodul Fpz este folosit ca electrod de referință. În \autoref{fig:eegstandard} este prezentat aranjamentul electrozilor.
 
@@ -201,7 +201,7 @@ Evoluția pe perioada antrenării a acurateței și a valorii funcției de cost 
 
 Urmărind cele două grafice putem observa faptul că evoluția metricilor modelului calculate pe setul de validare este foarte apropiată de cele calculate pe setul de antrenare. Acest lucru sugerează o performanța bună a clasificatorului, acesta fiind capabil să generalizeze datele primite la învățare și să aplice aceste „cunoștiințe” pentru a clasifica cât mai corect posibil date pentru care nu este antrenat în mod direct. Din aceste grafice mai poate fi observată utilitatea modificării ratei de învățare. La epoca 36, rata de învățare se diminuează cu $0.07$ ajungând de la $7*10^{-4}$ la valoarea $4.9*10^{-5}$, crescând acuratețea modelului și diminuând valoarea funcției de cost. Este posibil ca acest lucru să se fi întâmplat și fară a face această operațiune, însă pe o perioadă de timp mult mai lungă, crescând timpul total de învățare.
 
-După finalizarea antrenării modelului, capacitățile acestuia au fost testate asupra setului de date de test, date pe care acesta nu le „văzuse” niciodată. Evaluarea a fost efectuată de trei ori, rezultând o acuratețe medie de $\approx92\%$ și o valoarea medie a funcție de cost de $\approx0.2$.
+După finalizarea antrenării modelului, capacitățile acestuia au fost testate asupra setului de date de test, date pe care acesta nu le „văzuse” niciodată. Evaluarea a fost efectuată de trei ori, rezultând o acuratețe medie de $\approx92\%$ și o valoarea medie a funcție de cost de $\approx0.27$.
 \begin{figure}[H]
 \centering
 \subfloat[]{\includegraphics[width=6.9cm, keepaspectratio]{fig/cap3/acc_graph.png}\label{fig:acc_graph}}
