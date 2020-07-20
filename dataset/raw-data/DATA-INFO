@@ -4,7 +4,7 @@ Datele au fost extrase la o frecventa de esantionare (Fs) de 256 Hz timp de
 65 de secunde.
 Datele extrase au fost salvate in fisiere CSV denumite dupa cum urmeaza:
 
-<nume_participant>-<stare>-<nr_inregistrare>.csv
+<cod_participant>-<stare>-<nr_inregistrare>.csv
 
 Stari posibile:
 neutral
